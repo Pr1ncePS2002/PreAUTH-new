@@ -1,0 +1,40 @@
+# TPA Form Automation - Required Python Packages
+
+# PDF manipulation
+PyPDF2==3.0.1
+reportlab==4.0.7
+
+# PDF analysis (for future enhancements)
+pdfplumber==0.10.3
+pdf2image==1.16.3
+pillow==10.1.0
+
+# Computer vision (for advanced form analysis)
+opencv-python==4.8.1.78
+numpy==1.26.2
+
+# OCR capabilities (optional, for validation)
+pytesseract==0.3.10
+
+# Data handling
+python-dateutil==2.8.2
+
+# Gemini AI
+google-genai>=1.63.0
+python-dotenv>=1.0.0
+
+# Fuzzy string matching
+rapidfuzz>=3.14.0
+
+# Web framework
+fastapi>=0.129.0
+uvicorn>=0.41.0
+python-multipart>=0.0.22
+pyjwt>=2.11.0
+
+# HTTP client
+requests>=2.31.0
+
+# Document AI integration (optional, for production)
+# google-cloud-documentai==2.20.0
+# boto3==1.29.7  # for AWS Textract
