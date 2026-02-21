@@ -2,11 +2,14 @@
 """Verify overlay text positions in the filled PDF"""
 import pdfplumber
 import json
+from pathlib import Path
 
-pdf = pdfplumber.open('output/Ericson TPA Preauth_filled.pdf')
-orig = pdfplumber.open('templates/Ericson TPA Preauth.pdf')
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
-with open('analyzed/Ericson TPA Preauth.json') as f:
+pdf = pdfplumber.open(PROJECT_ROOT / 'output' / 'Ericson TPA Preauth_filled.pdf')
+orig = pdfplumber.open(PROJECT_ROOT / 'templates' / 'Ericson TPA Preauth.pdf')
+
+with open(PROJECT_ROOT / 'analyzed' / 'Ericson TPA Preauth.json') as f:
     structure = json.load(f)
 
 for page_num in range(len(pdf.pages)):

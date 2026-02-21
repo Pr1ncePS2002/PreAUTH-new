@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """Extract ground truth text positions from Bajaj Allianz form."""
 import pdfplumber
+from pathlib import Path
 
-pdf = pdfplumber.open('templates/BAJAJ ALLIANZ TPA PREAUTH FORM.pdf')
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+pdf = pdfplumber.open(PROJECT_ROOT / 'templates' / 'BAJAJ ALLIANZ TPA PREAUTH FORM.pdf')
 
 for pg_num in range(1, 4):
     page = pdf.pages[pg_num - 1]

@@ -302,7 +302,7 @@ def main():
         print(f"  {s['filename']}: {s['total_fields']} fields, {s['total_pages']} pages")
 
     # If sample data exists, do a test fill
-    sample_data_path = BASE_DIR / "sample_test_data.json"
+    sample_data_path = BASE_DIR / "test_data" / "ericson_test_data.json"
     schema_path = BASE_DIR / "analyzed" / "Ericson TPA Preauth.json"
     template_path = BASE_DIR / "templates" / "Ericson TPA Preauth.pdf"
 

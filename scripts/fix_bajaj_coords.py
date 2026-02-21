@@ -63,9 +63,13 @@ PAGE 3:
 """
 
 import json
+import sys
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 # Load current schema
-with open('analyzed/BAJAJ ALLIANZ TPA PREAUTH FORM.json', 'r') as f:
+with open(PROJECT_ROOT / 'analyzed' / 'BAJAJ ALLIANZ TPA PREAUTH FORM.json', 'r') as f:
     schema = json.load(f)
 
 fields = schema['fields']
@@ -360,6 +364,6 @@ fix('hospital_declaration_doctor_signature', x=410, y=645, font_size=7, max_widt
 
 # Save fixed schema
 print(f"\nTotal fixes: {fix_count}")
-with open('analyzed/BAJAJ ALLIANZ TPA PREAUTH FORM.json', 'w') as f:
+with open(PROJECT_ROOT / 'analyzed' / 'BAJAJ ALLIANZ TPA PREAUTH FORM.json', 'w') as f:
     json.dump(schema, f, indent=2)
 print("Saved!")

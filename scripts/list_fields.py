@@ -1,5 +1,10 @@
 import json
-with open('analyzed/Ericson TPA Preauth.json') as f:
+import sys
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
+with open(PROJECT_ROOT / 'analyzed' / 'Ericson TPA Preauth.json') as f:
     schema = json.load(f)
 pages = {}
 for x in schema['fields']:

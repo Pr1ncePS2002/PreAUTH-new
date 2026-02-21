@@ -34,7 +34,7 @@ logger = logging.getLogger(__name__)
 # Constants
 # ---------------------------------------------------------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
-FIELD_MAPPING_PATH = BASE_DIR / "field_mapping.json"
+FIELD_MAPPING_PATH = BASE_DIR / "config" / "field_mapping.json"
 FUZZY_THRESHOLD = 70  # Minimum score for fuzzy match acceptance
 GEMINI_THRESHOLD = 0.8  # Minimum confidence for Gemini suggestions
 

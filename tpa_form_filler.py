@@ -158,7 +158,8 @@ class TPAFormFiller:
         y = page_height - field['coordinates']['y']
         
         font_size = field.get('font_size', 10)
-        canvas_obj.setFont("Helvetica", font_size)
+        font_name = "Helvetica-Bold" if field.get('bold') else "Helvetica"
+        canvas_obj.setFont(font_name, font_size)
         canvas_obj.drawString(x, y, str(value))
     
     def _fill_text_box(self, canvas_obj, field, value, page_num):
@@ -168,7 +169,8 @@ class TPAFormFiller:
         y = page_height - field['coordinates']['y'] - field.get('height', 20) + 5
         
         font_size = field.get('font_size', 10)
-        canvas_obj.setFont("Helvetica", font_size)
+        font_name = "Helvetica-Bold" if field.get('bold') else "Helvetica"
+        canvas_obj.setFont(font_name, font_size)
         canvas_obj.drawString(x, y, str(value))
     
     def _fill_checkbox(self, canvas_obj, field, value, page_num):
