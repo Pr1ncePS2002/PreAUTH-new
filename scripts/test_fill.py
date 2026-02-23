@@ -29,6 +29,13 @@ FORMS = [
         "test_data": "test_data/bajaj_test_data.json",
         "output": "output/bajaj_test_filled.pdf",
     },
+    {
+        "name": "Heritage Health Pre-Auth",
+        "template": "templates/Heritage-Health-Pre-Auth-Form.pdf",
+        "schema": "analyzed/Heritage-Health-Pre-Auth-Form.json",
+        "test_data": "test_data/heritage_test_data.json",
+        "output": "output/heritage_test_filled.pdf",
+    },
     # Add more forms here as they are calibrated:
     # {
     #     "name": "Star Health Preauth",

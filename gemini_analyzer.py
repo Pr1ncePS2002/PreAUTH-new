@@ -112,11 +112,24 @@ def extract_text_positions(pdf_path):
     return pages_data
 
 
+def _is_underscore_word(text):
+    """Check if a word is entirely underscores/blanks (fill area indicator)."""
+    stripped = text.strip()
+    if not stripped:
+        return True
+    return all(c in ('_', ' ', '\u00a0', '.', '\t') for c in stripped) and len(stripped) >= 3
+
+
 def build_label_lines(pages_data):
     """
     Group words on the same y-band into 'label lines'.
     Each label line = full text string + its x-start, x-end, y position.
-    This tells us exactly WHERE each label ends (= where fill area starts).
+    
+    KEY IMPROVEMENT: Detects underscore-only words (e.g. "___________") as 
+    fill areas, NOT label text. Calculates:
+      - clean_text: label without underscores
+      - label_x_end: where actual label text ends (BEFORE underscores)
+      - fill_x: where the fill/blank area starts (= where to write data)
     """
     print("\n[2/5] Building label lines from text elements...")
     all_label_lines = {}  # page_num -> list of label lines
@@ -154,18 +167,49 @@ def build_label_lines(pages_data):
             x_end = max(e["x1"] for e in line_elems)
             y_pos = min(e["y0"] for e in line_elems)
             avg_size = sum(e["size"] for e in line_elems if e["size"]) / max(len(line_elems), 1)
+
+            # --- Detect underscore fill areas ---
+            # Split elements into label words vs underscore words
+            label_elems = []
+            fill_elems = []
+            for e in sorted(line_elems, key=lambda el: el["x0"]):
+                if _is_underscore_word(e["text"]):
+                    fill_elems.append(e)
+                else:
+                    label_elems.append(e)
+
+            # Clean text = only the real label words (no underscores)
+            clean_text = " ".join(e["text"] for e in sorted(label_elems, key=lambda el: el["x0"])).strip()
+            
+            # Where does actual label text end?
+            label_x_end = max(e["x1"] for e in label_elems) if label_elems else x_start
+            
+            # Where does the fill area start? (first underscore word)
+            fill_x = None
+            if fill_elems:
+                fill_x = min(e["x0"] for e in fill_elems)
+                # Sanity: fill_x should be after label text, not before
+                if fill_x < label_x_end - 5:
+                    # Underscores are mixed in with label; use label_x_end + offset
+                    fill_x = label_x_end + 10
+
             page_lines.append({
                 "text": full_text,
+                "clean_text": clean_text,
                 "x_start": round(x_start, 1),
                 "x_end": round(x_end, 1),
+                "label_x_end": round(label_x_end, 1),
+                "fill_x": round(fill_x, 1) if fill_x else None,
                 "y": round(y_pos, 1),
                 "font_size": round(avg_size, 1),
                 "word_count": len(line_elems),
+                "has_fill_area": len(fill_elems) > 0,
                 "elements": line_elems,
             })
 
         all_label_lines[pn] = page_lines
-        print(f"  Page {pn}: {len(page_lines)} label lines")
+        fill_count = sum(1 for ll in page_lines if ll["has_fill_area"])
+        print(f"  Page {pn}: {len(page_lines)} label lines ({fill_count} with fill areas)")
 
     return all_label_lines
 
@@ -185,6 +229,7 @@ def analyze_with_gemini(pdf_path, pages_data, label_lines):
         pdf_bytes = f.read()
 
     # Build a precise label-line summary for each page
+    # Use clean_text (without underscores) and fill_x to show where data should go
     text_summaries = []
     for page_data in pages_data:
         pn = page_data["page"]
@@ -193,8 +238,13 @@ def analyze_with_gemini(pdf_path, pages_data, label_lines):
         page_summary = f"PAGE {pn} (size: {page_data['width']:.1f} x {page_data['height']:.1f} pts):\n"
         page_summary += f"  Label lines ({len(page_ll)}):\n"
         for ll in page_ll:
-            page_summary += (f"    y={ll['y']:6.1f}  x=[{ll['x_start']:5.1f} -> {ll['x_end']:5.1f}]  "
-                             f"font={ll['font_size']:.0f}pt  \"{ll['text']}\"\n")
+            # Show clean text (without underscores) and where fill area starts
+            display_text = ll.get('clean_text', ll['text'])
+            fill_info = ""
+            if ll.get('fill_x'):
+                fill_info = f"  FILL_AT_X={ll['fill_x']:.1f}"
+            page_summary += (f"    y={ll['y']:6.1f}  label_x=[{ll['x_start']:5.1f} -> {ll.get('label_x_end', ll['x_end']):5.1f}]  "
+                             f"font={ll['font_size']:.0f}pt  \"{display_text}\"{fill_info}\n")
 
         # Add rectangles info (potential checkboxes)
         rects = page_data.get("rects", [])
@@ -220,33 +270,36 @@ COORDINATE SYSTEM:
 EXACT LABEL LINE DATA (from pdfplumber — these positions are GROUND TRUTH):
 {text_layout}
 
+UNDERSTANDING THE DATA:
+- Each label line shows: y position, label_x range (where the printed LABEL TEXT is), font size, and the label text
+- Lines that say "FILL_AT_X=<value>" have a blank fill area (underlines/blanks) starting at that x coordinate
+- The underlines (______) on the PDF are NOT text to be preserved — they mark WHERE user data should be written
+- The FILL_AT_X value is the EXACT x coordinate where you should place the fill data
+
 CRITICAL RULES FOR COORDINATES:
-1. For text fields (text_line, date_field): The x coordinate MUST be where the FILL BLANK starts, 
-   NOT where the label text is. This is typically:
-   - RIGHT of the label's x_end position (the blank/underline area after the label)
-   - Usually x_end + 15 to x_end + 30 points from the label end
-   - Or below the label if the blank is on a separate line
-   - Look at the PDF visually to see where blank lines/underscores are
+1. For text fields (text_line, date_field): The x coordinate MUST be where the FILL BLANK starts:
+   - If the label line has FILL_AT_X, use that EXACT value as the x coordinate
+   - If no FILL_AT_X, use label_x_end + 15 (the blank space after the label)
+   - NEVER place coordinates at the far right edge of the page (x > 480)
+   - The fill area is the blank/underlined space IMMEDIATELY after the label text
 
 2. For checkboxes: The x,y should be the CENTER of the checkbox square.
-   - Use the RECT positions if available
-   - Otherwise look for small squares near text like "Yes", "No", "Male", "Female"
-   - The checkbox is typically BEFORE (to the left of) its label text
+   - Use the RECT positions provided in the data (they are ground truth)
+   - The checkbox rectangle is typically BEFORE (to the left of) its label text
+   - For RECT at (x0, y0) with size WxH, use x = x0 + W/2, y = y0 + H/2
 
 3. The y coordinate should match the label line's y position (from the data above)
 
-4. For fields where the blank is on the SAME LINE as the label:
-   - Use the SAME y as the label
-   - Use x = label's x_end + 15 (or wherever the blank space starts)
+4. DO NOT place coordinates ON TOP of existing label text. The coordinates are for WHERE TO WRITE THE VALUE.
 
-5. DO NOT place coordinates ON TOP of existing label text. The coordinates are for WHERE TO WRITE THE VALUE.
-
-6. page_width is approximately 595-600 points. Do not place text beyond x=540.
+5. max_width should be calculated as: (end of blank area) - (fill x position)
+   - Typically the blank area extends to about x=530-540
+   - So max_width = 540 - fill_x (approximately)
 
 FIELD TYPES:
 - "text_line": Single-line text input (name, number, date, etc.)
 - "text_box": Multi-line text area
-- "checkbox": Square box to check/mark with X
+- "checkbox": Square box to check/mark with X  
 - "date_field": Date input (DD/MM/YYYY format)
 
 OUTPUT FORMAT — Return ONLY valid JSON:
@@ -269,11 +322,13 @@ OUTPUT FORMAT — Return ONLY valid JSON:
 
 IMPORTANT:
 - Include fields from ALL pages
-- Do NOT include pre-printed headers, titles, or decorative text
+- Do NOT include pre-printed headers, titles, or decorative text  
+- The underlines/blanks (________) are FILL AREAS, not text — do not skip them
 - Every blank line, checkbox, or input area on the form = one field entry
 - For checkbox groups, create ONE entry per option (e.g., gender_male, gender_female)
 - Ensure field_id values are unique across the entire form
-- Be very precise with coordinates — accuracy of positioning matters greatly"""
+- Be very precise with coordinates — accuracy of positioning matters greatly
+- The label text should be CLEAN (no underscores) — just the field label"""
 
     print(f"  Sending PDF ({len(pdf_bytes) / 1024:.0f} KB) + label data to Gemini...")
 
@@ -398,7 +453,8 @@ def calibrate_coordinates(gemini_fields, pages_data, label_lines):
         best_score = 0
 
         for ll in page_ll:
-            ll_text = ll["text"].lower().strip()
+            # Use clean_text (without underscores) for matching
+            ll_text = ll.get("clean_text", ll["text"]).lower().strip()
             # Score by word overlap
             label_words = set(w for w in label_text.split() if len(w) > 1)
             ll_words = set(w for w in ll_text.split() if len(w) > 1)
@@ -431,20 +487,34 @@ def calibrate_coordinates(gemini_fields, pages_data, label_lines):
                 field["coordinates"]["y"] = best_match["y"]
                 adjusted = True
 
-            # For text fields: ensure x is AFTER the full label's x_end
+            # For text fields: use fill_x from label line (ground truth fill area)
             if field_type in ("text_line", "date_field", "text_box"):
-                label_end_x = best_match["x_end"]
-                min_fill_x = label_end_x + 12
+                # PRIORITY: use fill_x if available (exact position where underscores start)
+                if best_match.get("fill_x"):
+                    fill_x = best_match["fill_x"]
+                    if abs(field_x - fill_x) > 5:
+                        field["coordinates"]["x"] = round(fill_x, 1)
+                        adjusted = True
+                else:
+                    # Fallback: use label_x_end + offset
+                    label_end_x = best_match.get("label_x_end", best_match["x_end"])
+                    min_fill_x = label_end_x + 12
 
-                # Check if there's an underline/line near this y
-                nearest_line = _find_nearest_hline(page_data, best_match["y"], label_end_x)
-                if nearest_line:
-                    min_fill_x = nearest_line["x0"] + 5
+                    # Check if there's an underline/line near this y
+                    nearest_line = _find_nearest_hline(page_data, best_match["y"], label_end_x)
+                    if nearest_line:
+                        min_fill_x = nearest_line["x0"] + 5
 
-                if field_x < min_fill_x:
-                    old_x = field_x
-                    field["coordinates"]["x"] = round(min_fill_x, 1)
-                    adjusted = True
+                    if field_x < min_fill_x:
+                        field["coordinates"]["x"] = round(min_fill_x, 1)
+                        adjusted = True
+
+                # Cap max_width: fill area shouldn't exceed page edge
+                page_width = page_data.get("width", 612)
+                current_x = field["coordinates"]["x"]
+                max_fill_width = round(page_width - current_x - 40, 0)
+                if "max_width" in field and field["max_width"] > max_fill_width:
+                    field["max_width"] = int(max_fill_width)
 
             # For checkboxes: look for rect near the position
             elif field_type == "checkbox":

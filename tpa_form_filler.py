@@ -116,12 +116,18 @@ class TPAFormFiller:
         page_heights = self.form_structure.get('page_heights', {})
         return float(page_heights.get(str(page_num), 842))
 
+    def _get_page_width(self, page_num):
+        """Get the actual page width for coordinate conversion"""
+        page_widths = self.form_structure.get('page_widths', {})
+        return float(page_widths.get(str(page_num), A4[0]))
+
     def _create_overlay(self, page_num, fields, field_values):
         """Creates an overlay with text/checkboxes for the page"""
         packet = io.BytesIO()
         # Use actual page dimensions for the canvas
         page_height = self._get_page_height(page_num)
-        page_size = (A4[0], page_height)  # width from A4, height from structure
+        page_width = self._get_page_width(page_num)
+        page_size = (page_width, page_height)
         can = canvas.Canvas(packet, pagesize=page_size)
         
         # Set default font
