@@ -18,7 +18,7 @@ Endpoints:
 
 Run:
     cd "PreAUTH new"
-    .\\venv\\Scripts\\python.exe -m uvicorn app:app --reload --port 8000
+    .\\venv\\Scripts\\python.exe -m uvicorn app:app --reload --port 8001
 """
 
 import json
@@ -601,24 +601,38 @@ async def workflow_start(
                 "error": str(e),
             })
 
-    # Map all OCR keys to schema field IDs (use Ericson schema by default)
-    schema_path = BASE_DIR / "analyzed" / "Ericson TPA Preauth.json"
+    # Try to detect TPA from insurance company name in OCR results
+    insurance_company = (
+        all_extracted.get("Insurance Company", "") or
+        all_extracted.get("TPA Name", "") or
+        all_extracted.get("insurance_company", "")
+    )
+    tpa_detection = detect_tpa_template(insurance_company) if insurance_company else None
+
+    # Map all OCR keys to schema field IDs — try detected TPA first, fallback to all
     mapped_data = {}
-    if schema_path.exists():
+    target_schema = None
+
+    if tpa_detection and tpa_detection.get("has_schema"):
+        target_schema = tpa_detection["schema_name"]
+    
+    if target_schema:
+        schema_path = BASE_DIR / "analyzed" / target_schema
+    else:
+        # Fallback to first available schema with a template
+        available = [
+            f.name for f in (BASE_DIR / "analyzed").glob("*.json")
+            if not f.name.endswith("_gemini_raw.json")
+        ]
+        target_schema = available[0] if available else None
+        schema_path = (BASE_DIR / "analyzed" / target_schema) if target_schema else None
+
+    if schema_path and schema_path.exists():
         with open(schema_path) as f:
             schema = json.load(f)
         schema_fields = [field["field_id"] for field in schema["fields"]]
         mapped_data = mapping_engine.map_ocr_to_schema(all_extracted, schema_fields)
         mapped_data = mapping_engine.handle_gender(mapped_data)
-
-    # Try to detect TPA from insurance company name
-    insurance_company = (
-        all_extracted.get("Insurance Company", "") or
-        all_extracted.get("TPA Name", "") or
-        all_extracted.get("insurance_company", "") or
-        mapped_data.get("tpa_insurance_company_name", "")
-    )
-    tpa_detection = detect_tpa_template(insurance_company) if insurance_company else None
 
     # Store session
     _sessions[session_id] = {
@@ -651,6 +665,96 @@ def workflow_get(session_id: str):
     return ok(_sessions[session_id])
 
 
+@app.post("/workflow/{session_id}/remap")
+def workflow_remap(session_id: str, schema_name: str = Form(...)):
+    """
+    Re-map raw OCR data against a specific TPA schema.
+    Uses alias match + fuzzy match against field labels.
+    """
+    from rapidfuzz import fuzz as rfuzz
+
+    if session_id not in _sessions:
+        err(f"Session {session_id} not found", 404)
+
+    session = _sessions[session_id]
+    raw_ocr = session.get("raw_ocr_merged", {})
+
+    schema_path = BASE_DIR / "analyzed" / schema_name
+    if not schema_path.exists():
+        err(f"Schema not found: {schema_name}", 404)
+
+    with open(schema_path) as f:
+        schema = json.load(f)
+
+    schema_fields = [fd["field_id"] for fd in schema["fields"]]
+
+    # Pass 1: standard mapping engine (aliases + fuzzy against field_mapping keys)
+    mapped = mapping_engine.map_ocr_to_schema(raw_ocr, schema_fields)
+    mapped = mapping_engine.handle_gender(mapped)
+
+    claimed = set(mapped.keys())
+    used_ocr = set()
+    for ocr_key, val in raw_ocr.items():
+        for fid, fval in mapped.items():
+            if str(fval) == str(val):
+                used_ocr.add(ocr_key)
+                break
+
+    # Pass 2: match remaining OCR keys against schema field labels
+    label_candidates = {}
+    for fd in schema["fields"]:
+        fid = fd["field_id"]
+        if fid in claimed:
+            continue
+        label_candidates[fd["label"].lower().strip()] = fid
+        label_candidates[fid.replace("_", " ")] = fid
+
+    remaining = {k: v for k, v in raw_ocr.items() if k not in used_ocr}
+    for ocr_key, value in remaining.items():
+        key_norm = ocr_key.lower().strip()
+        # Exact label match
+        if key_norm in label_candidates:
+            fid = label_candidates[key_norm]
+            if fid not in claimed:
+                mapped[fid] = value
+                claimed.add(fid)
+                continue
+        # Fuzzy match against labels
+        best_score, best_fid = 0, None
+        for label, fid in label_candidates.items():
+            if fid in claimed:
+                continue
+            score = rfuzz.token_sort_ratio(key_norm, label)
+            if score > best_score:
+                best_score, best_fid = score, fid
+        if best_score >= 65 and best_fid:
+            mapped[best_fid] = value
+            claimed.add(best_fid)
+
+    # Determine template name from schema name
+    template_stem = Path(schema_name).stem
+    template_name = None
+    for tkey, tfile in TPA_TEMPLATE_MAP.items():
+        if Path(tfile).stem == template_stem:
+            template_name = tfile
+            break
+    if not template_name:
+        template_name = template_stem + ".pdf"
+
+    session["mapped_data"] = mapped
+    session["selected_schema"] = schema_name
+    session["selected_template"] = template_name
+    session["status"] = "mapped"
+
+    return ok({
+        "mapped_data": mapped,
+        "mapped_fields": len(mapped),
+        "total_schema_fields": len(schema_fields),
+        "schema_name": schema_name,
+        "template_name": template_name,
+    })
+
+
 @app.put("/workflow/{session_id}/data")
 def workflow_update_data(session_id: str, data: dict):
     """
@@ -668,11 +772,12 @@ def workflow_update_data(session_id: str, data: dict):
 @app.post("/workflow/{session_id}/generate")
 def workflow_generate(
     session_id: str,
-    template_name: str = Form("Ericson TPA Preauth.pdf"),
-    schema_name: str = Form("Ericson TPA Preauth.json"),
+    template_name: str = Form(""),
+    schema_name: str = Form(""),
 ):
     """
     Step 3: Generate the final populated TPA PDF from verified data.
+    Uses template/schema from the form submission, or falls back to session-stored values.
     """
     if session_id not in _sessions:
         err(f"Session {session_id} not found", 404)
@@ -681,6 +786,17 @@ def workflow_generate(
     data = session.get("mapped_data", {})
     if not data:
         err("No data to populate — run OCR and verify first", 400)
+
+    # Prefer explicitly passed values, fall back to session-stored values from remap
+    if not template_name:
+        template_name = session.get("selected_template", "")
+    if not schema_name:
+        schema_name = session.get("selected_schema", "")
+
+    if not template_name or not schema_name:
+        err("No TPA form selected — please select a form before generating", 400)
+
+    logger.info("Generating PDF: template=%s, schema=%s", template_name, schema_name)
 
     template_path = BASE_DIR / "templates" / template_name
     schema_path = BASE_DIR / "analyzed" / schema_name

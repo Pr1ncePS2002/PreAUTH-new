@@ -107,7 +107,7 @@ class FormEngine:
         return templates
 
     def list_schemas(self) -> list[dict]:
-        """List all analyzed schemas."""
+        """List all analyzed schemas with matching template info."""
         schemas = []
         for json_file in sorted(self.schemas_dir.glob("*.json")):
             if json_file.name.endswith("_gemini_raw.json"):
@@ -115,11 +115,17 @@ class FormEngine:
             try:
                 with open(json_file) as f:
                     data = json.load(f)
+                # Find matching PDF template
+                template_name = json_file.stem + ".pdf"
+                template_path = self.templates_dir / template_name
+                has_template = template_path.exists()
                 schemas.append({
                     "filename": json_file.name,
                     "form_title": data.get("form_title", json_file.stem),
                     "total_pages": data.get("total_pages", 0),
                     "total_fields": len(data.get("fields", [])),
+                    "template_name": template_name if has_template else None,
+                    "has_template": has_template,
                     "schema_path": str(json_file),
                 })
             except Exception:
