@@ -782,14 +782,15 @@ let generatedFormId = null;
 
 // ── Document types for upload cards ──
 const DOC_TYPES = [
-  { key: 'policy_card',    label: 'Insurance / Policy Card',  icon: '&#127973;', accept: '.pdf,.jpg,.jpeg,.png' },
-  { key: 'aadhaar',        label: 'Patient ID (Aadhaar)',     icon: '&#128179;', accept: '.pdf,.jpg,.jpeg,.png' },
-  { key: 'clinical_notes', label: 'Clinical Documents',       icon: '&#128203;', accept: '.pdf,.jpg,.jpeg,.png' },
-  { key: 'estimate',       label: 'Estimate / Proforma',      icon: '&#128176;', accept: '.pdf,.jpg,.jpeg,.png' },
-  { key: 'generic',        label: 'Other Documents',          icon: '&#128206;', accept: '.pdf,.jpg,.jpeg,.png' },
+  { key: 'policy_card',    label: 'Insurance / Policy Card',  icon: '&#127973;', accept: '.pdf,.jpg,.jpeg,.png', multi: true },
+  { key: 'aadhaar',        label: 'Patient ID (Aadhaar)',     icon: '&#128179;', accept: '.pdf,.jpg,.jpeg,.png', multi: true },
+  { key: 'attendant_id',   label: 'Attendant ID Card',        icon: '&#128101;', accept: '.pdf,.jpg,.jpeg,.png', multi: true },
+  { key: 'clinical_notes', label: 'Clinical Documents',       icon: '&#128203;', accept: '.pdf,.jpg,.jpeg,.png', multi: true },
+  { key: 'estimate',       label: 'Estimate / Proforma',      icon: '&#128176;', accept: '.pdf,.jpg,.jpeg,.png', multi: true },
+  { key: 'generic',        label: 'Other Documents',          icon: '&#128206;', accept: '.pdf,.jpg,.jpeg,.png', multi: true },
 ];
 
-const uploadedFiles = {};  // key -> { file, fileObj }
+const uploadedFiles = {};  // key -> [{ file, name, size }, ...] (array for multi)
 
 // ── Form field sections ──
 const SECTIONS = [
@@ -853,8 +854,8 @@ function prevStep() {
 function updateFooterStatus() {
   const el = document.getElementById('footerStatus');
   if (currentStep === 1) {
-    const fc = Object.keys(uploadedFiles).length;
-    el.textContent = fc > 0 ? `${fc} document(s) ready for OCR` : 'Upload patient documents to begin';
+    const totalFiles = Object.values(uploadedFiles).reduce((sum, arr) => sum + arr.length, 0);
+    el.textContent = totalFiles > 0 ? `${totalFiles} document(s) ready for OCR` : 'Upload patient documents to begin';
   } else if (currentStep === 2) {
     const filled = Object.values(mappedData).filter(v => v !== '' && v !== null && v !== undefined).length;
     el.textContent = `${filled} / ${schemaFields.length} fields populated`;
@@ -874,9 +875,9 @@ function renderUploadGrid() {
       <button class="remove-btn" onclick="event.stopPropagation(); removeFile('${dt.key}')">&times;</button>
       <div class="icon">${dt.icon}</div>
       <div class="title">${dt.label}</div>
-      <div class="subtitle">Click or drag to upload</div>
+      <div class="subtitle">Click to upload (multiple files OK)</div>
       <div class="file-info" id="fileinfo-${dt.key}"></div>
-      <input type="file" id="input-${dt.key}" accept="${dt.accept}" onchange="handleFileSelect('${dt.key}', this)">
+      <input type="file" id="input-${dt.key}" accept="${dt.accept}" multiple onchange="handleFileSelect('${dt.key}', this)">
     </div>
   `).join('');
 }
@@ -887,12 +888,16 @@ function triggerUpload(key) {
 
 function handleFileSelect(key, input) {
   if (!input.files.length) return;
-  const file = input.files[0];
-  uploadedFiles[key] = { file, name: file.name, size: file.size };
+  const files = Array.from(input.files);
+  // Append to existing files for this section (support adding more)
+  if (!uploadedFiles[key]) uploadedFiles[key] = [];
+  files.forEach(f => uploadedFiles[key].push({ file: f, name: f.name, size: f.size }));
 
   const card = document.getElementById('upload-' + key);
   card.classList.add('has-file');
-  document.getElementById('fileinfo-' + key).textContent = file.name;
+  const count = uploadedFiles[key].length;
+  const names = uploadedFiles[key].map(f => f.name).join(', ');
+  document.getElementById('fileinfo-' + key).textContent = count === 1 ? names : `${count} files: ${names}`;
 
   updateUploadCount();
 }
@@ -907,11 +912,12 @@ function removeFile(key) {
 }
 
 function updateUploadCount() {
-  const count = Object.keys(uploadedFiles).length;
-  document.getElementById('uploadCount').textContent = `${count} / 5 uploaded`;
+  const sections = Object.keys(uploadedFiles).length;
+  const totalFiles = Object.values(uploadedFiles).reduce((sum, arr) => sum + arr.length, 0);
+  document.getElementById('uploadCount').textContent = `${totalFiles} file(s) in ${sections} / 6 sections`;
   // Show OCR button if files exist
   if (currentStep === 1) {
-    document.getElementById('btnOCR').classList.toggle('hidden', count === 0);
+    document.getElementById('btnOCR').classList.toggle('hidden', totalFiles === 0);
   }
   updateFooterStatus();
 }
@@ -1073,17 +1079,22 @@ async function runOCR() {
   showLoading('Uploading documents and running OCR...');
 
   try {
-    // Build FormData with all files
+    // Build FormData with all files (each section can have multiple files)
     const formData = new FormData();
     const docTypes = [];
+    let totalFileCount = 0;
     fileKeys.forEach(key => {
-      formData.append('files', uploadedFiles[key].file);
-      docTypes.push(key);
+      const filesArr = uploadedFiles[key]; // array of { file, name, size }
+      filesArr.forEach(f => {
+        formData.append('files', f.file);
+        docTypes.push(key);
+        totalFileCount++;
+      });
     });
     formData.append('document_types', docTypes.join(','));
 
     // Step 1: Upload + OCR via workflow/start
-    updateLoadingText(`Extracting data from ${fileKeys.length} document(s)...`);
+    updateLoadingText(`Extracting data from ${totalFileCount} document(s)...`);
     const res = await fetch(API + '/workflow/start', { method: 'POST', body: formData });
     const json = await res.json();
 
@@ -1139,20 +1150,32 @@ async function runOCR() {
 
     document.getElementById('sessionInfo').textContent = `Session: ${sessionId}`;
 
+    // Capture initial mapped data from workflow/start as fallback
+    const initialMappedData = json.data.mapped_data || {};
+
     // Step 2: Remap against selected/detected TPA schema
     if (selectedSchema) {
       updateLoadingText('Mapping fields to ' + selectedSchema.replace('.json','').replace(/[-_]/g,' ') + '...');
       const remapForm = new FormData();
       remapForm.append('schema_name', selectedSchema);
 
-      const remapRes = await fetch(API + '/workflow/' + sessionId + '/remap', {
-        method: 'POST', body: remapForm
-      });
-      const remapJson = await remapRes.json();
+      try {
+        const remapRes = await fetch(API + '/workflow/' + sessionId + '/remap', {
+          method: 'POST', body: remapForm
+        });
+        const remapJson = await remapRes.json();
 
-      if (remapJson.success) {
-        mappedData = remapJson.data.mapped_data || {};
-        selectedTemplate = remapJson.data.template_name || selectedTemplate;
+        if (remapJson.success) {
+          mappedData = remapJson.data.mapped_data || {};
+          selectedTemplate = remapJson.data.template_name || selectedTemplate;
+        } else {
+          // Remap failed (e.g., session lost on reload) — use initial data
+          console.warn('Remap failed, using initial mapped data:', remapJson.error);
+          mappedData = initialMappedData;
+        }
+      } catch (remapErr) {
+        console.warn('Remap request failed, using initial mapped data:', remapErr);
+        mappedData = initialMappedData;
       }
 
       // Step 3: Load schema fields for the form UI
