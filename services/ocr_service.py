@@ -94,6 +94,14 @@ DOCUMENT_TYPES = {
             "Doctor Name", "Lab Name"
         ],
     },
+    "attendant_id": {
+        "label": "Attendant ID Card (Aadhaar/PAN/Voter ID)",
+        "expected_fields": [
+            "Attendant Name", "Date of Birth", "Gender", "Aadhaar Number",
+            "Address", "Father's Name", "Relationship to Patient",
+            "Contact Number"
+        ],
+    },
     "generic": {
         "label": "Generic Document",
         "expected_fields": [],
