@@ -160,7 +160,7 @@
       "page": 1,
       "type": "checkbox",
       "coordinates": {
-        "x": 180,
+        "x": 160,
         "y": 313.6
       },
       "font_size": 9
@@ -583,7 +583,7 @@
       "page": 1,
       "type": "text_line",
       "coordinates": {
-        "x": 220,
+        "x": 180,
         "y": 690.5
       },
       "font_size": 9,
