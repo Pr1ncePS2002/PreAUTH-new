@@ -62,15 +62,21 @@ class MappingEngine:
         with open(self.mapping_path, "r", encoding="utf-8") as f:
             return json.load(f)
 
-    def _build_alias_index(self) -> dict[str, str]:
-        """Build a reverse index: normalised alias -> field_id."""
-        index = {}
+    def _build_alias_index(self) -> dict[str, list[str]]:
+        """Build a reverse index: normalised alias -> [field_id, ...] (supports multiple schemas)."""
+        index: dict[str, list[str]] = {}
         for field_id, meta in self.field_mapping.items():
             # Add field_id itself
-            index[self._normalise(field_id)] = field_id
+            norm_fid = self._normalise(field_id)
+            index.setdefault(norm_fid, [])
+            if field_id not in index[norm_fid]:
+                index[norm_fid].append(field_id)
             # Add all aliases
             for alias in meta.get("aliases", []):
-                index[self._normalise(alias)] = field_id
+                norm_alias = self._normalise(alias)
+                index.setdefault(norm_alias, [])
+                if field_id not in index[norm_alias]:
+                    index[norm_alias].append(field_id)
         return index
 
     # ------------------------------------------------------------------
@@ -112,6 +118,8 @@ class MappingEngine:
 
         # Two passes: exact+alias first, fuzzy second (to prioritise strong matches)
         pending: list[tuple[str, str]] = []
+        # Track OCR keys that resolved to an already-claimed field (skip fuzzy for these)
+        resolved_duplicate: set[str] = set()
 
         for ocr_key, value in ocr_output.items():
             field_id = self._resolve_key_exact(ocr_key, valid_fields)
@@ -119,11 +127,17 @@ class MappingEngine:
                 mapped_result[field_id] = value
                 claimed_fields.add(field_id)
                 logger.debug("Exact/alias mapped '%s' -> '%s'", ocr_key, field_id)
+            elif field_id and field_id in claimed_fields:
+                # This key resolves to an already-mapped field — skip fuzzy matching
+                resolved_duplicate.add(ocr_key)
+                logger.debug("Skipping '%s' — resolved to already-claimed '%s'", ocr_key, field_id)
             else:
                 pending.append((ocr_key, str(value) if not isinstance(value, bool) else value))
 
-        # Second pass: fuzzy match remaining
+        # Second pass: fuzzy match remaining (excluding resolved duplicates)
         for ocr_key, value in pending:
+            if ocr_key in resolved_duplicate:
+                continue
             available = valid_fields - claimed_fields
             field_id = self._fuzzy_match(self._normalise(ocr_key), available)
             if field_id:
@@ -154,14 +168,17 @@ class MappingEngine:
         ocr_key: str,
         valid_fields: set[str],
     ) -> Optional[str]:
-        """Resolve using exact match or alias only (no fuzzy)."""
+        """Resolve using exact match or alias only (no fuzzy).
+        Supports multi-schema aliases: picks the first field_id in valid_fields.
+        """
         if ocr_key in valid_fields:
             return ocr_key
         normalised = self._normalise(ocr_key)
         if normalised in self._alias_index:
-            candidate = self._alias_index[normalised]
-            if candidate in valid_fields:
-                return candidate
+            candidates = self._alias_index[normalised]
+            for candidate in candidates:
+                if candidate in valid_fields:
+                    return candidate
         return None
 
     def _resolve_key(
@@ -183,9 +200,9 @@ class MappingEngine:
 
         # Layer 2: Alias match (case-insensitive, punctuation-stripped)
         if normalised in self._alias_index:
-            candidate = self._alias_index[normalised]
-            if candidate in valid_fields:
-                return candidate
+            for candidate in self._alias_index[normalised]:
+                if candidate in valid_fields:
+                    return candidate
 
         # Layer 3: Fuzzy match against all aliases
         fuzzy_match = self._fuzzy_match(normalised, valid_fields)
@@ -198,9 +215,11 @@ class MappingEngine:
         """Use rapidfuzz to find the best matching field_id."""
         # Build candidates: alias -> field_id (only for valid fields)
         candidates = {}
-        for alias_norm, field_id in self._alias_index.items():
-            if field_id in valid_fields:
-                candidates[alias_norm] = field_id
+        for alias_norm, field_ids in self._alias_index.items():
+            for field_id in field_ids:
+                if field_id in valid_fields:
+                    candidates[alias_norm] = field_id
+                    break  # first valid field_id wins for this alias
 
         if not candidates:
             return None
@@ -376,7 +395,7 @@ Return ONLY a valid JSON object like:
     def handle_gender(self, mapped_data: dict) -> dict:
         """
         If mapped data contains a 'gender' value (e.g. from Aadhaar OCR),
-        convert it to the appropriate checkbox field_ids.
+        convert it to the appropriate checkbox field_ids for ALL schemas.
         """
         gender_value = None
         # Check multiple possible keys
@@ -387,11 +406,17 @@ Return ONLY a valid JSON object like:
 
         if gender_value:
             gender_lower = gender_value.strip().lower()
-            mapped_data["gender_male"] = gender_lower in ("male", "m")
-            mapped_data["gender_female"] = gender_lower in ("female", "f")
-            mapped_data["gender_third_gender"] = gender_lower in (
-                "third gender", "other", "transgender",
-            )
+            is_male = gender_lower in ("male", "m")
+            is_female = gender_lower in ("female", "f")
+            is_third = gender_lower in ("third gender", "other", "transgender")
+
+            # Ericson-style field_ids
+            mapped_data["gender_male"] = is_male
+            mapped_data["gender_female"] = is_female
+            mapped_data["gender_third_gender"] = is_third
+            # Bajaj-style field_ids
+            mapped_data["patient_gender_male"] = is_male
+            mapped_data["patient_gender_female"] = is_female
 
         return mapped_data
 
