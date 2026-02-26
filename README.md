@@ -1,6 +1,18 @@
 ﻿# TPA Pre-Authorization Form Automation
 
-Web app that extracts data from patient documents (Gemini Vision OCR), auto-detects the target TPA form, maps extracted fields to the form schema, and generates a filled PDF.
+## Description
+
+**PreAUTH** is an AI-powered web application that streamlines the hospital pre-authorization workflow by automating the extraction, mapping, and submission of patient data into Third Party Administrator (TPA) insurance forms.
+
+Healthcare providers typically spend significant time manually transcribing patient information from documents such as Aadhaar cards, insurance policy cards, doctor's notes, and medical estimates into TPA pre-authorization forms. PreAUTH eliminates this manual effort by:
+
+1. **Accepting multiple patient documents** (policy card, Aadhaar, cost estimates, clinical notes, etc.) through a simple web interface.
+2. **Running OCR and structured data extraction** powered by Google Gemini Vision, converting scanned or photographed documents into structured key-value data.
+3. **Auto-detecting the correct TPA form** based on the insurance company identified in the documents.
+4. **Intelligently mapping** the extracted fields to the target form's schema using exact matching, alias lookup, fuzzy matching (RapidFuzz), and an optional Gemini-assisted fallback.
+5. **Generating a filled, print-ready PDF** by overlaying the extracted data onto the blank TPA form template using coordinate-based rendering.
+
+The result is a significant reduction in data entry time, fewer transcription errors, and a faster pre-authorization turnaround for patients.
 
 ## Key Features
 
