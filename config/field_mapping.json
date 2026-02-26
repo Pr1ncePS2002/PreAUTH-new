@@ -1,695 +1,1607 @@
 {
   "tpa_insurance_company_name": {
     "aliases": [
-      "Name of TPA", "TPA Name", "Insurance Company Name", "Name of Insurance Company",
-      "TPA/Insurance Company", "Insurer Name", "Name of TPA/Insurance company"
+      "Name of TPA",
+      "TPA Name",
+      "Insurance Company Name",
+      "Name of Insurance Company",
+      "TPA/Insurance Company",
+      "Insurer Name",
+      "Name of TPA/Insurance company"
     ],
-    "document_types": ["policy_card", "preauth_form"],
+    "document_types": [
+      "policy_card",
+      "preauth_form"
+    ],
     "gemini_description": "Name of the Third Party Administrator or Insurance Company"
   },
   "toll_free_phone_number": {
     "aliases": [
-      "Toll Free Number", "Toll Free Phone", "Helpline Number", "Customer Care Number",
-      "TPA Phone Number", "Toll free phone number"
+      "Toll Free Number",
+      "Toll Free Phone",
+      "Helpline Number",
+      "Customer Care Number",
+      "TPA Phone Number",
+      "Toll free phone number"
     ],
-    "document_types": ["policy_card", "preauth_form"],
+    "document_types": [
+      "policy_card",
+      "preauth_form"
+    ],
     "gemini_description": "Toll-free helpline phone number of TPA/Insurer"
   },
   "toll_free_fax": {
     "aliases": [
-      "Toll Free Fax", "Fax Number", "TPA Fax", "Toll free fax"
+      "Toll Free Fax",
+      "Fax Number",
+      "TPA Fax",
+      "Toll free fax"
     ],
-    "document_types": ["policy_card", "preauth_form"],
+    "document_types": [
+      "policy_card",
+      "preauth_form"
+    ],
     "gemini_description": "Toll-free fax number of TPA/Insurer"
   },
   "patient_name": {
     "aliases": [
-      "Name of the Patient", "Patient Name", "Name of Patient", "Insured Name",
-      "Name of Insured", "Policy Holder Name", "Name of the Insured",
-      "Patient's Name", "Insured's Name", "Name"
+      "Name of the Patient",
+      "Patient Name",
+      "Name of Patient",
+      "Insured Name",
+      "Name of Insured",
+      "Policy Holder Name",
+      "Name of the Insured",
+      "Patient's Name",
+      "Insured's Name",
+      "Name"
     ],
-    "document_types": ["aadhaar", "pan", "policy_card", "preauth_form", "discharge_summary"],
+    "document_types": [
+      "aadhaar",
+      "pan",
+      "policy_card",
+      "preauth_form",
+      "discharge_summary"
+    ],
     "gemini_description": "Full name of the patient or insured person"
   },
   "gender_male": {
-    "aliases": ["Gender Male", "Male", "Sex Male", "M"],
-    "document_types": ["aadhaar", "policy_card"],
+    "aliases": [
+      "Gender Male",
+      "Male",
+      "Sex Male",
+      "M"
+    ],
+    "document_types": [
+      "aadhaar",
+      "policy_card"
+    ],
     "gemini_description": "Gender checkbox: Male",
     "field_type": "checkbox",
     "group": "gender"
   },
   "gender_female": {
-    "aliases": ["Gender Female", "Female", "Sex Female", "F"],
-    "document_types": ["aadhaar", "policy_card"],
+    "aliases": [
+      "Gender Female",
+      "Female",
+      "Sex Female",
+      "F"
+    ],
+    "document_types": [
+      "aadhaar",
+      "policy_card"
+    ],
     "gemini_description": "Gender checkbox: Female",
     "field_type": "checkbox",
     "group": "gender"
   },
   "gender_third_gender": {
-    "aliases": ["Gender Third", "Third Gender", "Other Gender", "Transgender"],
-    "document_types": ["aadhaar", "policy_card"],
+    "aliases": [
+      "Gender Third",
+      "Third Gender",
+      "Other Gender",
+      "Transgender"
+    ],
+    "document_types": [
+      "aadhaar",
+      "policy_card"
+    ],
     "gemini_description": "Gender checkbox: Third Gender / Other",
     "field_type": "checkbox",
     "group": "gender"
   },
   "age_years_duration": {
     "aliases": [
-      "Age Years", "Age (Years)", "Age in Years", "Years", "Patient Age"
+      "Age Years",
+      "Age (Years)",
+      "Age in Years",
+      "Years",
+      "Patient Age"
     ],
-    "document_types": ["aadhaar", "policy_card", "preauth_form"],
+    "document_types": [
+      "aadhaar",
+      "policy_card",
+      "preauth_form"
+    ],
     "gemini_description": "Patient's age in years"
   },
   "age_months_duration": {
     "aliases": [
-      "Age Months", "Age (Months)", "Age in Months", "Months"
+      "Age Months",
+      "Age (Months)",
+      "Age in Months",
+      "Months"
     ],
-    "document_types": ["aadhaar", "policy_card", "preauth_form"],
+    "document_types": [
+      "aadhaar",
+      "policy_card",
+      "preauth_form"
+    ],
     "gemini_description": "Patient's age in months (remainder after years)"
   },
   "date_of_birth": {
     "aliases": [
-      "Date of Birth", "DOB", "D.O.B", "Birth Date", "D.O.B.", "Date Of Birth",
-      "Birthdate", "Born On"
+      "Date of Birth",
+      "DOB",
+      "D.O.B",
+      "Birth Date",
+      "D.O.B.",
+      "Date Of Birth",
+      "Birthdate",
+      "Born On"
     ],
-    "document_types": ["aadhaar", "pan", "policy_card"],
+    "document_types": [
+      "aadhaar",
+      "pan",
+      "policy_card"
+    ],
     "gemini_description": "Patient's date of birth (DD/MM/YYYY)"
   },
   "patient_contact_number": {
     "aliases": [
-      "Contact Number", "Phone Number", "Mobile Number", "Patient Phone",
-      "Patient Contact", "Patient Mobile", "Cell Number", "Ph No"
+      "Contact Number",
+      "Phone Number",
+      "Mobile Number",
+      "Patient Phone",
+      "Patient Contact",
+      "Patient Mobile",
+      "Cell Number",
+      "Ph No"
     ],
-    "document_types": ["preauth_form", "discharge_summary"],
+    "document_types": [
+      "preauth_form",
+      "discharge_summary"
+    ],
     "gemini_description": "Patient's contact/mobile phone number"
   },
   "attending_relative_contact_number": {
     "aliases": [
-      "Relative Contact", "Attendant Contact", "Relative Phone", "Next of Kin Contact",
-      "Contact number of attending Relative", "Attendant Phone Number",
-      "Emergency Contact Number", "Guardian Contact"
+      "Relative Contact",
+      "Attendant Contact",
+      "Relative Phone",
+      "Next of Kin Contact",
+      "Contact number of attending Relative",
+      "Attendant Phone Number",
+      "Emergency Contact Number",
+      "Guardian Contact"
     ],
-    "document_types": ["preauth_form"],
+    "document_types": [
+      "preauth_form"
+    ],
     "gemini_description": "Contact number of the attending relative or guardian"
   },
   "insured_card_id_number": {
     "aliases": [
-      "Insured Card ID", "Card ID", "Insurance Card Number", "ID Number",
-      "Health Card Number", "Card Number", "Insured Card ID number",
-      "Policy Card Number", "Health ID"
+      "Insured Card ID",
+      "Card ID",
+      "Insurance Card Number",
+      "ID Number",
+      "Health Card Number",
+      "Card Number",
+      "Insured Card ID number",
+      "Policy Card Number",
+      "Health ID"
     ],
-    "document_types": ["policy_card", "preauth_form"],
+    "document_types": [
+      "policy_card",
+      "preauth_form"
+    ],
     "gemini_description": "Insured person's card / ID number from insurance policy"
   },
   "policy_number_corporate_name": {
     "aliases": [
-      "Policy Number", "Policy No", "Name of Corporate", "Corporate Name",
-      "Policy number/Name of Corporate", "Group Policy Number",
-      "Policy No / Corporate", "Certificate Number"
+      "Policy Number",
+      "Policy No",
+      "Name of Corporate",
+      "Corporate Name",
+      "Policy number/Name of Corporate",
+      "Group Policy Number",
+      "Policy No / Corporate",
+      "Certificate Number"
     ],
-    "document_types": ["policy_card", "preauth_form"],
+    "document_types": [
+      "policy_card",
+      "preauth_form"
+    ],
     "gemini_description": "Insurance policy number and/or corporate name"
   },
   "employee_id": {
     "aliases": [
-      "Employee ID", "Emp ID", "Employee Number", "Staff ID",
-      "Employee Code", "Emp No", "EMP ID"
+      "Employee ID",
+      "Emp ID",
+      "Employee Number",
+      "Staff ID",
+      "Employee Code",
+      "Emp No",
+      "EMP ID"
     ],
-    "document_types": ["preauth_form", "policy_card"],
+    "document_types": [
+      "preauth_form",
+      "policy_card"
+    ],
     "gemini_description": "Employee ID for corporate/group insurance policies"
   },
   "other_mediclaim_yes": {
-    "aliases": ["Other Mediclaim Yes", "Has Other Insurance Yes", "Other Health Insurance Yes"],
-    "document_types": ["preauth_form"],
-    "gemini_description": "Checkbox: Patient has other mediclaim/health insurance — Yes",
+    "aliases": [
+      "Other Mediclaim Yes",
+      "Has Other Insurance Yes",
+      "Other Health Insurance Yes"
+    ],
+    "document_types": [
+      "preauth_form"
+    ],
+    "gemini_description": "Checkbox: Patient has other mediclaim/health insurance \u00e2\u20ac\u201d Yes",
     "field_type": "checkbox",
     "group": "other_mediclaim"
   },
   "other_mediclaim_no": {
-    "aliases": ["Other Mediclaim No", "Has Other Insurance No", "Other Health Insurance No"],
-    "document_types": ["preauth_form"],
-    "gemini_description": "Checkbox: Patient has other mediclaim/health insurance — No",
+    "aliases": [
+      "Other Mediclaim No",
+      "Has Other Insurance No",
+      "Other Health Insurance No"
+    ],
+    "document_types": [
+      "preauth_form"
+    ],
+    "gemini_description": "Checkbox: Patient has other mediclaim/health insurance \u00e2\u20ac\u201d No",
     "field_type": "checkbox",
     "group": "other_mediclaim"
   },
   "other_mediclaim_company_name": {
     "aliases": [
-      "Other Insurance Company", "Company Name", "Other Mediclaim Company",
-      "i.Company Name", "Name of Other Insurance"
+      "Other Insurance Company",
+      "Company Name",
+      "Other Mediclaim Company",
+      "i.Company Name",
+      "Name of Other Insurance"
     ],
-    "document_types": ["preauth_form"],
+    "document_types": [
+      "preauth_form"
+    ],
     "gemini_description": "Name of the other mediclaim/health insurance company"
   },
   "other_mediclaim_details": {
     "aliases": [
-      "Other Insurance Details", "Give Details", "Other Mediclaim Details",
-      "ii.Give Details", "Details of Other Insurance"
+      "Other Insurance Details",
+      "Give Details",
+      "Other Mediclaim Details",
+      "ii.Give Details",
+      "Details of Other Insurance"
     ],
-    "document_types": ["preauth_form"],
+    "document_types": [
+      "preauth_form"
+    ],
     "gemini_description": "Details of the other mediclaim/health insurance"
   },
   "family_physician_yes": {
-    "aliases": ["Family Physician Yes", "Has Family Physician Yes", "Family Doctor Yes"],
-    "document_types": ["preauth_form"],
-    "gemini_description": "Checkbox: Patient has a family physician — Yes",
+    "aliases": [
+      "Family Physician Yes",
+      "Has Family Physician Yes",
+      "Family Doctor Yes"
+    ],
+    "document_types": [
+      "preauth_form"
+    ],
+    "gemini_description": "Checkbox: Patient has a family physician \u00e2\u20ac\u201d Yes",
     "field_type": "checkbox",
     "group": "family_physician"
   },
   "family_physician_no": {
-    "aliases": ["Family Physician No", "Has Family Physician No", "Family Doctor No"],
-    "document_types": ["preauth_form"],
-    "gemini_description": "Checkbox: Patient has a family physician — No",
+    "aliases": [
+      "Family Physician No",
+      "Has Family Physician No",
+      "Family Doctor No"
+    ],
+    "document_types": [
+      "preauth_form"
+    ],
+    "gemini_description": "Checkbox: Patient has a family physician \u00e2\u20ac\u201d No",
     "field_type": "checkbox",
     "group": "family_physician"
   },
   "family_physician_name": {
     "aliases": [
-      "Family Physician Name", "Family Doctor Name", "Name of Family Physician",
-      "Physician Name", "GP Name"
+      "Family Physician Name",
+      "Family Doctor Name",
+      "Name of Family Physician",
+      "Physician Name",
+      "GP Name"
     ],
-    "document_types": ["preauth_form"],
+    "document_types": [
+      "preauth_form"
+    ],
     "gemini_description": "Name of the family physician / general practitioner"
   },
   "family_physician_contact_number": {
     "aliases": [
-      "Family Physician Contact", "Physician Phone", "Family Doctor Contact",
+      "Family Physician Contact",
+      "Physician Phone",
+      "Family Doctor Contact",
       "Physician Contact Number"
     ],
-    "document_types": ["preauth_form"],
+    "document_types": [
+      "preauth_form"
+    ],
     "gemini_description": "Contact number of the family physician"
   },
   "insured_patient_current_address": {
     "aliases": [
-      "Current Address", "Patient Address", "Address", "Residential Address",
-      "Address of Insured", "Present Address", "Correspondence Address"
+      "Current Address",
+      "Patient Address",
+      "Address",
+      "Residential Address",
+      "Address of Insured",
+      "Present Address",
+      "Correspondence Address"
     ],
-    "document_types": ["aadhaar", "preauth_form", "policy_card"],
+    "document_types": [
+      "aadhaar",
+      "preauth_form",
+      "policy_card"
+    ],
     "gemini_description": "Current residential address of the insured patient"
   },
   "insured_patient_occupation": {
     "aliases": [
-      "Occupation", "Patient Occupation", "Profession", "Employment",
-      "Job Title", "Occupation of Insured"
+      "Occupation",
+      "Patient Occupation",
+      "Profession",
+      "Employment",
+      "Job Title",
+      "Occupation of Insured"
     ],
-    "document_types": ["preauth_form"],
+    "document_types": [
+      "preauth_form"
+    ],
     "gemini_description": "Occupation/profession of the insured patient"
   },
   "treating_doctor_name": {
     "aliases": [
-      "Treating Doctor", "Doctor Name", "Name of Treating Doctor",
-      "Treating Physician", "Attending Doctor", "Consultant Name",
+      "Treating Doctor",
+      "Doctor Name",
+      "Name of Treating Doctor",
+      "Treating Physician",
+      "Attending Doctor",
+      "Consultant Name",
       "Name of the treating Doctor"
     ],
-    "document_types": ["preauth_form", "discharge_summary", "clinical_notes"],
+    "document_types": [
+      "preauth_form",
+      "discharge_summary",
+      "clinical_notes"
+    ],
     "gemini_description": "Name of the treating doctor"
   },
   "treating_doctor_contact_number": {
     "aliases": [
-      "Doctor Contact", "Doctor Phone", "Treating Doctor Phone",
-      "Doctor Contact Number", "Consultant Contact"
+      "Doctor Contact",
+      "Doctor Phone",
+      "Treating Doctor Phone",
+      "Doctor Contact Number",
+      "Consultant Contact"
     ],
-    "document_types": ["preauth_form"],
+    "document_types": [
+      "preauth_form"
+    ],
     "gemini_description": "Contact number of the treating doctor"
   },
   "nature_of_illness_complaint": {
     "aliases": [
-      "Nature of Illness", "Illness", "Disease", "Complaint",
-      "Chief Complaint", "Presenting Complaint", "Diagnosis",
+      "Nature of Illness",
+      "Illness",
+      "Disease",
+      "Complaint",
+      "Chief Complaint",
+      "Presenting Complaint",
+      "Diagnosis",
       "Nature of Illness/Disease with presenting complaint",
       "Nature of illness complaint"
     ],
-    "document_types": ["preauth_form", "clinical_notes", "discharge_summary"],
+    "document_types": [
+      "preauth_form",
+      "clinical_notes",
+      "discharge_summary"
+    ],
     "gemini_description": "Nature of illness/disease with presenting complaint"
   },
   "relevant_critical_findings": {
     "aliases": [
-      "Critical Findings", "Relevant Findings", "Clinical Findings",
-      "Key Findings", "Investigation Findings", "Relevant Critical Findings"
+      "Critical Findings",
+      "Relevant Findings",
+      "Clinical Findings",
+      "Key Findings",
+      "Investigation Findings",
+      "Relevant Critical Findings"
     ],
-    "document_types": ["preauth_form", "clinical_notes", "lab_reports"],
+    "document_types": [
+      "preauth_form",
+      "clinical_notes",
+      "lab_reports"
+    ],
     "gemini_description": "Relevant critical clinical or investigation findings"
   },
   "duration_of_ailment_days": {
     "aliases": [
-      "Duration of Ailment", "Ailment Duration", "Duration Days",
-      "Duration of present ailment", "Duration of Present Ailment (Days)",
-      "How long suffering", "Illness Duration"
+      "Duration of Ailment",
+      "Ailment Duration",
+      "Duration Days",
+      "Duration of present ailment",
+      "Duration of Present Ailment (Days)",
+      "How long suffering",
+      "Illness Duration"
     ],
-    "document_types": ["preauth_form", "clinical_notes"],
+    "document_types": [
+      "preauth_form",
+      "clinical_notes"
+    ],
     "gemini_description": "Duration of the present ailment in days"
   },
   "date_of_first_consultation": {
     "aliases": [
-      "First Consultation Date", "Date of First Consultation",
-      "First Visit Date", "Initial Consultation Date",
+      "First Consultation Date",
+      "Date of First Consultation",
+      "First Visit Date",
+      "Initial Consultation Date",
       "Date of first consultation"
     ],
-    "document_types": ["preauth_form", "clinical_notes"],
+    "document_types": [
+      "preauth_form",
+      "clinical_notes"
+    ],
     "gemini_description": "Date of first consultation for this ailment (DD/MM/YYYY)"
   },
   "past_history_of_ailment": {
     "aliases": [
-      "Past History", "Past Medical History", "Medical History",
-      "Past history of present ailment", "Previous History",
-      "PMH", "History of Present Illness"
+      "Past History",
+      "Past Medical History",
+      "Medical History",
+      "Past history of present ailment",
+      "Previous History",
+      "PMH",
+      "History of Present Illness"
     ],
-    "document_types": ["preauth_form", "clinical_notes", "discharge_summary"],
+    "document_types": [
+      "preauth_form",
+      "clinical_notes",
+      "discharge_summary"
+    ],
     "gemini_description": "Past history of the present ailment, if any"
   },
   "provisional_diagnosis_icd10_code": {
     "aliases": [
-      "Provisional Diagnosis", "ICD 10 Code", "ICD-10",
-      "Diagnosis Code", "ICD Code", "Provisional Diagnosis ICD 10 code"
+      "Provisional Diagnosis",
+      "ICD 10 Code",
+      "ICD-10",
+      "Diagnosis Code",
+      "ICD Code",
+      "Provisional Diagnosis ICD 10 code"
     ],
-    "document_types": ["preauth_form", "clinical_notes"],
+    "document_types": [
+      "preauth_form",
+      "clinical_notes"
+    ],
     "gemini_description": "Provisional diagnosis with ICD-10 code"
   },
   "treatment_medical_management": {
-    "aliases": ["Medical Management", "Medical Treatment", "Conservative Management"],
-    "document_types": ["preauth_form"],
-    "gemini_description": "Checkbox: Proposed treatment — Medical Management",
+    "aliases": [
+      "Medical Management",
+      "Medical Treatment",
+      "Conservative Management"
+    ],
+    "document_types": [
+      "preauth_form"
+    ],
+    "gemini_description": "Checkbox: Proposed treatment \u00e2\u20ac\u201d Medical Management",
     "field_type": "checkbox",
     "group": "treatment"
   },
   "treatment_surgical_management": {
-    "aliases": ["Surgical Management", "Surgery", "Surgical Treatment", "Operative"],
-    "document_types": ["preauth_form"],
-    "gemini_description": "Checkbox: Proposed treatment — Surgical Management",
+    "aliases": [
+      "Surgical Management",
+      "Surgery",
+      "Surgical Treatment",
+      "Operative"
+    ],
+    "document_types": [
+      "preauth_form"
+    ],
+    "gemini_description": "Checkbox: Proposed treatment \u00e2\u20ac\u201d Surgical Management",
     "field_type": "checkbox",
     "group": "treatment"
   },
   "treatment_intensive_care": {
-    "aliases": ["Intensive Care", "ICU", "Critical Care", "ICU Treatment"],
-    "document_types": ["preauth_form"],
-    "gemini_description": "Checkbox: Proposed treatment — Intensive Care",
+    "aliases": [
+      "Intensive Care",
+      "ICU",
+      "Critical Care",
+      "ICU Treatment"
+    ],
+    "document_types": [
+      "preauth_form"
+    ],
+    "gemini_description": "Checkbox: Proposed treatment \u00e2\u20ac\u201d Intensive Care",
     "field_type": "checkbox",
     "group": "treatment"
   },
   "treatment_investigation": {
-    "aliases": ["Investigation", "Diagnostic Investigation", "Tests"],
-    "document_types": ["preauth_form"],
-    "gemini_description": "Checkbox: Proposed treatment — Investigation",
+    "aliases": [
+      "Investigation",
+      "Diagnostic Investigation",
+      "Tests"
+    ],
+    "document_types": [
+      "preauth_form"
+    ],
+    "gemini_description": "Checkbox: Proposed treatment \u00e2\u20ac\u201d Investigation",
     "field_type": "checkbox",
     "group": "treatment"
   },
   "treatment_non_allopathic": {
-    "aliases": ["Non-Allopathic", "Alternative Medicine", "AYUSH", "Non Allopathic Treatment"],
-    "document_types": ["preauth_form"],
-    "gemini_description": "Checkbox: Proposed treatment — Non-allopathic treatment",
+    "aliases": [
+      "Non-Allopathic",
+      "Alternative Medicine",
+      "AYUSH",
+      "Non Allopathic Treatment"
+    ],
+    "document_types": [
+      "preauth_form"
+    ],
+    "gemini_description": "Checkbox: Proposed treatment \u00e2\u20ac\u201d Non-allopathic treatment",
     "field_type": "checkbox",
     "group": "treatment"
   },
   "route_of_drug_administration": {
     "aliases": [
-      "Route of Administration", "Drug Administration Route",
-      "Route of Drug Administration", "Administration Route",
-      "Drug Route", "IV/Oral/IM"
+      "Route of Administration",
+      "Drug Administration Route",
+      "Route of Drug Administration",
+      "Administration Route",
+      "Drug Route",
+      "IV/Oral/IM"
     ],
-    "document_types": ["preauth_form", "clinical_notes"],
+    "document_types": [
+      "preauth_form",
+      "clinical_notes"
+    ],
     "gemini_description": "Route of drug administration (IV, Oral, IM, etc.)"
   },
   "surgery_name": {
     "aliases": [
-      "Name of Surgery", "Surgery Name", "Surgical Procedure",
-      "Procedure Name", "Operation Name", "If surgical, name of surgery"
+      "Name of Surgery",
+      "Surgery Name",
+      "Surgical Procedure",
+      "Procedure Name",
+      "Operation Name",
+      "If surgical, name of surgery"
     ],
-    "document_types": ["preauth_form", "clinical_notes", "discharge_summary"],
+    "document_types": [
+      "preauth_form",
+      "clinical_notes",
+      "discharge_summary"
+    ],
     "gemini_description": "Name of the surgical procedure if treatment is surgical"
   },
   "surgical_icd10_pcs_code": {
     "aliases": [
-      "ICD 10 PCS Code", "PCS Code", "Surgical Code",
-      "ICD-10 PCS", "Procedure Code", "Surgical ICD 10 PCS code"
+      "ICD 10 PCS Code",
+      "PCS Code",
+      "Surgical Code",
+      "ICD-10 PCS",
+      "Procedure Code",
+      "Surgical ICD 10 PCS code"
     ],
-    "document_types": ["preauth_form"],
+    "document_types": [
+      "preauth_form"
+    ],
     "gemini_description": "ICD-10 PCS code for the surgical procedure"
   },
   "other_treatment_details": {
     "aliases": [
-      "Other Treatment", "Other Treatment Details", "Additional Treatment",
+      "Other Treatment",
+      "Other Treatment Details",
+      "Additional Treatment",
       "If other treatment, provide details"
     ],
-    "document_types": ["preauth_form"],
+    "document_types": [
+      "preauth_form"
+    ],
     "gemini_description": "Details of other treatment if applicable"
   },
   "how_injury_occurred": {
     "aliases": [
-      "How Injury Occurred", "Injury Details", "Cause of Injury",
-      "How did injury occur", "Injury Description", "Mechanism of Injury"
+      "How Injury Occurred",
+      "Injury Details",
+      "Cause of Injury",
+      "How did injury occur",
+      "Injury Description",
+      "Mechanism of Injury"
     ],
-    "document_types": ["preauth_form", "clinical_notes"],
+    "document_types": [
+      "preauth_form",
+      "clinical_notes"
+    ],
     "gemini_description": "Description of how the injury occurred"
   },
   "accident_is_rta_yes": {
-    "aliases": ["RTA Yes", "Road Traffic Accident Yes", "Is it RTA Yes"],
-    "document_types": ["preauth_form"],
-    "gemini_description": "Checkbox: Is it a Road Traffic Accident — Yes",
+    "aliases": [
+      "RTA Yes",
+      "Road Traffic Accident Yes",
+      "Is it RTA Yes"
+    ],
+    "document_types": [
+      "preauth_form"
+    ],
+    "gemini_description": "Checkbox: Is it a Road Traffic Accident \u00e2\u20ac\u201d Yes",
     "field_type": "checkbox",
     "group": "rta"
   },
   "accident_is_rta_no": {
-    "aliases": ["RTA No", "Road Traffic Accident No", "Is it RTA No"],
-    "document_types": ["preauth_form"],
-    "gemini_description": "Checkbox: Is it a Road Traffic Accident — No",
+    "aliases": [
+      "RTA No",
+      "Road Traffic Accident No",
+      "Is it RTA No"
+    ],
+    "document_types": [
+      "preauth_form"
+    ],
+    "gemini_description": "Checkbox: Is it a Road Traffic Accident \u00e2\u20ac\u201d No",
     "field_type": "checkbox",
     "group": "rta"
   },
   "accident_date_of_injury": {
     "aliases": [
-      "Date of Injury", "Injury Date", "Accident Date",
-      "Date of Accident", "When Injury Occurred"
+      "Date of Injury",
+      "Injury Date",
+      "Accident Date",
+      "Date of Accident",
+      "When Injury Occurred"
     ],
-    "document_types": ["preauth_form", "clinical_notes"],
+    "document_types": [
+      "preauth_form",
+      "clinical_notes"
+    ],
     "gemini_description": "Date when the injury/accident occurred (DD/MM/YYYY)"
   },
   "accident_report_to_police_yes": {
-    "aliases": ["Police Report Yes", "Report to Police Yes", "FIR Filed Yes"],
-    "document_types": ["preauth_form"],
-    "gemini_description": "Checkbox: Was accident reported to police — Yes",
+    "aliases": [
+      "Police Report Yes",
+      "Report to Police Yes",
+      "FIR Filed Yes"
+    ],
+    "document_types": [
+      "preauth_form"
+    ],
+    "gemini_description": "Checkbox: Was accident reported to police \u00e2\u20ac\u201d Yes",
     "field_type": "checkbox",
     "group": "police_report"
   },
   "accident_report_to_police_no": {
-    "aliases": ["Police Report No", "Report to Police No", "FIR Filed No"],
-    "document_types": ["preauth_form"],
-    "gemini_description": "Checkbox: Was accident reported to police — No",
+    "aliases": [
+      "Police Report No",
+      "Report to Police No",
+      "FIR Filed No"
+    ],
+    "document_types": [
+      "preauth_form"
+    ],
+    "gemini_description": "Checkbox: Was accident reported to police \u00e2\u20ac\u201d No",
     "field_type": "checkbox",
     "group": "police_report"
   },
   "accident_fir_no": {
     "aliases": [
-      "FIR Number", "FIR No", "Police Report Number",
-      "FIR NO", "First Information Report Number"
+      "FIR Number",
+      "FIR No",
+      "Police Report Number",
+      "FIR NO",
+      "First Information Report Number"
     ],
-    "document_types": ["preauth_form"],
+    "document_types": [
+      "preauth_form"
+    ],
     "gemini_description": "FIR (First Information Report) number if filed"
   },
   "accident_substance_abuse_yes": {
-    "aliases": ["Substance Abuse Yes", "Alcohol Yes", "Drug Abuse Yes"],
-    "document_types": ["preauth_form"],
-    "gemini_description": "Checkbox: Injury due to substance/alcohol abuse — Yes",
+    "aliases": [
+      "Substance Abuse Yes",
+      "Alcohol Yes",
+      "Drug Abuse Yes"
+    ],
+    "document_types": [
+      "preauth_form"
+    ],
+    "gemini_description": "Checkbox: Injury due to substance/alcohol abuse \u00e2\u20ac\u201d Yes",
     "field_type": "checkbox",
     "group": "substance_abuse"
   },
   "accident_substance_abuse_no": {
-    "aliases": ["Substance Abuse No", "Alcohol No", "Drug Abuse No"],
-    "document_types": ["preauth_form"],
-    "gemini_description": "Checkbox: Injury due to substance/alcohol abuse — No",
+    "aliases": [
+      "Substance Abuse No",
+      "Alcohol No",
+      "Drug Abuse No"
+    ],
+    "document_types": [
+      "preauth_form"
+    ],
+    "gemini_description": "Checkbox: Injury due to substance/alcohol abuse \u00e2\u20ac\u201d No",
     "field_type": "checkbox",
     "group": "substance_abuse"
   },
   "accident_test_conducted_yes": {
-    "aliases": ["Test Conducted Yes", "Substance Test Yes", "Alcohol Test Yes"],
-    "document_types": ["preauth_form"],
-    "gemini_description": "Checkbox: Was a test conducted to establish substance abuse — Yes",
+    "aliases": [
+      "Test Conducted Yes",
+      "Substance Test Yes",
+      "Alcohol Test Yes"
+    ],
+    "document_types": [
+      "preauth_form"
+    ],
+    "gemini_description": "Checkbox: Was a test conducted to establish substance abuse \u00e2\u20ac\u201d Yes",
     "field_type": "checkbox",
     "group": "test_conducted"
   },
   "accident_test_conducted_no": {
-    "aliases": ["Test Conducted No", "Substance Test No", "Alcohol Test No"],
-    "document_types": ["preauth_form"],
-    "gemini_description": "Checkbox: Was a test conducted to establish substance abuse — No",
+    "aliases": [
+      "Test Conducted No",
+      "Substance Test No",
+      "Alcohol Test No"
+    ],
+    "document_types": [
+      "preauth_form"
+    ],
+    "gemini_description": "Checkbox: Was a test conducted to establish substance abuse \u00e2\u20ac\u201d No",
     "field_type": "checkbox",
     "group": "test_conducted"
   },
   "maternity_expected_date_of_delivery": {
     "aliases": [
-      "Expected Date of Delivery", "EDD", "Due Date",
-      "Expected Delivery Date", "Maternity EDD"
+      "Expected Date of Delivery",
+      "EDD",
+      "Due Date",
+      "Expected Delivery Date",
+      "Maternity EDD"
     ],
-    "document_types": ["preauth_form", "clinical_notes"],
+    "document_types": [
+      "preauth_form",
+      "clinical_notes"
+    ],
     "gemini_description": "Expected date of delivery for maternity cases (DD/MM/YYYY)"
   },
   "admission_date": {
     "aliases": [
-      "Date of Admission", "Admission Date", "Admitted On",
-      "Date of admission", "Date Admitted", "DOA"
+      "Expected DOA",
+      "Date of admission",
+      "Admission Date",
+      "Admitted On",
+      "Date of Admission",
+      "DOA",
+      "Expected D.O.A",
+      "Date Admitted"
     ],
-    "document_types": ["preauth_form", "discharge_summary"],
+    "document_types": [
+      "preauth_form",
+      "discharge_summary"
+    ],
     "gemini_description": "Date of hospital admission (DD/MM/YYYY)"
   },
   "admission_time": {
     "aliases": [
-      "Time of Admission", "Admission Time", "Admitted Time",
-      "Time of admission", "Time Admitted"
+      "Time of admission",
+      "Admitted Time",
+      "Time of Admission",
+      "Time Admitted",
+      "Admission Time"
     ],
-    "document_types": ["preauth_form"],
+    "document_types": [
+      "preauth_form"
+    ],
     "gemini_description": "Time of hospital admission (HH:MM)"
   },
   "hospitalization_event_emergency": {
-    "aliases": ["Emergency", "Emergency Hospitalization", "Emergency Admission"],
-    "document_types": ["preauth_form"],
-    "gemini_description": "Checkbox: Hospitalization type — Emergency",
+    "aliases": [
+      "Emergency",
+      "Emergency Hospitalization",
+      "Emergency Admission"
+    ],
+    "document_types": [
+      "preauth_form"
+    ],
+    "gemini_description": "Checkbox: Hospitalization type \u00e2\u20ac\u201d Emergency",
     "field_type": "checkbox",
     "group": "hospitalization_type"
   },
   "hospitalization_event_planned": {
-    "aliases": ["Planned", "Planned Hospitalization", "Elective", "Planned Admission"],
-    "document_types": ["preauth_form"],
-    "gemini_description": "Checkbox: Hospitalization type — Planned/Elective",
+    "aliases": [
+      "Planned",
+      "Planned Hospitalization",
+      "Elective",
+      "Planned Admission"
+    ],
+    "document_types": [
+      "preauth_form"
+    ],
+    "gemini_description": "Checkbox: Hospitalization type \u00e2\u20ac\u201d Planned/Elective",
     "field_type": "checkbox",
     "group": "hospitalization_type"
   },
   "past_history_diabetes": {
-    "aliases": ["Diabetes", "DM", "Diabetes Mellitus", "Sugar"],
-    "document_types": ["preauth_form", "clinical_notes"],
-    "gemini_description": "Chronic illness history: Diabetes — Since month/year",
+    "aliases": [
+      "Diabetes",
+      "DM",
+      "Diabetes Mellitus",
+      "Sugar"
+    ],
+    "document_types": [
+      "preauth_form",
+      "clinical_notes"
+    ],
+    "gemini_description": "Chronic illness history: Diabetes \u00e2\u20ac\u201d Since month/year",
     "group": "chronic_illness"
   },
   "past_history_heart_disease": {
-    "aliases": ["Heart Disease", "Cardiac", "Heart Problem", "CAD", "IHD"],
-    "document_types": ["preauth_form", "clinical_notes"],
-    "gemini_description": "Chronic illness history: Heart Disease — Since month/year",
+    "aliases": [
+      "Heart Disease",
+      "Cardiac",
+      "Heart Problem",
+      "CAD",
+      "IHD"
+    ],
+    "document_types": [
+      "preauth_form",
+      "clinical_notes"
+    ],
+    "gemini_description": "Chronic illness history: Heart Disease \u00e2\u20ac\u201d Since month/year",
     "group": "chronic_illness"
   },
   "past_history_hypertension": {
-    "aliases": ["Hypertension", "HTN", "High BP", "High Blood Pressure", "BP"],
-    "document_types": ["preauth_form", "clinical_notes"],
-    "gemini_description": "Chronic illness history: Hypertension — Since month/year",
+    "aliases": [
+      "Hypertension",
+      "HTN",
+      "High BP",
+      "High Blood Pressure",
+      "BP"
+    ],
+    "document_types": [
+      "preauth_form",
+      "clinical_notes"
+    ],
+    "gemini_description": "Chronic illness history: Hypertension \u00e2\u20ac\u201d Since month/year",
     "group": "chronic_illness"
   },
   "past_history_hyperlipidemias": {
-    "aliases": ["Hyperlipidemias", "High Cholesterol", "Dyslipidemia", "Lipid Disorder"],
-    "document_types": ["preauth_form", "clinical_notes"],
-    "gemini_description": "Chronic illness history: Hyperlipidemias — Since month/year",
+    "aliases": [
+      "Hyperlipidemias",
+      "High Cholesterol",
+      "Dyslipidemia",
+      "Lipid Disorder"
+    ],
+    "document_types": [
+      "preauth_form",
+      "clinical_notes"
+    ],
+    "gemini_description": "Chronic illness history: Hyperlipidemias \u00e2\u20ac\u201d Since month/year",
     "group": "chronic_illness"
   },
   "past_history_osteoarthritis": {
-    "aliases": ["Osteoarthritis", "OA", "Arthritis", "Joint Disease"],
-    "document_types": ["preauth_form", "clinical_notes"],
-    "gemini_description": "Chronic illness history: Osteoarthritis — Since month/year",
+    "aliases": [
+      "Osteoarthritis",
+      "OA",
+      "Arthritis",
+      "Joint Disease"
+    ],
+    "document_types": [
+      "preauth_form",
+      "clinical_notes"
+    ],
+    "gemini_description": "Chronic illness history: Osteoarthritis \u00e2\u20ac\u201d Since month/year",
     "group": "chronic_illness"
   },
   "past_history_asthma_copd_bronchitis": {
-    "aliases": ["Asthma", "COPD", "Bronchitis", "Respiratory Disease", "Asthma/COPD/Bronchitis"],
-    "document_types": ["preauth_form", "clinical_notes"],
-    "gemini_description": "Chronic illness history: Asthma/COPD/Bronchitis — Since month/year",
+    "aliases": [
+      "Asthma",
+      "COPD",
+      "Bronchitis",
+      "Respiratory Disease",
+      "Asthma/COPD/Bronchitis"
+    ],
+    "document_types": [
+      "preauth_form",
+      "clinical_notes"
+    ],
+    "gemini_description": "Chronic illness history: Asthma/COPD/Bronchitis \u00e2\u20ac\u201d Since month/year",
     "group": "chronic_illness"
   },
   "past_history_cancer": {
-    "aliases": ["Cancer", "Malignancy", "Tumor", "Carcinoma", "Neoplasm"],
-    "document_types": ["preauth_form", "clinical_notes"],
-    "gemini_description": "Chronic illness history: Cancer — Since month/year",
+    "aliases": [
+      "Cancer",
+      "Malignancy",
+      "Tumor",
+      "Carcinoma",
+      "Neoplasm"
+    ],
+    "document_types": [
+      "preauth_form",
+      "clinical_notes"
+    ],
+    "gemini_description": "Chronic illness history: Cancer \u00e2\u20ac\u201d Since month/year",
     "group": "chronic_illness"
   },
   "past_history_alcohol_drug_abuse": {
-    "aliases": ["Alcohol Abuse", "Drug Abuse", "Substance Abuse History", "Addiction"],
-    "document_types": ["preauth_form", "clinical_notes"],
-    "gemini_description": "Chronic illness history: Alcohol/Drug Abuse — Since month/year",
+    "aliases": [
+      "Alcohol Abuse",
+      "Drug Abuse",
+      "Substance Abuse History",
+      "Addiction"
+    ],
+    "document_types": [
+      "preauth_form",
+      "clinical_notes"
+    ],
+    "gemini_description": "Chronic illness history: Alcohol/Drug Abuse \u00e2\u20ac\u201d Since month/year",
     "group": "chronic_illness"
   },
   "past_history_hiv_std_ailment": {
-    "aliases": ["HIV", "STD", "AIDS", "Sexually Transmitted Disease", "HIV/STD"],
-    "document_types": ["preauth_form", "clinical_notes"],
-    "gemini_description": "Chronic illness history: HIV/STD related ailment — Since month/year",
+    "aliases": [
+      "HIV",
+      "STD",
+      "AIDS",
+      "Sexually Transmitted Disease",
+      "HIV/STD"
+    ],
+    "document_types": [
+      "preauth_form",
+      "clinical_notes"
+    ],
+    "gemini_description": "Chronic illness history: HIV/STD related ailment \u00e2\u20ac\u201d Since month/year",
     "group": "chronic_illness"
   },
   "past_history_other_ailment_details": {
-    "aliases": ["Other Ailment", "Other Chronic Illness", "Other Disease Details"],
-    "document_types": ["preauth_form", "clinical_notes"],
+    "aliases": [
+      "Other Ailment",
+      "Other Chronic Illness",
+      "Other Disease Details"
+    ],
+    "document_types": [
+      "preauth_form",
+      "clinical_notes"
+    ],
     "gemini_description": "Any other chronic ailment details",
     "group": "chronic_illness"
   },
   "expected_days_in_hospital": {
     "aliases": [
-      "Expected Hospital Days", "Expected Stay", "Expected Duration",
-      "Expected number of Days stay in hospital", "Hospital Stay Days",
-      "Expected Length of Stay", "LOS"
+      "Expected Hospital Days",
+      "Expected Stay",
+      "Expected Duration",
+      "Expected number of Days stay in hospital",
+      "Hospital Stay Days",
+      "Expected Length of Stay",
+      "LOS"
     ],
-    "document_types": ["preauth_form", "estimate"],
+    "document_types": [
+      "preauth_form",
+      "estimate"
+    ],
     "gemini_description": "Expected number of days of hospital stay"
   },
   "days_in_icu": {
     "aliases": [
-      "ICU Days", "Days in ICU", "ICU Stay", "ICU Duration",
+      "ICU Days",
+      "Days in ICU",
+      "ICU Stay",
+      "ICU Duration",
       "Expected ICU Days"
     ],
-    "document_types": ["preauth_form", "estimate"],
+    "document_types": [
+      "preauth_form",
+      "estimate"
+    ],
     "gemini_description": "Expected number of days in ICU"
   },
   "room_type": {
     "aliases": [
-      "Room Type", "Type of Room", "Ward Type", "Accommodation Type",
-      "Room Category"
+      "Type of Room",
+      "Ward Type",
+      "Room Category",
+      "Room Type",
+      "Accommodation Type"
     ],
-    "document_types": ["preauth_form", "estimate"],
+    "document_types": [
+      "preauth_form",
+      "estimate"
+    ],
     "gemini_description": "Type of room (General Ward, Semi-Private, Private, etc.)"
   },
   "per_day_room_rent_nursing_service_charges_patient_diet": {
     "aliases": [
-      "Room Rent", "Per Day Room Rent", "Room Charges", "Nursing Charges",
-      "Room Rent + Nursing + Diet", "Per day room rent nursing service charges patient diet",
-      "Room and Board", "Bed Charges"
+      "Room Rent",
+      "Per Day Room Rent",
+      "Room Charges",
+      "Nursing Charges",
+      "Room Rent + Nursing + Diet",
+      "Per day room rent nursing service charges patient diet",
+      "Room and Board",
+      "Bed Charges"
     ],
-    "document_types": ["preauth_form", "estimate"],
+    "document_types": [
+      "preauth_form",
+      "estimate"
+    ],
     "gemini_description": "Per day room rent + nursing service charges + patient diet (INR)"
   },
   "expected_cost_investigation_diagnostic": {
     "aliases": [
-      "Investigation Cost", "Diagnostic Cost", "Lab Charges",
-      "Expected cost of investigation diagnostic", "Test Charges",
+      "Investigation Cost",
+      "Diagnostic Cost",
+      "Lab Charges",
+      "Expected cost of investigation diagnostic",
+      "Test Charges",
       "Investigation Charges"
     ],
-    "document_types": ["preauth_form", "estimate"],
+    "document_types": [
+      "preauth_form",
+      "estimate"
+    ],
     "gemini_description": "Expected cost of investigation and diagnostic procedures (INR)"
   },
   "icu_charges": {
     "aliases": [
-      "ICU Charges", "ICU Cost", "Intensive Care Charges",
-      "ICU Room Charges", "Critical Care Charges"
+      "ICU Charges",
+      "ICU Cost",
+      "Intensive Care Charges",
+      "ICU Room Charges",
+      "Critical Care Charges"
     ],
-    "document_types": ["preauth_form", "estimate"],
+    "document_types": [
+      "preauth_form",
+      "estimate"
+    ],
     "gemini_description": "ICU charges (INR)"
   },
   "ot_charges": {
     "aliases": [
-      "OT Charges", "Operation Theatre Charges", "OT Cost",
-      "Theatre Charges", "Surgical Room Charges"
+      "OT Charges",
+      "Operation Theatre Charges",
+      "OT Cost",
+      "Theatre Charges",
+      "Surgical Room Charges"
     ],
-    "document_types": ["preauth_form", "estimate"],
+    "document_types": [
+      "preauth_form",
+      "estimate"
+    ],
     "gemini_description": "Operation Theatre charges (INR)"
   },
   "professional_fees_surgeon_anesthetist_consultation": {
     "aliases": [
-      "Professional Fees", "Surgeon Fees", "Anesthetist Fees",
-      "Consultation Charges", "Doctor Fees", "Surgeon + Anesthetist + Consultation",
+      "Professional Fees",
+      "Surgeon Fees",
+      "Anesthetist Fees",
+      "Consultation Charges",
+      "Doctor Fees",
+      "Surgeon + Anesthetist + Consultation",
       "Professional fees Surgeon Anesthetist consultation"
     ],
-    "document_types": ["preauth_form", "estimate"],
+    "document_types": [
+      "preauth_form",
+      "estimate"
+    ],
     "gemini_description": "Professional fees: Surgeon + Anesthetist + Consultation (INR)"
   },
   "medicines_consumables_cost_of_implants": {
     "aliases": [
-      "Medicine Cost", "Consumables", "Implant Cost", "Drug Cost",
-      "Medicines + Consumables + Implants", "Pharmacy Charges",
+      "Medicine Cost",
+      "Consumables",
+      "Implant Cost",
+      "Drug Cost",
+      "Medicines + Consumables + Implants",
+      "Pharmacy Charges",
       "Medicines consumables cost of implants"
     ],
-    "document_types": ["preauth_form", "estimate"],
+    "document_types": [
+      "preauth_form",
+      "estimate"
+    ],
     "gemini_description": "Medicines + Consumables + Cost of Implants (INR)"
   },
   "other_hospital_expenses": {
     "aliases": [
-      "Other Expenses", "Other Hospital Charges", "Miscellaneous Charges",
-      "Other Charges", "Other hospital expenses"
+      "Other Expenses",
+      "Other Hospital Charges",
+      "Miscellaneous Charges",
+      "Other Charges",
+      "Other hospital expenses"
     ],
-    "document_types": ["preauth_form", "estimate"],
+    "document_types": [
+      "preauth_form",
+      "estimate"
+    ],
     "gemini_description": "Other hospital expenses if any (INR)"
   },
   "all_inclusive_package_charges": {
     "aliases": [
-      "Package Charges", "All Inclusive Package", "Package Rate",
-      "Package Cost", "All-inclusive package charges"
+      "Package Charges",
+      "All Inclusive Package",
+      "Package Rate",
+      "Package Cost",
+      "All-inclusive package charges"
     ],
-    "document_types": ["preauth_form", "estimate"],
+    "document_types": [
+      "preauth_form",
+      "estimate"
+    ],
     "gemini_description": "All-inclusive package charges if applicable (INR)"
   },
   "sum_total_expected_cost_of_hospitalization": {
     "aliases": [
-      "Total Cost", "Total Expected Cost", "Total Hospitalization Cost",
-      "Grand Total", "Sum Total", "Total Estimate",
-      "Sum total expected cost of hospitalization", "Estimated Total"
+      "Total Cost",
+      "Total Expected Cost",
+      "Total Hospitalization Cost",
+      "Grand Total",
+      "Sum Total",
+      "Total Estimate",
+      "Sum total expected cost of hospitalization",
+      "Estimated Total"
     ],
-    "document_types": ["preauth_form", "estimate"],
+    "document_types": [
+      "preauth_form",
+      "estimate"
+    ],
     "gemini_description": "Sum total expected cost of hospitalization (INR)"
   },
   "declaration_treating_doctor_name": {
     "aliases": [
-      "Declaration Doctor Name", "Treating Doctor Declaration Name",
-      "Doctor Name Declaration", "Name of the treating doctor"
+      "Declaration Doctor Name",
+      "Treating Doctor Declaration Name",
+      "Doctor Name Declaration",
+      "Name of the treating doctor"
     ],
-    "document_types": ["preauth_form"],
+    "document_types": [
+      "preauth_form"
+    ],
     "gemini_description": "Name of the treating doctor in the declaration section"
   },
   "declaration_treating_doctor_qualification": {
     "aliases": [
-      "Doctor Qualification", "Treating Doctor Qualification",
-      "Qualification", "Doctor Degree", "Medical Qualification"
+      "Doctor Qualification",
+      "Treating Doctor Qualification",
+      "Qualification",
+      "Doctor Degree",
+      "Medical Qualification"
     ],
-    "document_types": ["preauth_form"],
+    "document_types": [
+      "preauth_form"
+    ],
     "gemini_description": "Qualification of the treating doctor (MBBS, MD, etc.)"
   },
   "declaration_treating_doctor_registration_number": {
     "aliases": [
-      "Registration Number", "Doctor Registration", "Medical Registration",
-      "State Registration Number", "MCI Registration", "Doctor Reg No",
+      "Registration Number",
+      "Doctor Registration",
+      "Medical Registration",
+      "State Registration Number",
+      "MCI Registration",
+      "Doctor Reg No",
       "Registration number with State code"
     ],
-    "document_types": ["preauth_form"],
+    "document_types": [
+      "preauth_form"
+    ],
     "gemini_description": "Doctor's registration number with state code"
   },
   "patient_representative_name": {
     "aliases": [
-      "Representative Name", "Patient Representative", "Insured Name Sign",
-      "Patient's / Insured's Name", "Patient Name Declaration"
+      "Representative Name",
+      "Patient Representative",
+      "Insured Name Sign",
+      "Patient's / Insured's Name",
+      "Patient Name Declaration"
     ],
-    "document_types": ["preauth_form"],
+    "document_types": [
+      "preauth_form"
+    ],
     "gemini_description": "Name of the patient or their representative (declaration section)"
   },
   "patient_representative_contact_number": {
     "aliases": [
-      "Representative Contact", "Declaration Contact Number",
-      "Patient Declaration Contact", "Contact number (declaration)"
+      "Representative Contact",
+      "Declaration Contact Number",
+      "Patient Declaration Contact",
+      "Contact number (declaration)"
     ],
-    "document_types": ["preauth_form"],
+    "document_types": [
+      "preauth_form"
+    ],
     "gemini_description": "Contact number in the patient declaration section"
   },
   "patient_representative_email_id": {
     "aliases": [
-      "Email", "Email ID", "E-mail", "Patient Email",
-      "e-mail Id", "Email Address", "Representative Email"
+      "Email",
+      "Email ID",
+      "E-mail",
+      "Patient Email",
+      "e-mail Id",
+      "Email Address",
+      "Representative Email"
     ],
-    "document_types": ["preauth_form"],
+    "document_types": [
+      "preauth_form"
+    ],
     "gemini_description": "Email ID in the patient declaration section"
   },
   "patient_representative_date": {
     "aliases": [
-      "Declaration Date", "Patient Declaration Date", "Signature Date",
+      "Declaration Date",
+      "Patient Declaration Date",
+      "Signature Date",
       "Date of Declaration"
     ],
-    "document_types": ["preauth_form"],
+    "document_types": [
+      "preauth_form"
+    ],
     "gemini_description": "Date in the patient/representative declaration (DD/MM/YYYY)"
   },
   "patient_representative_time": {
     "aliases": [
-      "Declaration Time", "Patient Declaration Time", "Signature Time",
+      "Declaration Time",
+      "Patient Declaration Time",
+      "Signature Time",
       "Time of Declaration"
     ],
-    "document_types": ["preauth_form"],
+    "document_types": [
+      "preauth_form"
+    ],
     "gemini_description": "Time in the patient/representative declaration (HH:MM)"
   },
   "hospital_declaration_date": {
     "aliases": [
-      "Hospital Declaration Date", "Hospital Date", "Hospital Seal Date",
+      "Hospital Declaration Date",
+      "Hospital Date",
+      "Hospital Seal Date",
       "Date (Hospital Section)"
     ],
-    "document_types": ["preauth_form"],
+    "document_types": [
+      "preauth_form"
+    ],
     "gemini_description": "Date in the hospital declaration section (DD/MM/YYYY)"
   },
   "hospital_declaration_time": {
     "aliases": [
-      "Hospital Declaration Time", "Hospital Time", "Hospital Seal Time",
+      "Hospital Declaration Time",
+      "Hospital Time",
+      "Hospital Seal Time",
       "Time (Hospital Section)"
     ],
-    "document_types": ["preauth_form"],
+    "document_types": [
+      "preauth_form"
+    ],
     "gemini_description": "Time in the hospital declaration section (HH:MM)"
+  },
+  "provider_hospital_name": {
+    "aliases": [
+      "Hospital Name",
+      "Name of Hospital",
+      "Hospital/Nursing Home Name"
+    ],
+    "gemini_description": "Hospital or nursing home name"
+  },
+  "provider_city_name": {
+    "aliases": [
+      "City Name",
+      "City",
+      "Hospital City"
+    ],
+    "gemini_description": "City of the hospital"
+  },
+  "provider_pin_code": {
+    "aliases": [
+      "Pin Code",
+      "PIN",
+      "Pincode",
+      "Postal Code"
+    ],
+    "gemini_description": "Hospital PIN code"
+  },
+  "provider_state_name": {
+    "aliases": [
+      "State Name",
+      "State",
+      "Hospital State"
+    ],
+    "gemini_description": "State of the hospital"
+  },
+  "provider_hosp_id": {
+    "aliases": [
+      "Hosp Id",
+      "Hospital ID",
+      "Rohini ID",
+      "ROHINI Id",
+      "Hospital Registration ID"
+    ],
+    "gemini_description": "Hospital registration ID"
+  },
+  "provider_contact_no": {
+    "aliases": [
+      "Hospital Contact No",
+      "Hospital Phone",
+      "Hospital Contact Number"
+    ],
+    "gemini_description": "Hospital contact number"
+  },
+  "provider_email_id": {
+    "aliases": [
+      "Hospital Email",
+      "Email id",
+      "Hospital Email ID"
+    ],
+    "gemini_description": "Hospital email"
+  },
+  "patient_dob": {
+    "aliases": [
+      "Date of Birth",
+      "DOB",
+      "D.O.B",
+      "Birth Date",
+      "Born On"
+    ],
+    "gemini_description": "Patient date of birth"
+  },
+  "patient_age_years": {
+    "aliases": [
+      "Age Years",
+      "Age",
+      "Patient Age"
+    ],
+    "gemini_description": "Patient age in years"
+  },
+  "patient_age_months": {
+    "aliases": [
+      "Age Months"
+    ],
+    "gemini_description": "Patient age in months"
+  },
+  "patient_attendant_name": {
+    "aliases": [
+      "Attendant Name",
+      "Name of Attendant",
+      "Name of the Attendant",
+      "Relative Name"
+    ],
+    "gemini_description": "Name of the attending relative"
+  },
+  "patient_attendant_contact_no": {
+    "aliases": [
+      "Attendant Contact",
+      "Relative Contact"
+    ],
+    "gemini_description": "Attendant contact number"
+  },
+  "patient_contact_no": {
+    "aliases": [
+      "Patient Contact",
+      "Contact number",
+      "Patient Phone",
+      "Contact Number"
+    ],
+    "gemini_description": "Patient contact number"
+  },
+  "patient_insured_card_id": {
+    "aliases": [
+      "Insured Card ID",
+      "Card ID",
+      "Insurance Card Number",
+      "Health Card Number",
+      "Card Number"
+    ],
+    "gemini_description": "Insurance card ID"
+  },
+  "patient_policy_corporate_name": {
+    "aliases": [
+      "Policy Number",
+      "Policy number",
+      "Corporate Name",
+      "Name of Corporate",
+      "Policy number/Name of Corporate"
+    ],
+    "gemini_description": "Policy number or corporate name"
+  },
+  "patient_employee_id": {
+    "aliases": [
+      "Employee ID",
+      "Emp ID"
+    ],
+    "gemini_description": "Employee ID"
+  },
+  "patient_gender_male": {
+    "aliases": [
+      "Male"
+    ],
+    "gemini_description": "Male gender checkbox"
+  },
+  "patient_gender_female": {
+    "aliases": [
+      "Female"
+    ],
+    "gemini_description": "Female gender checkbox"
+  },
+  "doctor_name": {
+    "aliases": [
+      "Doctor Name",
+      "Treating Doctor",
+      "Name of treating doctor",
+      "Admitting Doctor",
+      "Treating Doctor Name"
+    ],
+    "gemini_description": "Name of treating doctor"
+  },
+  "doctor_contact_no": {
+    "aliases": [
+      "Doctor Contact",
+      "Doctor Phone"
+    ],
+    "gemini_description": "Doctor contact number"
+  },
+  "doctor_illness_nature": {
+    "aliases": [
+      "Nature of Illness",
+      "Chief Complaint",
+      "Presenting Complaints",
+      "Nature of illness/Disease"
+    ],
+    "gemini_description": "Nature of illness with presenting complaints"
+  },
+  "doctor_clinical_findings": {
+    "aliases": [
+      "Clinical Findings",
+      "Relevant Clinical Findings",
+      "System Examination"
+    ],
+    "gemini_description": "Relevant clinical findings"
+  },
+  "doctor_provisional_diagnosis": {
+    "aliases": [
+      "Diagnosis",
+      "Provisional Diagnosis",
+      "Provisional diagnosis"
+    ],
+    "gemini_description": "Provisional diagnosis"
+  },
+  "doctor_icd10_code": {
+    "aliases": [
+      "ICD 10 Code",
+      "ICD10 Code",
+      "ICD-10"
+    ],
+    "gemini_description": "ICD-10 diagnosis code"
+  },
+  "doctor_surgery_name": {
+    "aliases": [
+      "Surgery Name",
+      "Name of Surgery",
+      "Procedure Name"
+    ],
+    "gemini_description": "Name of surgery"
+  },
+  "doctor_past_ailment_history": {
+    "aliases": [
+      "Past Medical History",
+      "Past History",
+      "Medical History"
+    ],
+    "gemini_description": "Past history of present ailment"
+  },
+  "expected_stay_days": {
+    "aliases": [
+      "Expected Days",
+      "Expected number of Days",
+      "Expected Stay",
+      "Days in Hospital"
+    ],
+    "gemini_description": "Expected days of hospital stay"
+  },
+  "cost_room_nursing_diet": {
+    "aliases": [
+      "Room Rent",
+      "Room Charges",
+      "Room Rent/Nursing/Diet"
+    ],
+    "gemini_description": "Room rent and nursing charges"
+  },
+  "cost_all_inclusive_package": {
+    "aliases": [
+      "Package Charges",
+      "Package Cost",
+      "All Inclusive Package"
+    ],
+    "gemini_description": "All inclusive package charges"
+  },
+  "cost_total_expected_hospitalization": {
+    "aliases": [
+      "Total Estimate",
+      "Total Cost",
+      "Total Expected Cost",
+      "Sum Total"
+    ],
+    "gemini_description": "Total expected cost of hospitalization"
+  },
+  "cost_ot_charges": {
+    "aliases": [
+      "OT Charges",
+      "Operation Theatre Charges"
+    ],
+    "gemini_description": "Operation theatre charges"
+  },
+  "cost_medicines_consumables_implants": {
+    "aliases": [
+      "Medicines Cost",
+      "Medicine Charges",
+      "Consumables"
+    ],
+    "gemini_description": "Cost of medicines and consumables"
+  },
+  "hospital_name": {
+    "aliases": [
+      "Hospital Name",
+      "Name of Hospital"
+    ],
+    "gemini_description": "Name of hospital"
+  },
+  "hospital_address": {
+    "aliases": [
+      "Hospital Address",
+      "Address"
+    ],
+    "gemini_description": "Hospital address"
+  },
+  "hospital_rohini_id": {
+    "aliases": [
+      "Rohini ID",
+      "ROHINI Id",
+      "Hospital ID"
+    ],
+    "gemini_description": "Hospital Rohini ID"
+  },
+  "hospital_email_id": {
+    "aliases": [
+      "Hospital Email",
+      "e-mail ID"
+    ],
+    "gemini_description": "Hospital email ID"
+  },
+  "expected_days_stay_hospital": {
+    "aliases": [
+      "Expected Days",
+      "Expected number of Days",
+      "Expected Stay"
+    ],
+    "gemini_description": "Expected days of hospital stay"
+  },
+  "sum_total_expected_cost_hospitalization": {
+    "aliases": [
+      "Total Estimate",
+      "Total Cost",
+      "Sum Total Expected Cost"
+    ],
+    "gemini_description": "Sum total expected cost"
   }
 }
