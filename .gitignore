@@ -3,3 +3,13 @@
 __pycache__/
 output/
 uploads/
+sessions/
+*.log
+.pytest_cache/
+.vscode/
+
+# Optional: keep raw analysis outputs local
+analyzed/*_gemini_raw.json
+/*.pdf
+
+*.pyc
