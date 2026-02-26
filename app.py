@@ -51,9 +51,11 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent
 UPLOADS_DIR = BASE_DIR / "uploads"
 OUTPUT_DIR = BASE_DIR / "output"
+SESSIONS_DIR = BASE_DIR / "sessions"
 
 UPLOADS_DIR.mkdir(exist_ok=True)
 OUTPUT_DIR.mkdir(exist_ok=True)
+SESSIONS_DIR.mkdir(exist_ok=True)
 
 JWT_SECRET = os.getenv("JWT_SECRET", "dev-secret-change-in-production")
 JWT_ALGORITHM = "HS256"
@@ -93,12 +95,102 @@ _ocr_results: dict[str, dict] = {}     # result_id -> {file, type, data}
 _sessions: dict[str, dict] = {}        # session_id -> full workflow state
 
 
+def _save_session(session_id: str):
+    """Persist session to disk so it survives server reloads."""
+    if session_id in _sessions:
+        path = SESSIONS_DIR / f"{session_id}.json"
+        with open(path, "w") as f:
+            json.dump(_sessions[session_id], f)
+
+
+def _load_session(session_id: str) -> dict | None:
+    """Load session from disk if not in memory."""
+    if session_id in _sessions:
+        return _sessions[session_id]
+    path = SESSIONS_DIR / f"{session_id}.json"
+    if path.exists():
+        with open(path) as f:
+            data = json.load(f)
+        _sessions[session_id] = data
+        return data
+    return None
+
+
 # ---------------------------------------------------------------------------
 # TPA template auto-detection map
 # ---------------------------------------------------------------------------
+
+# Hospital details — hardcoded for Amrita Hospital
+HOSPITAL_INFO = {
+    # All possible field_id variations across schemas
+    "hospital_name": "Amrita Hospital",
+    "provider_hospital_name": "Amrita Hospital",
+    "hospital_address": "Sector 88, Faridabad, Haryana",
+    "provider_address": "Sector 88, Faridabad, Haryana",
+    "hospital_state": "Haryana",
+    "provider_state_name": "Haryana",
+    "hospital_city": "Faridabad",
+    "provider_city_name": "Faridabad",
+    "hospital_pin_code": "121002",
+    "provider_pin_code": "121002",
+    "hospital_rohini_id": "8900080528185",
+    "provider_hosp_id": "8900080528185",
+}
+
+
+def inject_hospital_data(mapped_data: dict, schema_fields: list[str]) -> dict:
+    """Inject hardcoded hospital info into mapped data for fields that exist in the schema."""
+    for field_id, value in HOSPITAL_INFO.items():
+        if field_id in schema_fields:
+            mapped_data[field_id] = value
+    return mapped_data
+
+
+def calculate_age_from_dob(mapped_data: dict) -> dict:
+    """
+    If any DOB field is present, calculate age in years and months
+    and populate ALL age field variants (Ericson + Bajaj + Heritage).
+    """
+    # Try all possible DOB field names
+    dob_str = ""
+    for dob_key in ["date_of_birth", "patient_dob", "dob"]:
+        dob_str = mapped_data.get(dob_key, "") or ""
+        if dob_str:
+            break
+    if not dob_str:
+        return mapped_data
+
+    from dateutil import parser as dateparser
+    try:
+        dob = dateparser.parse(dob_str, dayfirst=True)
+        today = datetime.utcnow()
+        years = today.year - dob.year
+        months = today.month - dob.month
+        if today.day < dob.day:
+            months -= 1
+        if months < 0:
+            years -= 1
+            months += 12
+        # Ericson field names
+        mapped_data["age_years_duration"] = str(years)
+        mapped_data["age_months_duration"] = str(months)
+        # Bajaj field names
+        mapped_data["patient_age_years"] = str(years)
+        mapped_data["patient_age_months"] = str(months)
+        # Generic
+        mapped_data["patient_age"] = str(years)
+        logger.info("Calculated age: %d years %d months from DOB %s", years, months, dob_str)
+    except Exception as e:
+        logger.warning("Could not parse DOB '%s': %s", dob_str, e)
+    return mapped_data
+
+
 TPA_TEMPLATE_MAP = {
     "ericson": "Ericson TPA Preauth.pdf",
     "bajaj allianz": "BAJAJ ALLIANZ TPA PREAUTH FORM.pdf",
+    "bajaj": "BAJAJ ALLIANZ TPA PREAUTH FORM.pdf",
+    "bajaj general": "BAJAJ ALLIANZ TPA PREAUTH FORM.pdf",
+    "bajaj general insurance": "BAJAJ ALLIANZ TPA PREAUTH FORM.pdf",
     "care health": "Care Health  PRE AUTH.pdf",
     "chola ms": "Chola-MS-Pre-Authorisation-Form.pdf",
     "cholamandalam": "Chola-MS-Pre-Authorisation-Form.pdf",
@@ -628,13 +720,56 @@ async def workflow_start(
         schema_path = (BASE_DIR / "analyzed" / target_schema) if target_schema else None
 
     if schema_path and schema_path.exists():
+        from rapidfuzz import fuzz as rfuzz
         with open(schema_path) as f:
             schema = json.load(f)
         schema_fields = [field["field_id"] for field in schema["fields"]]
+
+        # Pass 1: mapping engine (aliases + fuzzy against field_mapping keys)
         mapped_data = mapping_engine.map_ocr_to_schema(all_extracted, schema_fields)
         mapped_data = mapping_engine.handle_gender(mapped_data)
 
-    # Store session
+        # Pass 2: label-based matching for schema-specific field IDs
+        claimed = set(mapped_data.keys())
+        used_ocr = set()
+        for ocr_key, val in all_extracted.items():
+            for fid, fval in mapped_data.items():
+                if str(fval) == str(val):
+                    used_ocr.add(ocr_key)
+                    break
+
+        label_candidates = {}
+        for fd in schema["fields"]:
+            fid = fd["field_id"]
+            if fid in claimed:
+                continue
+            label_candidates[fd["label"].lower().strip()] = fid
+            label_candidates[fid.replace("_", " ")] = fid
+
+        remaining = {k: v for k, v in all_extracted.items() if k not in used_ocr}
+        for ocr_key, value in remaining.items():
+            key_norm = ocr_key.lower().strip()
+            if key_norm in label_candidates:
+                fid = label_candidates[key_norm]
+                if fid not in claimed:
+                    mapped_data[fid] = value
+                    claimed.add(fid)
+                    continue
+            best_score, best_fid = 0, None
+            for label, fid in label_candidates.items():
+                if fid in claimed:
+                    continue
+                score = rfuzz.token_sort_ratio(key_norm, label)
+                if score > best_score:
+                    best_score, best_fid = score, fid
+            if best_score >= 65 and best_fid:
+                mapped_data[best_fid] = value
+                claimed.add(best_fid)
+
+        mapped_data = inject_hospital_data(mapped_data, schema_fields)
+        mapped_data = calculate_age_from_dob(mapped_data)
+
+    # Store session (persist to disk so it survives server reloads)
     _sessions[session_id] = {
         "session_id": session_id,
         "uploaded_files": uploaded,
@@ -645,6 +780,7 @@ async def workflow_start(
         "status": "extracted",
         "created": datetime.utcnow().isoformat(),
     }
+    _save_session(session_id)
 
     return ok({
         "session_id": session_id,
@@ -660,9 +796,10 @@ async def workflow_start(
 @app.get("/workflow/{session_id}")
 def workflow_get(session_id: str):
     """Get current workflow session state."""
-    if session_id not in _sessions:
+    session = _load_session(session_id)
+    if not session:
         err(f"Session {session_id} not found", 404)
-    return ok(_sessions[session_id])
+    return ok(session)
 
 
 @app.post("/workflow/{session_id}/remap")
@@ -673,10 +810,10 @@ def workflow_remap(session_id: str, schema_name: str = Form(...)):
     """
     from rapidfuzz import fuzz as rfuzz
 
-    if session_id not in _sessions:
+    session = _load_session(session_id)
+    if not session:
         err(f"Session {session_id} not found", 404)
 
-    session = _sessions[session_id]
     raw_ocr = session.get("raw_ocr_merged", {})
 
     schema_path = BASE_DIR / "analyzed" / schema_name
@@ -691,6 +828,8 @@ def workflow_remap(session_id: str, schema_name: str = Form(...)):
     # Pass 1: standard mapping engine (aliases + fuzzy against field_mapping keys)
     mapped = mapping_engine.map_ocr_to_schema(raw_ocr, schema_fields)
     mapped = mapping_engine.handle_gender(mapped)
+    mapped = inject_hospital_data(mapped, schema_fields)
+    mapped = calculate_age_from_dob(mapped)
 
     claimed = set(mapped.keys())
     used_ocr = set()
@@ -745,6 +884,7 @@ def workflow_remap(session_id: str, schema_name: str = Form(...)):
     session["selected_schema"] = schema_name
     session["selected_template"] = template_name
     session["status"] = "mapped"
+    _save_session(session_id)
 
     return ok({
         "mapped_data": mapped,
@@ -761,11 +901,13 @@ def workflow_update_data(session_id: str, data: dict):
     Step 2: Staff edits/verifies master form data.
     Receives the full corrected field data dict from the frontend.
     """
-    if session_id not in _sessions:
+    session = _load_session(session_id)
+    if not session:
         err(f"Session {session_id} not found", 404)
-    _sessions[session_id]["mapped_data"] = data
-    _sessions[session_id]["status"] = "verified"
-    _sessions[session_id]["verified_at"] = datetime.utcnow().isoformat()
+    session["mapped_data"] = data
+    session["status"] = "verified"
+    session["verified_at"] = datetime.utcnow().isoformat()
+    _save_session(session_id)
     return ok({"session_id": session_id, "status": "verified", "fields": len(data)})
 
 
@@ -779,10 +921,10 @@ def workflow_generate(
     Step 3: Generate the final populated TPA PDF from verified data.
     Uses template/schema from the form submission, or falls back to session-stored values.
     """
-    if session_id not in _sessions:
+    session = _load_session(session_id)
+    if not session:
         err(f"Session {session_id} not found", 404)
 
-    session = _sessions[session_id]
     data = session.get("mapped_data", {})
     if not data:
         err("No data to populate — run OCR and verify first", 400)
@@ -833,6 +975,7 @@ def workflow_generate(
     _populated_forms[form_id] = form_info
     session["form_id"] = form_id
     session["status"] = "generated"
+    _save_session(session_id)
 
     return ok({
         "form_id": form_id,
@@ -874,8 +1017,9 @@ def workflow_schema_fields(
 
     # Also include the session's current mapped data
     session_data = {}
-    if session_id in _sessions:
-        session_data = _sessions[session_id].get("mapped_data", {})
+    session = _load_session(session_id)
+    if session:
+        session_data = session.get("mapped_data", {})
 
     return ok({
         "fields": fields,
