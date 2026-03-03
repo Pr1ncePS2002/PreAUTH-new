@@ -166,7 +166,10 @@
       "Patient Contact",
       "Patient Mobile",
       "Cell Number",
-      "Ph No"
+      "Ph No",
+      "Home Phone",
+      "Telephone",
+      "Tel No"
     ],
     "document_types": [
       "preauth_form",
@@ -383,7 +386,9 @@
       "Treating Physician",
       "Attending Doctor",
       "Consultant Name",
-      "Name of the treating Doctor"
+      "Name of the treating Doctor",
+      "Admitting Doctor",
+      "Admitting Physician"
     ],
     "document_types": [
       "preauth_form",
@@ -415,7 +420,11 @@
       "Presenting Complaint",
       "Diagnosis",
       "Nature of Illness/Disease with presenting complaint",
-      "Nature of illness complaint"
+      "Nature of illness complaint",
+      "History of Present Illness",
+      "Present Illness",
+      "Provisional Diagnosis",
+      "Reason for Admission"
     ],
     "document_types": [
       "preauth_form",
@@ -431,7 +440,11 @@
       "Clinical Findings",
       "Key Findings",
       "Investigation Findings",
-      "Relevant Critical Findings"
+      "Relevant Critical Findings",
+      "Vital Signs",
+      "General Examination",
+      "System Examination",
+      "Physical Examination"
     ],
     "document_types": [
       "preauth_form",
@@ -996,7 +1009,11 @@
       "Expected number of Days stay in hospital",
       "Hospital Stay Days",
       "Expected Length of Stay",
-      "LOS"
+      "LOS",
+      "Duration of Stay",
+      "Duration of Hospitalization",
+      "Hospital Stay Duration",
+      "Length of Stay"
     ],
     "document_types": [
       "preauth_form",
@@ -1024,7 +1041,10 @@
       "Ward Type",
       "Room Category",
       "Room Type",
-      "Accommodation Type"
+      "Accommodation Type",
+      "Bed Type",
+      "Type of Bed",
+      "Bed Category"
     ],
     "document_types": [
       "preauth_form",
@@ -1600,8 +1620,151 @@
     "aliases": [
       "Total Estimate",
       "Total Cost",
-      "Sum Total Expected Cost"
+      "Sum Total Expected Cost",
+      "Estimation",
+      "Estimate Amount",
+      "Total Estimation",
+      "Total Expected Cost"
     ],
     "gemini_description": "Sum total expected cost"
+  },
+  "patient_age": {
+    "aliases": [
+      "Age",
+      "Patient Age",
+      "Age of Patient",
+      "Age (Years)",
+      "Age in Years",
+      "Pt. Age"
+    ],
+    "document_types": [
+      "aadhaar",
+      "policy_card",
+      "clinical_notes",
+      "preauth_form"
+    ],
+    "gemini_description": "Age of the patient in years"
+  },
+  "sum_insured": {
+    "aliases": [
+      "Sum Insured",
+      "Insured Amount",
+      "Coverage Amount",
+      "SI Amount",
+      "Sum Assured",
+      "Policy Sum Insured",
+      "Amount Insured"
+    ],
+    "document_types": [
+      "policy_card",
+      "preauth_form"
+    ],
+    "gemini_description": "Total sum insured under the policy"
+  },
+  "plan_type": {
+    "aliases": [
+      "Plan Type",
+      "Policy Type",
+      "Policy Plan",
+      "Plan Name",
+      "Type of Plan",
+      "Insurance Plan",
+      "Scheme Type"
+    ],
+    "document_types": [
+      "policy_card",
+      "preauth_form"
+    ],
+    "gemini_description": "Type or name of the insurance plan/scheme"
+  },
+  "mrd_number": {
+    "aliases": [
+      "MRD No",
+      "MRD Number",
+      "Medical Record Number",
+      "MR No",
+      "Patient MRD",
+      "Medical Record No"
+    ],
+    "document_types": [
+      "clinical_notes",
+      "discharge_summary",
+      "preauth_form"
+    ],
+    "gemini_description": "Medical Record Department number for the patient"
+  },
+  "nominee_name": {
+    "aliases": [
+      "Name Of the Nominee",
+      "Nominee Name",
+      "Name of Nominee",
+      "Nominee"
+    ],
+    "document_types": [
+      "policy_card"
+    ],
+    "gemini_description": "Name of the policy nominee"
+  },
+  "nominee_age": {
+    "aliases": [
+      "Age of the Nomine",
+      "Age of the Nominee",
+      "Nominee Age"
+    ],
+    "document_types": [
+      "policy_card"
+    ],
+    "gemini_description": "Age of the policy nominee"
+  },
+  "previous_policy_number": {
+    "aliases": [
+      "Prev. Policy",
+      "Previous Policy",
+      "Previous Policy Number",
+      "Prior Policy No"
+    ],
+    "document_types": [
+      "policy_card"
+    ],
+    "gemini_description": "Previous policy number (for renewal policies)"
+  },
+  "agent_broker_name": {
+    "aliases": [
+      "Agent/Broker",
+      "Agent Name",
+      "Broker Name",
+      "Intermediary"
+    ],
+    "document_types": [
+      "policy_card"
+    ],
+    "gemini_description": "Name of the insurance agent or broker"
+  },
+  "treating_doctor_speciality": {
+    "aliases": [
+      "Speciality",
+      "Specialty",
+      "Doctor Speciality",
+      "Doctor Specialty",
+      "Department"
+    ],
+    "document_types": [
+      "clinical_notes",
+      "preauth_form"
+    ],
+    "gemini_description": "Medical speciality / department of the treating doctor"
+  },
+  "policy_period_to": {
+    "aliases": [
+      "Period To",
+      "Policy To",
+      "Valid To",
+      "Policy End Date",
+      "Cover Till"
+    ],
+    "document_types": [
+      "policy_card"
+    ],
+    "gemini_description": "End date of the insurance policy coverage period"
   }
 }

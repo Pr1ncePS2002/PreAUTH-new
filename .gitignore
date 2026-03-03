@@ -8,6 +8,12 @@ sessions/
 .pytest_cache/
 .vscode/
 
+# Secrets / credentials — NEVER commit
+config/tpa-sepl-sa-key.json
+config/*-sa-key*.json
+*.json.key
+*.p12
+
 # Optional: keep raw analysis outputs local
 analyzed/*_gemini_raw.json
 /*.pdf

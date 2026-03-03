@@ -38,6 +38,21 @@ FIELD_MAPPING_PATH = BASE_DIR / "config" / "field_mapping.json"
 FUZZY_THRESHOLD = 70  # Minimum score for fuzzy match acceptance
 GEMINI_THRESHOLD = 0.8  # Minimum confidence for Gemini suggestions
 
+# OCR keys that are known noise / metadata and should be silently dropped.
+# These appear in raw Document AI / Gemini output but carry no mappable value.
+IGNORED_OCR_KEYS = {
+    # Document AI structural metadata
+    "generic_entities",
+    # Empty / whitespace-only keys (empty string is the normalised form)
+    "",
+    # Barcode / machine-readable zone artefacts on Indian ID cards
+    "SPAR", "GS1",
+    # Known OCR garble from policy card column headers
+    "ol Fax Email", "Te Fax Email",
+    # Hindi text fragments (address / birth from Aadhaar)
+    "जन्म",
+}
+
 
 # ---------------------------------------------------------------------------
 # Mapping Engine
@@ -121,7 +136,14 @@ class MappingEngine:
         # Track OCR keys that resolved to an already-claimed field (skip fuzzy for these)
         resolved_duplicate: set[str] = set()
 
-        for ocr_key, value in ocr_output.items():
+        # Pre-filter: silently discard keys that are known noise
+        filtered_output = {
+            k: v for k, v in ocr_output.items()
+            if k.strip() and k not in IGNORED_OCR_KEYS
+            and not (len(k) <= 2 and not k.isalpha())  # skip very short non-alpha keys (barcode fragments)
+        }
+
+        for ocr_key, value in filtered_output.items():
             field_id = self._resolve_key_exact(ocr_key, valid_fields)
             if field_id and field_id not in claimed_fields:
                 mapped_result[field_id] = value
@@ -137,6 +159,9 @@ class MappingEngine:
         # Second pass: fuzzy match remaining (excluding resolved duplicates)
         for ocr_key, value in pending:
             if ocr_key in resolved_duplicate:
+                continue
+            # Skip keys that are clearly OCR garbage (too short or contain only punctuation)
+            if len(ocr_key.strip()) < 2:
                 continue
             available = valid_fields - claimed_fields
             field_id = self._fuzzy_match(self._normalise(ocr_key), available)
@@ -392,17 +417,28 @@ Return ONLY a valid JSON object like:
     # ------------------------------------------------------------------
     # Gender convenience handler
     # ------------------------------------------------------------------
-    def handle_gender(self, mapped_data: dict) -> dict:
+    def handle_gender(self, mapped_data: dict, raw_ocr: dict = None) -> dict:
         """
         If mapped data contains a 'gender' value (e.g. from Aadhaar OCR),
         convert it to the appropriate checkbox field_ids for ALL schemas.
+
+        Also checks raw_ocr dict for gender keys that the mapping engine
+        may have left unmatched (e.g. bare "Gender": "Male").
         """
         gender_value = None
-        # Check multiple possible keys
+        # Check multiple possible keys in mapped_data first
         for key in ("gender", "sex", "Gender", "Sex"):
             if key in mapped_data:
                 gender_value = mapped_data.pop(key)
                 break
+
+        # Fallback: check raw OCR output (handles case where "Gender" was unmatched)
+        if gender_value is None and raw_ocr:
+            for key in ("gender", "sex", "Gender", "Sex",
+                        "Patient Gender", "patient_gender", "Patient Sex"):
+                if key in raw_ocr:
+                    gender_value = raw_ocr[key]
+                    break
 
         if gender_value:
             gender_lower = gender_value.strip().lower()

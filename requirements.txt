@@ -35,6 +35,6 @@ pyjwt>=2.11.0
 # HTTP client
 requests>=2.31.0
 
-# Document AI integration (optional, for production)
-# google-cloud-documentai==2.20.0
+# Document AI integration (for production extraction)
+google-cloud-documentai>=2.20.0
 # boto3==1.29.7  # for AWS Textract

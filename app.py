@@ -23,9 +23,12 @@ Run:
 
 import json
 import os
+import asyncio
 import uuid
 import logging
 import shutil
+import contextlib
+import threading
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional, List
@@ -61,16 +64,81 @@ JWT_SECRET = os.getenv("JWT_SECRET", "dev-secret-change-in-production")
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRY_HOURS = 8
 
+# PHI data retention — DPDP Act 2023 compliance
+DATA_RETENTION_HOURS = int(os.getenv("DATA_RETENTION_HOURS", "24"))
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 logger = logging.getLogger(__name__)
+
+
+# ---------------------------------------------------------------------------
+# PHI auto-cleanup
+# ---------------------------------------------------------------------------
+def _purge_old_phi() -> None:
+    """Delete uploaded PHI files and sessions older than DATA_RETENTION_HOURS."""
+    cutoff = datetime.utcnow() - timedelta(hours=DATA_RETENTION_HOURS)
+    purge_dirs = [UPLOADS_DIR, OUTPUT_DIR, SESSIONS_DIR]
+    deleted = 0
+    for directory in purge_dirs:
+        if not directory.exists():
+            continue
+        for file_path in directory.iterdir():
+            if not file_path.is_file():
+                continue
+            try:
+                mtime = datetime.utcfromtimestamp(file_path.stat().st_mtime)
+                if mtime < cutoff:
+                    file_path.unlink()
+                    deleted += 1
+                    logger.debug("PHI purge: deleted %s", file_path.name)
+            except Exception as exc:  # noqa: BLE001
+                logger.warning("PHI purge: could not delete %s — %s", file_path, exc)
+    if deleted:
+        logger.info(
+            "PHI purge: removed %d file(s) older than %d hours",
+            deleted, DATA_RETENTION_HOURS,
+        )
+    else:
+        logger.debug("PHI purge: no files to remove (retention %dh)", DATA_RETENTION_HOURS)
+
+
+def _start_cleanup_scheduler(interval_hours: int = 6) -> None:
+    """Run _purge_old_phi() every `interval_hours` in a background daemon thread."""
+    def _loop():
+        while True:
+            threading.Event().wait(interval_hours * 3600)
+            try:
+                _purge_old_phi()
+            except Exception as exc:  # noqa: BLE001
+                logger.error("PHI cleanup scheduler error: %s", exc)
+
+    t = threading.Thread(target=_loop, daemon=True, name="phi-cleanup")
+    t.start()
+    logger.info(
+        "PHI cleanup scheduler started — purging every %dh, retention=%dh",
+        interval_hours, DATA_RETENTION_HOURS,
+    )
 
 # ---------------------------------------------------------------------------
 # App & middleware
 # ---------------------------------------------------------------------------
+
+@contextlib.asynccontextmanager
+async def lifespan(app_: FastAPI):
+    """Startup: purge stale PHI + start scheduler. Shutdown: final purge."""
+    logger.info("[startup] Running initial PHI purge (retention=%dh)", DATA_RETENTION_HOURS)
+    _purge_old_phi()
+    _start_cleanup_scheduler(interval_hours=6)
+    yield
+    logger.info("[shutdown] Running final PHI purge")
+    _purge_old_phi()
+
+
 app = FastAPI(
     title="TPA Pre-Authorization System",
     description="Automated TPA form filling for hospital pre-authorization",
     version="1.0.0",
+    lifespan=lifespan,
 )
 
 app.add_middleware(
@@ -84,8 +152,9 @@ app.add_middleware(
 # ---------------------------------------------------------------------------
 # Service instances
 # ---------------------------------------------------------------------------
+EXTRACTION_MODE = os.getenv("EXTRACTION_MODE", "gemini")  # "gemini" | "documentai" | "hybrid"
 mapping_engine = MappingEngine()
-ocr_service = OCRService(mode="gemini")
+ocr_service = OCRService(mode=EXTRACTION_MODE)
 form_engine = FormEngine()
 his_service = HISService()  # Stub mode
 
@@ -434,7 +503,7 @@ def ocr_and_map(
 
     # Map
     mapped = mapping_engine.map_ocr_to_schema(extracted, schema_fields, document_type)
-    mapped = mapping_engine.handle_gender(mapped)
+    mapped = mapping_engine.handle_gender(mapped, raw_ocr=extracted)
 
     return ok({
         "raw_ocr": extracted,
@@ -652,10 +721,10 @@ async def workflow_start(
     all_extracted: dict = {}
     raw_extractions: list[dict] = []
 
+    # --- Step 1: Save all files to disk (fast, sequential) ---
+    file_info = []
     for i, file in enumerate(files):
         doc_type = type_list[i] if i < len(type_list) else "generic"
-
-        # Save file
         file_id = str(uuid.uuid4())[:8]
         safe_name = f"{file_id}_{file.filename}"
         save_path = UPLOADS_DIR / safe_name
@@ -664,34 +733,45 @@ async def workflow_start(
         with open(save_path, "wb") as f:
             f.write(content)
 
-        uploaded.append({
+        info = {
             "file_id": file_id,
             "filename": file.filename,
             "saved_as": safe_name,
             "path": str(save_path),
             "document_type": doc_type,
             "size": len(content),
-        })
+        }
+        file_info.append(info)
+        uploaded.append(info)
 
-        # Run OCR
-        try:
-            extracted = ocr_service.extract(str(save_path), doc_type)
+    # --- Step 2: Run OCR on all documents IN PARALLEL (major speedup for Document AI) ---
+    # Document AI takes 6–30s per file; parallel cuts total wait to max(individual times)
+    loop = asyncio.get_event_loop()
+
+    async def _extract_one(path: str, doc_type: str):
+        return await loop.run_in_executor(None, ocr_service.extract, path, doc_type)
+
+    ocr_tasks = [_extract_one(fi["path"], fi["document_type"]) for fi in file_info]
+    ocr_results = await asyncio.gather(*ocr_tasks, return_exceptions=True)
+
+    for fi, result in zip(file_info, ocr_results):
+        if isinstance(result, Exception):
+            logger.error("OCR failed for %s: %s", fi["filename"], result)
             raw_extractions.append({
-                "file": file.filename,
-                "type": doc_type,
-                "fields": extracted,
+                "file": fi["filename"],
+                "type": fi["document_type"],
+                "error": str(result),
             })
-            # Merge into master dict (later values don't overwrite earlier)
-            for k, v in extracted.items():
+        else:
+            raw_extractions.append({
+                "file": fi["filename"],
+                "type": fi["document_type"],
+                "fields": result,
+            })
+            # Merge into master dict (first document wins for conflicting keys)
+            for k, v in result.items():
                 if k not in all_extracted:
                     all_extracted[k] = v
-        except Exception as e:
-            logger.error("OCR failed for %s: %s", file.filename, e)
-            raw_extractions.append({
-                "file": file.filename,
-                "type": doc_type,
-                "error": str(e),
-            })
 
     # Try to detect TPA from insurance company name in OCR results
     insurance_company = (
@@ -727,7 +807,7 @@ async def workflow_start(
 
         # Pass 1: mapping engine (aliases + fuzzy against field_mapping keys)
         mapped_data = mapping_engine.map_ocr_to_schema(all_extracted, schema_fields)
-        mapped_data = mapping_engine.handle_gender(mapped_data)
+        mapped_data = mapping_engine.handle_gender(mapped_data, raw_ocr=all_extracted)
 
         # Pass 2: label-based matching for schema-specific field IDs
         claimed = set(mapped_data.keys())
@@ -827,7 +907,7 @@ def workflow_remap(session_id: str, schema_name: str = Form(...)):
 
     # Pass 1: standard mapping engine (aliases + fuzzy against field_mapping keys)
     mapped = mapping_engine.map_ocr_to_schema(raw_ocr, schema_fields)
-    mapped = mapping_engine.handle_gender(mapped)
+    mapped = mapping_engine.handle_gender(mapped, raw_ocr=raw_ocr)
     mapped = inject_hospital_data(mapped, schema_fields)
     mapped = calculate_age_from_dob(mapped)
 
