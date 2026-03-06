@@ -37,134 +37,63 @@
   --shadow-lg: 0 4px 20px rgba(0,0,0,0.12);
 }
 
-/* ── Reset & Base ─────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.5;
-  min-height: 100vh;
+  background: var(--bg); color: var(--text); line-height: 1.5; min-height: 100vh;
 }
 
 /* ── Top Navbar ───────────────────────────────── */
 .navbar {
   background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-  color: white;
-  padding: 0 24px;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  color: white; padding: 0 24px; height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 100;
 }
-.navbar-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
+.navbar-brand { display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 600; }
 .navbar-brand .logo {
-  width: 32px; height: 32px;
-  background: rgba(255,255,255,0.15);
-  border-radius: 6px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px;
+  width: 32px; height: 32px; background: rgba(255,255,255,0.15);
+  border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 16px;
 }
-.navbar-right {
-  display: flex; align-items: center; gap: 16px;
-  font-size: 13px; opacity: 0.9;
-}
+.navbar-right { display: flex; align-items: center; gap: 16px; font-size: 13px; opacity: 0.9; }
 
-/* ── Steps Bar ────────────────────────────────── */
-.steps-bar {
-  background: white;
-  border-bottom: 1px solid var(--border);
-  padding: 16px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
+/* ── Tab Bar (hidden until Phase 2) ───────────── */
+.tab-bar {
+  background: white; border-bottom: 2px solid var(--border);
+  padding: 0 24px; display: flex; gap: 0; overflow-x: auto;
 }
-.step-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  opacity: 0.4;
-  transition: opacity 0.3s;
+.tab-item {
+  padding: 14px 20px; font-size: 13px; font-weight: 600; color: var(--text-secondary);
+  cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap;
+  transition: all 0.2s; display: flex; align-items: center; gap: 6px;
 }
-.step-item.active { opacity: 1; }
-.step-item.completed { opacity: 0.7; }
-.step-circle {
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  background: var(--gray-300);
-  color: var(--gray-600);
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 600; font-size: 14px;
-  transition: all 0.3s;
+.tab-item:hover { color: var(--primary); background: rgba(26,35,126,0.03); }
+.tab-item.active { color: var(--primary); border-bottom-color: var(--primary); }
+.tab-item .tab-badge {
+  display: inline-block; padding: 1px 6px; border-radius: 10px;
+  font-size: 10px; font-weight: 700; background: var(--success-light); color: var(--success);
 }
-.step-item.active .step-circle {
-  background: var(--primary);
-  color: white;
-}
-.step-item.completed .step-circle {
-  background: var(--success);
-  color: white;
-}
-.step-label { font-size: 13px; font-weight: 500; color: var(--text-secondary); }
-.step-item.active .step-label { color: var(--primary); font-weight: 600; }
-.step-connector {
-  width: 80px; height: 2px;
-  background: var(--gray-300);
-  margin: 0 12px;
-}
-.step-connector.completed { background: var(--success); }
 
 /* ── Container ────────────────────────────────── */
 .container { max-width: 1280px; margin: 0 auto; padding: 24px; }
 
 /* ── Cards ────────────────────────────────────── */
 .card {
-  background: var(--card-bg);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  border: 1px solid var(--border);
-  margin-bottom: 20px;
-  overflow: hidden;
+  background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow);
+  border: 1px solid var(--border); margin-bottom: 20px; overflow: hidden;
 }
 .card-header {
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--gray-200);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  padding: 16px 20px; border-bottom: 1px solid var(--gray-200);
+  display: flex; align-items: center; justify-content: space-between;
 }
-.card-header h3 {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--primary);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+.card-header h3 { font-size: 15px; font-weight: 600; color: var(--primary); display: flex; align-items: center; gap: 8px; }
 .card-body { padding: 20px; }
 
 /* ── Buttons ──────────────────────────────────── */
 .btn {
   display: inline-flex; align-items: center; gap: 6px;
-  padding: 8px 20px;
-  border: none; border-radius: 6px;
-  font-size: 14px; font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-  text-decoration: none;
+  padding: 8px 20px; border: none; border-radius: 6px;
+  font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; text-decoration: none;
 }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .btn-primary { background: var(--primary); color: white; }
@@ -173,10 +102,8 @@ body {
 .btn-accent:hover:not(:disabled) { background: var(--accent-light); }
 .btn-success { background: var(--success); color: white; }
 .btn-success:hover:not(:disabled) { background: #388e3c; }
-.btn-outline {
-  background: transparent; color: var(--primary);
-  border: 1px solid var(--primary);
-}
+.btn-danger { background: var(--danger); color: white; }
+.btn-outline { background: transparent; color: var(--primary); border: 1px solid var(--primary); }
 .btn-outline:hover:not(:disabled) { background: rgba(26,35,126,0.05); }
 .btn-sm { padding: 5px 12px; font-size: 12px; }
 .btn-lg { padding: 12px 28px; font-size: 16px; }
@@ -184,358 +111,194 @@ body {
 /* ── Form Controls ────────────────────────────── */
 .form-group { margin-bottom: 16px; }
 .form-label {
-  display: block;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  margin-bottom: 4px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary);
+  margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;
 }
 .form-control {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  font-size: 14px;
-  font-family: inherit;
-  transition: border-color 0.2s;
-  background: white;
+  width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px;
+  font-size: 14px; font-family: inherit; transition: border-color 0.2s; background: white;
 }
-.form-control:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(2,136,209,0.15);
-}
-.form-control.populated {
-  border-color: var(--success);
-  background: var(--success-light);
-}
+.form-control:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(2,136,209,0.15); }
+.form-control.populated { border-color: var(--success); background: var(--success-light); }
 select.form-control { cursor: pointer; }
 
 /* ── Grid ─────────────────────────────────────── */
-.row { display: flex; flex-wrap: wrap; gap: 16px; }
-.col-1 { flex: 1; min-width: 0; }
-.col-2 { flex: 2; min-width: 0; }
-.col-3 { flex: 3; min-width: 0; }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
-.grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
 
-/* ── Step 1: MRD + Upload ─────────────────────── */
-.mrd-input-group {
-  display: flex;
-  gap: 12px;
-  align-items: flex-end;
-  margin-bottom: 24px;
-}
-.mrd-input-group .form-group { flex: 1; margin-bottom: 0; }
-.mrd-input-group .form-control {
-  font-size: 18px;
-  padding: 10px 16px;
-  font-weight: 500;
-  letter-spacing: 1px;
-}
-
-/* Upload Grid */
-.upload-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 16px;
-}
+/* ── Upload Grid ──────────────────────────────── */
+.upload-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
 .upload-card {
-  border: 2px dashed var(--gray-300);
-  border-radius: var(--radius);
-  padding: 20px 16px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s;
-  background: var(--gray-50);
-  position: relative;
+  border: 2px dashed var(--gray-300); border-radius: var(--radius); padding: 20px 16px;
+  text-align: center; cursor: pointer; transition: all 0.2s; background: var(--gray-50); position: relative;
 }
 .upload-card:hover { border-color: var(--accent); background: rgba(2,136,209,0.03); }
-.upload-card.has-file {
-  border-color: var(--success);
-  border-style: solid;
-  background: var(--success-light);
-}
-.upload-card.uploading {
-  border-color: var(--warning);
-  border-style: solid;
-  background: var(--warning-light);
-}
+.upload-card.has-file { border-color: var(--success); border-style: solid; background: var(--success-light); }
 .upload-card .icon { font-size: 28px; margin-bottom: 8px; }
 .upload-card .title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
 .upload-card .subtitle { font-size: 11px; color: var(--text-secondary); }
-.upload-card .file-info {
-  font-size: 11px; color: var(--success);
-  font-weight: 500; margin-top: 6px;
-  word-break: break-all;
-}
+.upload-card .file-info { font-size: 11px; color: var(--success); font-weight: 500; margin-top: 6px; word-break: break-all; }
 .upload-card .remove-btn {
-  position: absolute; top: 6px; right: 6px;
-  width: 20px; height: 20px; border-radius: 50%;
-  background: var(--danger); color: white;
-  border: none; cursor: pointer; font-size: 12px;
-  display: none; align-items: center; justify-content: center;
-  line-height: 1;
+  position: absolute; top: 6px; right: 6px; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--danger); color: white; border: none; cursor: pointer; font-size: 12px;
+  display: none; align-items: center; justify-content: center; line-height: 1;
 }
 .upload-card.has-file .remove-btn { display: flex; }
 .upload-card input[type="file"] { display: none; }
 
-/* ── Step 2: OCR + Form Fields ────────────────── */
-.step2-layout {
-  display: grid;
-  grid-template-columns: 340px 1fr;
-  gap: 20px;
-  align-items: flex-start;
-}
-.ocr-panel { position: sticky; top: 80px; }
-.ocr-result-item {
-  padding: 8px 12px;
-  border-bottom: 1px solid var(--gray-100);
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  font-size: 13px;
-}
-.ocr-result-item:last-child { border-bottom: none; }
-.ocr-key {
-  color: var(--text-secondary);
-  font-weight: 500;
-  flex-shrink: 0;
-  max-width: 140px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.ocr-value {
-  color: var(--text);
-  text-align: right;
-  word-break: break-all;
-  font-weight: 500;
-}
-.ocr-doc-badge {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 10px;
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  background: rgba(2,136,209,0.1);
-  color: var(--accent);
-  margin-bottom: 8px;
-}
+/* ── MRD ──────────────────────────────────────── */
+.mrd-input-group { display: flex; gap: 12px; align-items: flex-end; margin-bottom: 24px; }
+.mrd-input-group .form-group { flex: 1; margin-bottom: 0; }
+.mrd-input-group .form-control { font-size: 18px; padding: 10px 16px; font-weight: 500; letter-spacing: 1px; }
 
-/* Form sections */
-.form-section {
-  margin-bottom: 24px;
-}
-.form-section-header {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--primary);
-  padding: 10px 16px;
-  background: rgba(26,35,126,0.04);
-  border-left: 3px solid var(--primary);
-  border-radius: 0 6px 6px 0;
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.form-section-header .count {
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--text-secondary);
-}
-.field-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px 16px;
-}
-.field-group { margin-bottom: 12px; }
-.field-group label {
-  display: block;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--gray-600);
-  margin-bottom: 3px;
-}
-.field-group input, .field-group select {
-  width: 100%;
-  padding: 7px 10px;
-  border: 1px solid var(--border);
-  border-radius: 5px;
-  font-size: 13px;
-  font-family: inherit;
-  transition: all 0.2s;
-}
-.field-group input:focus, .field-group select:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 2px rgba(2,136,209,0.12);
-}
-.field-group input.ocr-filled {
-  border-color: var(--success);
-  background: var(--success-light);
-}
-.field-group.checkbox-group {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.field-group.checkbox-group input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-  accent-color: var(--primary);
-}
-.field-group.checkbox-group label {
-  margin-bottom: 0;
-  font-size: 12px;
-}
-
-/* TPA Selector */
-.tpa-selector {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 0;
-}
-.tpa-selector select {
-  padding: 8px 12px;
-  font-size: 14px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  min-width: 280px;
-}
-.tpa-badge {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 600;
-}
+/* ── TPA Selector ─────────────────────────────── */
+.tpa-selector { display: flex; align-items: center; gap: 12px; padding: 12px 0; flex-wrap: wrap; }
+.tpa-selector select { padding: 8px 12px; font-size: 14px; border: 1px solid var(--border); border-radius: 6px; min-width: 280px; }
+.tpa-badge { display: inline-block; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; }
 .tpa-badge.ready { background: var(--success-light); color: var(--success); }
 .tpa-badge.no-schema { background: var(--warning-light); color: var(--warning); }
 
-/* ── Step 3: Preview ──────────────────────────── */
-.preview-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+/* ── GIPSA Toggle ─────────────────────────────── */
+.gipsa-toggle { display: flex; gap: 16px; align-items: center; margin: 12px 0; }
+.gipsa-toggle label {
+  display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500;
+  cursor: pointer; padding: 8px 16px; border: 2px solid var(--gray-300); border-radius: 6px; transition: all 0.2s;
 }
-.pdf-frame {
-  width: 100%;
-  height: 700px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+.gipsa-toggle input[type="radio"] { accent-color: var(--primary); width: 16px; height: 16px; }
+.gipsa-toggle label.active { border-color: var(--primary); background: rgba(26,35,126,0.05); }
+.ppn-checkbox {
+  display: flex; align-items: center; gap: 8px; padding: 10px 16px;
+  background: var(--warning-light); border: 1px solid rgba(245,127,23,0.3); border-radius: 6px; margin-top: 8px;
 }
+.ppn-checkbox input { width: 18px; height: 18px; accent-color: var(--success); }
+.ppn-checkbox label { font-size: 14px; font-weight: 500; cursor: pointer; }
+
+/* ── Form Sections (schema fields in tabs) ────── */
+.form-section { margin-bottom: 24px; }
+.form-section-header {
+  font-size: 14px; font-weight: 700; color: var(--primary); padding: 10px 16px;
+  background: rgba(26,35,126,0.04); border-left: 3px solid var(--primary);
+  border-radius: 0 6px 6px 0; margin-bottom: 16px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.form-section-header .count { font-size: 11px; font-weight: 500; color: var(--text-secondary); }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; }
+.field-group { margin-bottom: 12px; }
+.field-group label {
+  display: block; font-size: 11px; font-weight: 600; color: var(--gray-600); margin-bottom: 3px;
+}
+.field-group input, .field-group select, .field-group textarea {
+  width: 100%; padding: 7px 10px; border: 1px solid var(--border);
+  border-radius: 5px; font-size: 13px; font-family: inherit; transition: all 0.2s;
+}
+.field-group input:focus, .field-group select:focus, .field-group textarea:focus {
+  outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(2,136,209,0.12);
+}
+.field-group input.ocr-filled { border-color: var(--success); background: var(--success-light); }
+.field-group.checkbox-group { display: flex; align-items: center; gap: 6px; }
+.field-group.checkbox-group input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--primary); }
+.field-group.checkbox-group label { margin-bottom: 0; font-size: 12px; }
+
+/* ── Attachment Grid ──────────────────────────── */
+.attachment-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+.attachment-item {
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 16px; position: relative; background: var(--gray-50);
+}
+.attachment-item .att-icon { font-size: 32px; text-align: center; margin-bottom: 8px; }
+.attachment-item .att-name { font-size: 12px; font-weight: 600; word-break: break-all; text-align: center; }
+.attachment-item .att-size { font-size: 11px; color: var(--text-secondary); text-align: center; }
+.attachment-item .att-remove {
+  position: absolute; top: 6px; right: 6px; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--danger); color: white; border: none; cursor: pointer; font-size: 12px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ── Checklist ────────────────────────────────── */
+.checklist { list-style: none; }
+.checklist li {
+  display: flex; align-items: center; gap: 10px; padding: 12px 16px;
+  border-bottom: 1px solid var(--gray-100); font-size: 15px;
+}
+.checklist li:last-child { border-bottom: none; }
+.check-icon { font-size: 18px; flex-shrink: 0; width: 24px; text-align: center; }
+.check-icon.ok { color: var(--success); }
+.check-icon.warn { color: var(--warning); }
+.check-icon.skip { color: var(--gray-400); }
+
+/* ── Preview / Summary ────────────────────────── */
 .summary-list { list-style: none; }
 .summary-list li {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--gray-100);
-  font-size: 14px;
+  display: flex; justify-content: space-between; padding: 8px 0;
+  border-bottom: 1px solid var(--gray-100); font-size: 14px;
 }
 .summary-list li:last-child { border-bottom: none; }
 .summary-label { color: var(--text-secondary); }
 .summary-value { font-weight: 600; }
 
-/* ── Status / Alerts ──────────────────────────── */
-.alert {
-  padding: 12px 16px;
-  border-radius: 6px;
-  font-size: 13px;
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+/* ── Alerts ───────────────────────────────────── */
+.alert { padding: 12px 16px; border-radius: 6px; font-size: 13px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
 .alert-info { background: rgba(2,136,209,0.08); color: var(--accent); border: 1px solid rgba(2,136,209,0.2); }
 .alert-success { background: var(--success-light); color: var(--success); border: 1px solid rgba(46,125,50,0.2); }
 .alert-warning { background: var(--warning-light); color: var(--warning); border: 1px solid rgba(245,127,23,0.2); }
 .alert-danger { background: var(--danger-light); color: var(--danger); border: 1px solid rgba(198,40,40,0.2); }
 
-/* ── Loading Spinner ──────────────────────────── */
+/* ── Spinner & Loading ────────────────────────── */
 .spinner {
-  display: inline-block;
-  width: 18px; height: 18px;
-  border: 2px solid var(--gray-300);
-  border-top-color: var(--primary);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+  display: inline-block; width: 18px; height: 18px;
+  border: 2px solid var(--gray-300); border-top-color: var(--primary);
+  border-radius: 50%; animation: spin 0.8s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
-
 .loading-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
+  position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+  display: flex; align-items: center; justify-content: center; z-index: 999;
 }
 .loading-box {
-  background: white;
-  padding: 32px 40px;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: var(--shadow-lg);
+  background: white; padding: 32px 40px; border-radius: 12px;
+  text-align: center; box-shadow: var(--shadow-lg);
 }
 .loading-box .spinner { width: 40px; height: 40px; border-width: 3px; margin-bottom: 16px; }
 .loading-box p { font-size: 15px; color: var(--text-secondary); margin-top: 8px; }
 
+/* ── Footer Bar (upload phase) ────────────────── */
+.footer-bar {
+  position: sticky; bottom: 0; background: white; border-top: 1px solid var(--border);
+  padding: 12px 24px; display: flex; justify-content: space-between; align-items: center;
+  z-index: 50; box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+}
+
 /* ── Utilities ────────────────────────────────── */
 .hidden { display: none !important; }
 .text-center { text-align: center; }
-.text-right { text-align: right; }
 .mt-8 { margin-top: 8px; }
 .mt-16 { margin-top: 16px; }
 .mt-24 { margin-top: 24px; }
-.mb-8 { margin-bottom: 8px; }
 .mb-16 { margin-bottom: 16px; }
-.gap-8 { gap: 8px; }
 .flex { display: flex; }
 .items-center { align-items: center; }
-.justify-between { justify-content: space-between; }
-.badge {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 10px;
-  font-size: 11px;
-  font-weight: 600;
-}
+.gap-8 { gap: 8px; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
 .badge-blue { background: rgba(2,136,209,0.1); color: var(--accent); }
 .badge-green { background: var(--success-light); color: var(--success); }
 .badge-orange { background: var(--warning-light); color: var(--warning); }
 
-/* ── Footer ───────────────────────────────────── */
-.footer-bar {
-  position: sticky;
-  bottom: 0;
-  background: white;
-  border-top: 1px solid var(--border);
-  padding: 12px 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 50;
-  box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+/* ── New Session Button ───────────────────────── */
+.new-session-btn {
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+  color: white; padding: 4px 12px; border-radius: 4px; font-size: 12px;
+  cursor: pointer; transition: all 0.2s;
 }
+.new-session-btn:hover { background: rgba(255,255,255,0.25); }
 
-/* ── Responsive ───────────────────────────────── */
 @media (max-width: 1024px) {
-  .step2-layout { grid-template-columns: 1fr; }
-  .ocr-panel { position: static; }
-  .preview-container { grid-template-columns: 1fr; }
   .field-row { grid-template-columns: 1fr; }
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
 }
 @media (max-width: 640px) {
+  .tab-bar { padding: 0 8px; }
+  .tab-item { padding: 10px 12px; font-size: 12px; }
   .upload-grid { grid-template-columns: 1fr 1fr; }
-  .grid-3, .grid-4 { grid-template-columns: 1fr 1fr; }
 }
 </style>
 </head>
@@ -549,211 +312,283 @@ select.form-control { cursor: pointer; }
   </div>
   <div class="navbar-right">
     <span id="sessionInfo"></span>
+    <button class="new-session-btn hidden" id="btnNewSession" onclick="resetSession()">+ New Session</button>
     <span>Provider Portal</span>
   </div>
 </nav>
 
-<!-- ════════════════ STEPS BAR ════════════════ -->
-<div class="steps-bar">
-  <div class="step-item active" data-step="1">
-    <div class="step-circle">1</div>
-    <span class="step-label">Patient & Documents</span>
+<!-- ════════════════ TAB BAR (Phase 2 only) ════════════════ -->
+<div class="tab-bar hidden" id="tabBar">
+  <div class="tab-item active" data-tab="patient" onclick="switchTab('patient')">
+    <span>&#128100;</span> Patient Details
   </div>
-  <div class="step-connector" id="conn12"></div>
-  <div class="step-item" data-step="2">
-    <div class="step-circle">2</div>
-    <span class="step-label">Review & Edit Fields</span>
+  <div class="tab-item" data-tab="insurance" onclick="switchTab('insurance')">
+    <span>&#127973;</span> Insurance &amp; TPA
   </div>
-  <div class="step-connector" id="conn23"></div>
-  <div class="step-item" data-step="3">
-    <div class="step-circle">3</div>
-    <span class="step-label">Generate & Download</span>
+  <div class="tab-item" data-tab="clinical" onclick="switchTab('clinical')">
+    <span>&#129658;</span> Clinical Details
+  </div>
+  <div class="tab-item" data-tab="cost" onclick="switchTab('cost')">
+    <span>&#128176;</span> Cost &amp; Declarations
+  </div>
+  <div class="tab-item" data-tab="attachments" onclick="switchTab('attachments')">
+    <span>&#128206;</span> Attachments
+    <span class="tab-badge hidden" id="tabBadgeAtt">0</span>
+  </div>
+  <div class="tab-item" data-tab="generate" onclick="switchTab('generate')">
+    <span>&#9889;</span> Generate PDF
   </div>
 </div>
 
 <!-- ════════════════ MAIN CONTENT ════════════════ -->
 <div class="container">
 
-  <!-- ──────── STEP 1: MRD + Upload ──────── -->
-  <div id="step1" class="step-content">
-    <!-- MRD Number -->
-    <div class="card">
-      <div class="card-header">
-        <h3>&#128100; Patient Identification</h3>
-      </div>
-      <div class="card-body">
-        <div class="mrd-input-group">
-          <div class="form-group">
-            <label class="form-label">MRD Number</label>
-            <input type="text" id="mrdNumber" class="form-control" placeholder="Enter MRD Number (e.g., MRD-2025-001)"
-                   autocomplete="off">
-          </div>
-          <div class="form-group" style="flex:0 0 200px;">
-            <label class="form-label">Patient Name</label>
-            <input type="text" id="patientNameQuick" class="form-control" placeholder="Optional" autocomplete="off">
-          </div>
-        </div>
-        <div class="alert alert-info">
-          &#9432; HIS integration pending — enter MRD for reference. Patient details will be extracted from uploaded documents.
-        </div>
-      </div>
-    </div>
+<!-- ═══════════════════════════════════════════════
+     PHASE 1: UPLOAD & OCR (initial view)
+     ═══════════════════════════════════════════════ -->
+<div id="phaseUpload">
 
-    <!-- Document Upload -->
-    <div class="card">
-      <div class="card-header">
-        <h3>&#128196; Upload Documents</h3>
-        <span id="uploadCount" class="badge badge-blue">0 / 5 uploaded</span>
-      </div>
-      <div class="card-body">
-        <div class="upload-grid" id="uploadGrid">
-          <!-- Rendered by JS -->
+  <!-- MRD Number -->
+  <div class="card">
+    <div class="card-header"><h3>&#128100; Patient Identification</h3></div>
+    <div class="card-body">
+      <div class="mrd-input-group">
+        <div class="form-group">
+          <label class="form-label">MRD Number <span style="color:#e53935;">*</span></label>
+          <input type="text" id="mrdNumber" class="form-control" placeholder="Enter MRD Number (e.g., MRD-2025-001)" autocomplete="off" required>
+        </div>
+        <div class="form-group" style="flex:0 0 200px;">
+          <label class="form-label">Patient Name</label>
+          <input type="text" id="patientNameQuick" class="form-control" placeholder="Optional" autocomplete="off">
         </div>
       </div>
-    </div>
-
-    <!-- TPA Selection — will auto-detect after OCR -->
-    <div class="card">
-      <div class="card-header">
-        <h3>&#127970; TPA / Insurance Form</h3>
-      </div>
-      <div class="card-body">
-        <div class="alert alert-info">
-          &#9432; TPA form will be <strong>auto-detected</strong> from your insurance/policy card after OCR. You can also pre-select manually.
-        </div>
-        <div class="tpa-selector">
-          <label class="form-label" style="margin-bottom:0; white-space:nowrap;">Pre-select (optional):</label>
-          <select id="tpaSelect" class="form-control" style="max-width:400px;">
-            <option value="">-- Auto-detect from documents --</option>
-          </select>
-          <span id="tpaBadge"></span>
-        </div>
+      <div class="alert alert-info">
+        &#9432; Enter MRD number first — it will be validated against your uploaded documents (clinical notes, estimates).
       </div>
     </div>
   </div>
 
-  <!-- ──────── STEP 2: OCR Results + Form Fields ──────── -->
-  <div id="step2" class="step-content hidden">
-
-    <!-- Auto-detected TPA banner + override -->
-    <div class="card" id="tpaDetectionCard">
-      <div class="card-header">
-        <h3>&#127970; Detected TPA Form</h3>
-      </div>
-      <div class="card-body">
-        <div id="tpaDetected" class="alert alert-success hidden">
-          &#10003; Auto-detected: <strong id="tpaDetectedName"></strong>
-        </div>
-        <div id="tpaNotDetected" class="alert alert-warning hidden">
-          &#9888; Could not auto-detect TPA from uploaded documents. Please select manually below.
-        </div>
-        <div class="tpa-selector" style="margin-top:12px;">
-          <label class="form-label" style="margin-bottom:0; white-space:nowrap;">TPA Form:</label>
-          <select id="tpaSelectStep2" class="form-control" style="max-width:400px;">
-            <option value="">-- Select TPA Form --</option>
-          </select>
-          <span id="tpaBadgeStep2"></span>
-          <button class="btn btn-accent btn-sm" id="btnRemap" onclick="remapToSelectedSchema()" style="display:none;">
-            &#128260; Re-map Fields
-          </button>
-        </div>
-      </div>
+  <!-- Document Upload -->
+  <div class="card">
+    <div class="card-header">
+      <h3>&#128196; Upload Documents</h3>
+      <span id="uploadCount" class="badge badge-blue">0 / 6 sections</span>
     </div>
+    <div class="card-body">
+      <div class="upload-grid" id="uploadGrid"></div>
+    </div>
+  </div>
 
-    <div class="step2-layout">
-      <!-- Left: OCR Results -->
-      <div class="ocr-panel">
-        <div class="card">
-          <div class="card-header">
-            <h3>&#128270; OCR Extracted Data</h3>
-            <span id="ocrFieldCount" class="badge badge-green">0 fields</span>
-          </div>
-          <div class="card-body" style="padding:0; max-height:calc(100vh - 160px); overflow-y:auto;">
-            <div id="ocrResults">
-              <p class="text-center" style="padding:20px; color:var(--text-secondary)">
-                No OCR results yet. Upload documents in Step 1.
-              </p>
-            </div>
-          </div>
-        </div>
+  <!-- TPA Pre-Selection -->
+  <div class="card">
+    <div class="card-header"><h3>&#127970; TPA / Insurance Form</h3></div>
+    <div class="card-body">
+      <div class="alert alert-info">
+        &#9432; TPA form will be <strong>auto-detected</strong> from your documents after OCR. You can also pre-select manually.
       </div>
-
-      <!-- Right: Master Form Fields -->
-      <div class="form-panel">
-        <div class="card">
-          <div class="card-header">
-            <h3>&#128221; Pre-Authorization Form Fields</h3>
-            <div class="flex items-center gap-8">
-              <span id="filledCount" class="badge badge-green">0 filled</span>
-              <span id="totalFieldCount" class="badge badge-blue">0 total</span>
-            </div>
-          </div>
-          <div class="card-body" id="formFieldsContainer">
-            <p class="text-center" style="color:var(--text-secondary)">
-              Select a TPA form and run OCR to populate fields.
-            </p>
-          </div>
-        </div>
+      <div class="tpa-selector">
+        <label class="form-label" style="margin-bottom:0; white-space:nowrap;">Pre-select (optional):</label>
+        <select id="tpaSelectUpload" class="form-control" style="max-width:420px;">
+          <option value="">-- Auto-detect from documents --</option>
+        </select>
+        <span id="tpaBadgeUpload"></span>
       </div>
     </div>
   </div>
 
-  <!-- ──────── STEP 3: Generate & Preview ──────── -->
-  <div id="step3" class="step-content hidden">
-    <div class="preview-container">
-      <div>
-        <div class="card">
-          <div class="card-header">
-            <h3>&#128196; Generated Pre-Auth Form</h3>
-          </div>
-          <div class="card-body" style="padding:0;">
-            <iframe id="pdfPreview" class="pdf-frame" src="about:blank"></iframe>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="card">
-          <div class="card-header">
-            <h3>&#128203; Summary</h3>
-          </div>
-          <div class="card-body">
-            <ul class="summary-list" id="summaryList">
-            </ul>
-            <div class="mt-24" style="display:flex; gap:12px; flex-wrap:wrap;">
-              <a id="downloadLink" class="btn btn-success btn-lg" href="#" download>
-                &#11015; Download PDF
-              </a>
-              <button class="btn btn-outline btn-lg" onclick="goToStep(2)">
-                &#9998; Edit Fields
-              </button>
-              <button class="btn btn-accent btn-lg" onclick="submitForm()">
-                &#10003; Submit to TPA
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
-<!-- ──────── FOOTER BAR ──────── -->
-<div class="footer-bar">
-  <div>
-    <button id="btnPrev" class="btn btn-outline" onclick="prevStep()" disabled>
-      &#8592; Previous
-    </button>
+
+<!-- ═══════════════════════════════════════════════
+     PHASE 2: TABBED FORM (after OCR extraction)
+     ═══════════════════════════════════════════════ -->
+<div id="phaseForm" class="hidden">
+
+  <!-- ── Tab: Patient Details ── -->
+  <div id="tab-patient" class="tab-content">
+    <!-- MRD Identification Card (always visible at top) -->
+    <div class="card" id="mrdCard">
+      <div class="card-header">
+        <h3>&#128203; Patient Identification (MRD)</h3>
+        <span class="badge" id="mrdStatusBadge" style="background:var(--gray-100);color:var(--text-secondary);">—</span>
+      </div>
+      <div class="card-body">
+        <div id="mrdValidationBanner" class="hidden" style="border-radius:6px;padding:10px 16px;margin-bottom:14px;font-size:13px;display:flex;align-items:center;gap:8px;"></div>
+        <div class="field-row">
+          <div class="field-group">
+            <label for="mrdFieldEdit" style="font-weight:700;">MRD Number <span style="color:#e53935;">*</span></label>
+            <input type="text" id="mrdFieldEdit" class="ocr-filled" value="" placeholder="MRD Number"
+                   style="font-size:15px;font-weight:600;padding:10px 12px;"
+                   onchange="onMrdFieldEdit(this.value)">
+          </div>
+          <div class="field-group hidden" id="mrdDocValueGroup">
+            <label style="font-weight:600;color:var(--text-secondary);">MRD from Documents</label>
+            <div id="mrdDocValues" style="padding:10px 12px;background:var(--gray-50);border:1px solid var(--border);border-radius:6px;font-size:14px;color:var(--text-secondary);min-height:38px;display:flex;align-items:center;">
+              —
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h3>&#128100; Patient Details</h3>
+        <span class="badge badge-green" id="patientFillBadge">0 filled</span>
+      </div>
+      <div class="card-body" id="patientFieldsContainer">
+        <!-- Dynamically populated with schema fields -->
+      </div>
+    </div>
   </div>
-  <div id="footerStatus" style="font-size:13px; color:var(--text-secondary);"></div>
+
+  <!-- ── Tab: Insurance & TPA ── -->
+  <div id="tab-insurance" class="tab-content hidden">
+    <div class="card">
+      <div class="card-header">
+        <h3>&#127973; Insurance &amp; TPA Details</h3>
+        <span class="badge badge-green" id="insuranceFillBadge">0 filled</span>
+      </div>
+      <div class="card-body">
+        <!-- TPA Form Selector -->
+        <div class="form-group">
+          <label class="form-label">TPA Form</label>
+          <div class="tpa-selector">
+            <select id="tpaSelect" class="form-control" style="max-width:420px;">
+              <option value="">-- Select TPA Form --</option>
+            </select>
+            <span id="tpaBadge"></span>
+            <button class="btn btn-accent btn-sm hidden" id="btnRemap" onclick="remapToSelectedSchema()">
+              &#128260; Re-map Fields
+            </button>
+          </div>
+        </div>
+
+        <!-- Insurance schema fields injected here -->
+        <div id="insuranceFieldsContainer"></div>
+
+        <!-- GIPSA Toggle -->
+        <div class="card" style="border: 2px solid var(--primary); margin-top: 16px;">
+          <div class="card-header" style="background: rgba(26,35,126,0.04);">
+            <h3>&#127970; TPA Type (GIPSA Status)</h3>
+          </div>
+          <div class="card-body">
+            <div class="gipsa-toggle" id="gipsaToggle">
+              <label id="gipsaLabelNo" class="active">
+                <input type="radio" name="gipsa" value="no" checked onchange="handleGipsaChange(false)"> Non-GIPSA
+              </label>
+              <label id="gipsaLabelYes">
+                <input type="radio" name="gipsa" value="yes" onchange="handleGipsaChange(true)"> GIPSA
+              </label>
+            </div>
+            <div id="ppnSection" class="hidden">
+              <div class="ppn-checkbox">
+                <input type="checkbox" id="ppnCheckbox" checked onchange="handlePPNChange()">
+                <label for="ppnCheckbox">Generate PPN Declaration Form</label>
+              </div>
+              <div class="alert alert-info mt-8">
+                &#9432; PPN Declaration will be auto-generated and merged with the final claim package.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Tab: Clinical Details ── -->
+  <div id="tab-clinical" class="tab-content hidden">
+    <div class="card">
+      <div class="card-header">
+        <h3>&#129658; Clinical &amp; Hospitalization Details</h3>
+        <span class="badge badge-green" id="clinicalFillBadge">0 filled</span>
+      </div>
+      <div class="card-body" id="clinicalFieldsContainer">
+        <!-- Dynamically populated -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Tab: Cost & Declarations ── -->
+  <div id="tab-cost" class="tab-content hidden">
+    <div class="card">
+      <div class="card-header">
+        <h3>&#128176; Estimated Cost &amp; Declarations</h3>
+        <span class="badge badge-green" id="costFillBadge">0 filled</span>
+      </div>
+      <div class="card-body" id="costFieldsContainer">
+        <!-- Dynamically populated -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Tab: Attachments ── -->
+  <div id="tab-attachments" class="tab-content hidden">
+    <div class="card">
+      <div class="card-header">
+        <h3>&#128206; Additional Attachments</h3>
+        <span id="attCount" class="badge badge-blue">0 files</span>
+      </div>
+      <div class="card-body">
+        <div class="alert alert-info">
+          &#9432; Upload additional documents (ID proofs, reports, bills) to include in the final claim package.
+          Uploaded scanned documents from the initial upload are already included automatically.
+        </div>
+        <div style="margin-bottom:16px;">
+          <input type="file" id="attFileInput" multiple accept=".pdf,.jpg,.jpeg,.png,.bmp,.tiff,.gif,.webp" style="display:none" onchange="handleAttachmentUpload(this)">
+          <button class="btn btn-accent" onclick="document.getElementById('attFileInput').click()">&#10133; Upload Attachments</button>
+        </div>
+        <div class="attachment-grid" id="attachmentGrid">
+          <p id="noAttachments" style="color:var(--text-secondary); grid-column: 1/-1;">No additional attachments uploaded yet.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Tab: Generate PDF ── -->
+  <div id="tab-generate" class="tab-content hidden">
+    <!-- Card 1: Checklist + Summary -->
+    <div class="card">
+      <div class="card-header"><h3>&#9989; Pre-Generation Checklist</h3></div>
+      <div class="card-body">
+        <ul class="checklist" id="checklist">
+          <li><span class="check-icon" id="chkTPA">&#9711;</span><span class="check-label">TPA Form Selected</span><span class="check-status" id="chkTPAStatus">Not selected</span></li>
+          <li><span class="check-icon" id="chkFields">&#9711;</span><span class="check-label">Fields Populated</span><span class="check-status" id="chkFieldsStatus">0 fields</span></li>
+          <li><span class="check-icon" id="chkPPN">&#9711;</span><span class="check-label">PPN Declaration Form</span><span class="check-status" id="chkPPNStatus">N/A (Non-GIPSA)</span></li>
+          <li><span class="check-icon" id="chkAtt">&#9711;</span><span class="check-label">Attachments</span><span class="check-status" id="chkAttStatus">0 files</span></li>
+        </ul>
+        <!-- Summary (shown after generation) -->
+        <div id="summarySection" class="hidden" style="border-top:1px solid var(--border); margin-top:16px; padding-top:16px;">
+          <h4 style="margin:0 0 10px 0; font-size:14px; color:var(--text-secondary);">&#128203; Generation Summary</h4>
+          <ul class="summary-list" id="summaryList"></ul>
+        </div>
+      </div>
+    </div>
+    <!-- Card 2: Generate Button + Go Back -->
+    <div class="card">
+      <div class="card-header"><h3>&#9889; Generate Final Claim Package</h3></div>
+      <div class="card-body text-center">
+        <p class="mb-16" style="font-size:14px; color:var(--text-secondary);">
+          This will generate the TPA claim form, PPN declaration (if GIPSA), and merge all uploaded documents into one PDF.
+        </p>
+        <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+          <button class="btn btn-success btn-lg" id="btnGenerate" onclick="generatePDF()">&#9889; Generate Final PDF</button>
+          <a id="downloadLink" class="btn btn-success btn-lg hidden" href="#" download>&#11015; Download Final Claim Package</a>
+          <button class="btn btn-outline btn-lg" onclick="switchTab('patient')">&#9998; Go Back & Edit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ──────── FOOTER BAR (Phase 1 only) ──────── -->
+<div class="footer-bar" id="footerBar">
+  <div id="footerStatus" style="font-size:13px; color:var(--text-secondary);">Upload patient documents to begin</div>
   <div>
-    <button id="btnOCR" class="btn btn-accent hidden" onclick="runOCR()">
-      &#128270; Extract with OCR
-    </button>
-    <button id="btnNext" class="btn btn-primary" onclick="nextStep()">
-      Next &#8594;
-    </button>
-    <button id="btnGenerate" class="btn btn-success hidden" onclick="generatePDF()">
-      &#9889; Generate PDF
+    <button class="btn btn-accent btn-lg" id="btnOCR" onclick="runOCR()" disabled>
+      &#128270; Extract Data
     </button>
   </div>
 </div>
@@ -769,7 +604,8 @@ select.form-control { cursor: pointer; }
 <!-- ════════════════ JAVASCRIPT ════════════════ -->
 <script>
 const API = window.location.origin;
-let currentStep = 1;
+
+// ── State ──
 let sessionId = null;
 let rawOcrMerged = {};
 let rawExtractions = [];
@@ -779,27 +615,69 @@ let availableSchemas = [];
 let selectedSchema = '';
 let selectedTemplate = '';
 let generatedFormId = null;
+let isGipsaCase = false;
+let generatePPNFlag = false;
+let attachmentsList = [];
+let mrdValidationData = null;  // { entered, found_in_documents, match, status }
 
-// ── Document types for upload cards ──
+// ── Document types for upload grid ──
 const DOC_TYPES = [
-  { key: 'policy_card',    label: 'Insurance / Policy Card',  icon: '&#127973;', accept: '.pdf,.jpg,.jpeg,.png', multi: true },
-  { key: 'aadhaar',        label: 'Patient ID (Aadhaar)',     icon: '&#128179;', accept: '.pdf,.jpg,.jpeg,.png', multi: true },
-  { key: 'attendant_id',   label: 'Attendant ID Card',        icon: '&#128101;', accept: '.pdf,.jpg,.jpeg,.png', multi: true },
-  { key: 'clinical_notes', label: 'Clinical Documents',       icon: '&#128203;', accept: '.pdf,.jpg,.jpeg,.png', multi: true },
-  { key: 'estimate',       label: 'Estimate / Proforma',      icon: '&#128176;', accept: '.pdf,.jpg,.jpeg,.png', multi: true },
-  { key: 'generic',        label: 'Other Documents',          icon: '&#128206;', accept: '.pdf,.jpg,.jpeg,.png', multi: true },
+  { key: 'policy_card',    label: 'Insurance / Policy Card',  icon: '&#127973;', accept: '.pdf,.jpg,.jpeg,.png' },
+  { key: 'aadhaar',        label: 'Patient ID (Aadhaar)',     icon: '&#128179;', accept: '.pdf,.jpg,.jpeg,.png' },
+  { key: 'attendant_id',   label: 'Attendant ID Card',        icon: '&#128101;', accept: '.pdf,.jpg,.jpeg,.png' },
+  { key: 'clinical_notes', label: 'Clinical Documents',       icon: '&#128203;', accept: '.pdf,.jpg,.jpeg,.png' },
+  { key: 'estimate',       label: 'Estimate / Proforma',      icon: '&#128176;', accept: '.pdf,.jpg,.jpeg,.png' },
+  { key: 'generic',        label: 'Other Documents',          icon: '&#128206;', accept: '.pdf,.jpg,.jpeg,.png' },
 ];
+const uploadedFiles = {};
 
-const uploadedFiles = {};  // key -> [{ file, name, size }, ...] (array for multi)
+// ── Which schema fields go to which tab ──
+// Sum total field IDs across all 3 TPA schemas
+const SUM_TOTAL_FIELD_IDS = new Set([
+  'cost_total_expected_hospitalization',                  // Bajaj
+  'sum_total_expected_cost_of_hospitalization',           // Ericson
+  'sum_total_expected_cost_hospitalization',              // Heritage
+]);
 
-// ── Form field sections ──
-const SECTIONS = [
-  { id: 'hospital',    title: 'Section A — Hospital / Provider Details',    pattern: /^(hospital_|provider_)/ },
-  { id: 'patient',     title: 'Section B — Patient Details',                pattern: /^(patient_|gender_|age_|date_of_birth|insured_|policy_|employee_|other_mediclaim|family_physician|relative_)/ },
-  { id: 'doctor',      title: 'Section C — Doctor & Clinical Details',      pattern: /^(treating_doctor|nature_of|relevant_|duration_|first_consultation|past_history|provisional_|icd_|treatment_|investigation_|route_|surgical_|other_treatment|how_injury|is_rta|date_of_injury|report_to|fir_|injury_due|test_conducted|maternity_|expected_date_of_delivery)/ },
-  { id: 'admission',   title: 'Section D — Hospitalization Details',        pattern: /^(date_of_admission|time_of_admission|hospitalization_event|chronic_illness|expected_days|days_in_icu|room_type|admission_)/ },
-  { id: 'cost',        title: 'Section E — Estimated Cost',                 pattern: /^(per_day_room|expected_cost|icu_charges|ot_charges|professional_fees|medicines_|other_hospital|all_inclusive|sum_total|cost_)/ },
-  { id: 'declaration', title: 'Section F — Declarations',                   pattern: /^(declaration_|patient_representative|hospital_declaration)/ },
+// Individual cost line-item field IDs (NOT sum total) — these get "ESTIMATE ATTACHED"
+const COST_LINE_ITEM_PATTERN = /^(per_day_room|expected_cost|icu_charges|ot_charges|professional_fees|medicines_|other_hospital|all_inclusive|cost_room|cost_investigation|cost_icu|cost_ot|cost_professional|cost_medicines|cost_all_inclusive)/;
+
+const TAB_FIELD_RULES = [
+  {
+    tab: 'patient',
+    container: 'patientFieldsContainer',
+    badge: 'patientFillBadge',
+    sections: [
+      { id: 'hospital', title: 'Hospital / Provider Details', pattern: /^(hospital_|provider_)/ },
+      { id: 'patient',  title: 'Patient Details',             pattern: /^(patient_|gender_|age_|date_of_birth|insured_|employee_|other_mediclaim|family_physician|relative_)/ },
+    ]
+  },
+  {
+    tab: 'insurance',
+    container: 'insuranceFieldsContainer',
+    badge: 'insuranceFillBadge',
+    sections: [
+      { id: 'insurance', title: 'Insurance / Policy Details', pattern: /^(policy_|insurance_|tpa_|member_|sum_insured|room_type|room_category)/ },
+    ]
+  },
+  {
+    tab: 'clinical',
+    container: 'clinicalFieldsContainer',
+    badge: 'clinicalFillBadge',
+    sections: [
+      { id: 'doctor',    title: 'Doctor & Clinical Details', pattern: /^(treating_doctor|nature_of|relevant_|duration_|first_consultation|past_history|provisional_|icd_|treatment_|investigation_|route_|surgical_|other_treatment|how_injury|is_rta|date_of_injury|report_to|fir_|injury_due|test_conducted|maternity_|expected_date_of_delivery)/ },
+      { id: 'admission', title: 'Hospitalization Details',   pattern: /^(date_of_admission|time_of_admission|hospitalization_event|chronic_illness|expected_days|days_in_icu|admission_|date_of_discharge|time_of_discharge)/ },
+    ]
+  },
+  {
+    tab: 'cost',
+    container: 'costFieldsContainer',
+    badge: 'costFillBadge',
+    sections: [
+      { id: 'cost',        title: 'Estimated Cost',  pattern: /^(per_day_room|expected_cost|icu_charges|ot_charges|professional_fees|medicines_|other_hospital|all_inclusive|sum_total|cost_)/ },
+      { id: 'declaration', title: 'Declarations',    pattern: /^(declaration_|patient_representative|hospital_declaration)/ },
+    ]
+  },
 ];
 
 
@@ -813,55 +691,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // ════════════════════════════════════════════════
-// STEP NAVIGATION
+// PHASE TRANSITION
 // ════════════════════════════════════════════════
-function goToStep(step) {
-  currentStep = step;
-  document.querySelectorAll('.step-content').forEach(el => el.classList.add('hidden'));
-  document.getElementById('step' + step).classList.remove('hidden');
+function enterFormPhase() {
+  document.getElementById('phaseUpload').classList.add('hidden');
+  document.getElementById('footerBar').classList.add('hidden');
+  document.getElementById('phaseForm').classList.remove('hidden');
+  document.getElementById('tabBar').classList.remove('hidden');
+  document.getElementById('btnNewSession').classList.remove('hidden');
+  switchTab('patient');
+}
 
-  // Update step indicators
-  document.querySelectorAll('.step-item').forEach(el => {
-    const s = +el.dataset.step;
-    el.classList.toggle('active', s === step);
-    el.classList.toggle('completed', s < step);
+function resetSession() {
+  if (!confirm('Start a new session? Unsaved changes will be lost.')) return;
+  sessionId = null; rawOcrMerged = {}; rawExtractions = []; mappedData = {};
+  schemaFields = []; selectedSchema = ''; selectedTemplate = ''; generatedFormId = null;
+  isGipsaCase = false; generatePPNFlag = false; attachmentsList = [];
+  Object.keys(uploadedFiles).forEach(k => delete uploadedFiles[k]);
+
+  document.getElementById('phaseUpload').classList.remove('hidden');
+  document.getElementById('footerBar').classList.remove('hidden');
+  document.getElementById('phaseForm').classList.add('hidden');
+  document.getElementById('tabBar').classList.add('hidden');
+  document.getElementById('btnNewSession').classList.add('hidden');
+  document.getElementById('sessionInfo').textContent = '';
+  document.getElementById('downloadLink').classList.add('hidden');
+  document.getElementById('btnOCR').disabled = true;
+  document.getElementById('tpaSelectUpload').selectedIndex = 0;
+  document.getElementById('tpaBadgeUpload').innerHTML = '';
+
+  renderUploadGrid();
+  updateUploadCount();
+}
+
+
+// ════════════════════════════════════════════════
+// TAB SWITCHING
+// ════════════════════════════════════════════════
+function switchTab(tabId) {
+  document.querySelectorAll('#phaseForm .tab-content').forEach(el => el.classList.add('hidden'));
+  document.getElementById('tab-' + tabId).classList.remove('hidden');
+  document.querySelectorAll('.tab-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.tab === tabId);
   });
-  document.getElementById('conn12').classList.toggle('completed', step > 1);
-  document.getElementById('conn23').classList.toggle('completed', step > 2);
-
-  // Footer buttons
-  document.getElementById('btnPrev').disabled = step === 1;
-  document.getElementById('btnNext').classList.toggle('hidden', step >= 3);
-  document.getElementById('btnOCR').classList.toggle('hidden', step !== 1);
-  document.getElementById('btnGenerate').classList.toggle('hidden', step !== 2);
-
-  // Show OCR button only if files uploaded
-  const hasFiles = Object.keys(uploadedFiles).length > 0;
-  if (step === 1 && hasFiles) {
-    document.getElementById('btnOCR').classList.remove('hidden');
-  }
-
-  updateFooterStatus();
-}
-
-function nextStep() {
-  if (currentStep < 3) goToStep(currentStep + 1);
-}
-function prevStep() {
-  if (currentStep > 1) goToStep(currentStep - 1);
-}
-
-function updateFooterStatus() {
-  const el = document.getElementById('footerStatus');
-  if (currentStep === 1) {
-    const totalFiles = Object.values(uploadedFiles).reduce((sum, arr) => sum + arr.length, 0);
-    el.textContent = totalFiles > 0 ? `${totalFiles} document(s) ready for OCR` : 'Upload patient documents to begin';
-  } else if (currentStep === 2) {
-    const filled = Object.values(mappedData).filter(v => v !== '' && v !== null && v !== undefined).length;
-    el.textContent = `${filled} / ${schemaFields.length} fields populated`;
-  } else {
-    el.textContent = generatedFormId ? 'PDF generated successfully' : '';
-  }
+  if (tabId === 'generate') updateChecklist();
 }
 
 
@@ -882,30 +755,22 @@ function renderUploadGrid() {
   `).join('');
 }
 
-function triggerUpload(key) {
-  document.getElementById('input-' + key).click();
-}
+function triggerUpload(key) { document.getElementById('input-' + key).click(); }
 
 function handleFileSelect(key, input) {
   if (!input.files.length) return;
-  const files = Array.from(input.files);
-  // Append to existing files for this section (support adding more)
-  if (!uploadedFiles[key]) uploadedFiles[key] = [];
-  files.forEach(f => uploadedFiles[key].push({ file: f, name: f.name, size: f.size }));
-
-  const card = document.getElementById('upload-' + key);
-  card.classList.add('has-file');
+  // REPLACE files for this category (not append) to prevent duplicates
+  uploadedFiles[key] = Array.from(input.files).map(f => ({ file: f, name: f.name, size: f.size }));
+  document.getElementById('upload-' + key).classList.add('has-file');
   const count = uploadedFiles[key].length;
   const names = uploadedFiles[key].map(f => f.name).join(', ');
   document.getElementById('fileinfo-' + key).textContent = count === 1 ? names : `${count} files: ${names}`;
-
   updateUploadCount();
 }
 
 function removeFile(key) {
   delete uploadedFiles[key];
-  const card = document.getElementById('upload-' + key);
-  card.classList.remove('has-file');
+  document.getElementById('upload-' + key).classList.remove('has-file');
   document.getElementById('fileinfo-' + key).textContent = '';
   document.getElementById('input-' + key).value = '';
   updateUploadCount();
@@ -913,292 +778,191 @@ function removeFile(key) {
 
 function updateUploadCount() {
   const sections = Object.keys(uploadedFiles).length;
-  const totalFiles = Object.values(uploadedFiles).reduce((sum, arr) => sum + arr.length, 0);
+  const totalFiles = Object.values(uploadedFiles).reduce((s, a) => s + a.length, 0);
   document.getElementById('uploadCount').textContent = `${totalFiles} file(s) in ${sections} / 6 sections`;
-  // Show OCR button if files exist
-  if (currentStep === 1) {
-    document.getElementById('btnOCR').classList.toggle('hidden', totalFiles === 0);
-  }
-  updateFooterStatus();
+  document.getElementById('btnOCR').disabled = totalFiles === 0;
+  document.getElementById('footerStatus').textContent = totalFiles > 0
+    ? `${totalFiles} document(s) ready for OCR extraction`
+    : 'Upload patient documents to begin';
 }
 
 
 // ════════════════════════════════════════════════
-// TPA SCHEMA LOADING
+// SCHEMA LOADING (populates both dropdowns)
 // ════════════════════════════════════════════════
 async function loadSchemas() {
   try {
     const res = await fetch(API + '/forms/schemas');
     const json = await res.json();
-    if (json.success && json.data) {
-      availableSchemas = json.data;
-      const select = document.getElementById('tpaSelect');
-      select.innerHTML = '<option value="">-- Select TPA Form --</option>';
+    if (!json.success || !json.data) return;
+    availableSchemas = json.data;
+
+    // Populate both dropdowns
+    [document.getElementById('tpaSelectUpload'), document.getElementById('tpaSelect')].forEach(select => {
+      const firstOpt = select.options[0].outerHTML;
+      select.innerHTML = firstOpt;
       json.data.forEach(s => {
-        // Use filename stem as the display name (e.g. "Ericson TPA Preauth", "Heritage-Health-Pre-Auth-Form")
         const stem = s.filename.replace('.json', '');
-        // Clean up the stem: replace hyphens/underscores with spaces, title-case
         const displayName = stem.replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-        const badge = s.has_template ? `— ${s.total_fields} fields, ${s.total_pages} pages` : '(no template)';
+        const badge = s.has_template ? `— ${s.total_fields} fields` : '(no template)';
         const disabled = s.has_template ? '' : 'disabled';
         select.innerHTML += `<option value="${s.filename}" data-template="${s.template_name || ''}" ${disabled}>${displayName} ${badge}</option>`;
       });
-
-      select.addEventListener('change', () => {
-        selectedSchema = select.value;
-        if (selectedSchema) {
-          const opt = select.options[select.selectedIndex];
-          selectedTemplate = opt.dataset.template || selectedSchema.replace('.json', '.pdf');
-          const schemaInfo = availableSchemas.find(s => s.filename === selectedSchema);
-          const displayName = selectedSchema.replace('.json', '').replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-          document.getElementById('tpaBadge').innerHTML =
-            `<span class="tpa-badge ready">&#10003; ${displayName} — Ready</span>`;
-        } else {
-          selectedTemplate = '';
-          document.getElementById('tpaBadge').innerHTML = '';
-        }
-      });
-    }
-  } catch (e) {
-    console.error('Failed to load schemas:', e);
-    document.getElementById('tpaSelect').innerHTML = '<option value="">-- Failed to load schemas --</option>';
-  }
-}
-
-
-// ════════════════════════════════════════════════
-// STEP 2 TPA DROPDOWN & RE-MAP
-// ════════════════════════════════════════════════
-function populateStep2Dropdown() {
-  const select = document.getElementById('tpaSelectStep2');
-  select.innerHTML = '<option value="">-- Select TPA Form --</option>';
-  availableSchemas.forEach(s => {
-    if (!s.has_template) return;
-    const stem = s.filename.replace('.json', '');
-    const displayName = stem.replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-    const isSelected = s.filename === selectedSchema ? 'selected' : '';
-    select.innerHTML += `<option value="${s.filename}" data-template="${s.template_name || ''}" ${isSelected}>${displayName} — ${s.total_fields} fields</option>`;
-  });
-
-  if (selectedSchema) {
-    const displayName = selectedSchema.replace('.json', '').replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-    document.getElementById('tpaBadgeStep2').innerHTML =
-      `<span class="tpa-badge ready">&#10003; ${displayName}</span>`;
-  }
-
-  // Show re-map button when staff changes the dropdown
-  select.onchange = () => {
-    const newSchema = select.value;
-    if (newSchema && newSchema !== selectedSchema) {
-      document.getElementById('btnRemap').style.display = 'inline-flex';
-      document.getElementById('tpaBadgeStep2').innerHTML =
-        `<span class="tpa-badge no-schema">&#9888; Changed — click Re-map</span>`;
-    } else if (newSchema === selectedSchema) {
-      document.getElementById('btnRemap').style.display = 'none';
-      const displayName = newSchema.replace('.json', '').replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-      document.getElementById('tpaBadgeStep2').innerHTML =
-        `<span class="tpa-badge ready">&#10003; ${displayName}</span>`;
-    }
-  };
-}
-
-async function remapToSelectedSchema() {
-  const select = document.getElementById('tpaSelectStep2');
-  const newSchema = select.value;
-  if (!newSchema) { alert('Please select a TPA form.'); return; }
-  if (!sessionId) { alert('No active session.'); return; }
-
-  const opt = select.options[select.selectedIndex];
-  selectedSchema = newSchema;
-  selectedTemplate = opt.dataset.template || newSchema.replace('.json', '.pdf');
-
-  // Also update Step 1 dropdown
-  const tpaSelect1 = document.getElementById('tpaSelect');
-  for (let i = 0; i < tpaSelect1.options.length; i++) {
-    if (tpaSelect1.options[i].value === selectedSchema) {
-      tpaSelect1.selectedIndex = i;
-      break;
-    }
-  }
-
-  showLoading('Re-mapping fields to selected TPA form...');
-
-  try {
-    // Remap
-    const remapForm = new FormData();
-    remapForm.append('schema_name', selectedSchema);
-    const remapRes = await fetch(API + '/workflow/' + sessionId + '/remap', {
-      method: 'POST', body: remapForm
     });
-    const remapJson = await remapRes.json();
-    if (remapJson.success) {
-      mappedData = remapJson.data.mapped_data || {};
-      selectedTemplate = remapJson.data.template_name || selectedTemplate;
-    }
 
-    // Load new schema fields
-    const schemaRes = await fetch(API + '/workflow/' + sessionId + '/schema-fields?schema_name=' + encodeURIComponent(selectedSchema));
-    const schemaJson = await schemaRes.json();
-    if (schemaJson.success) {
-      schemaFields = schemaJson.data.fields || [];
-    }
+    // Upload-phase dropdown change
+    document.getElementById('tpaSelectUpload').addEventListener('change', function() {
+      selectedSchema = this.value;
+      if (selectedSchema) {
+        const opt = this.options[this.selectedIndex];
+        selectedTemplate = opt.dataset.template || selectedSchema.replace('.json', '.pdf');
+        const dn = selectedSchema.replace('.json', '').replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        document.getElementById('tpaBadgeUpload').innerHTML = `<span class="tpa-badge ready">&#10003; ${dn}</span>`;
+      } else {
+        selectedTemplate = '';
+        document.getElementById('tpaBadgeUpload').innerHTML = '';
+      }
+    });
 
-    // Re-render
-    renderFormFields();
-
-    // Update badges
-    const displayName = selectedSchema.replace('.json', '').replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-    document.getElementById('tpaBadgeStep2').innerHTML =
-      `<span class="tpa-badge ready">&#10003; ${displayName}</span>`;
-    document.getElementById('btnRemap').style.display = 'none';
-
-    // Update detection banner
-    document.getElementById('tpaDetected').classList.remove('hidden');
-    document.getElementById('tpaNotDetected').classList.add('hidden');
-    document.getElementById('tpaDetectedName').textContent = `${displayName} (manually selected)`;
-
-    hideLoading();
-  } catch (e) {
-    hideLoading();
-    alert('Re-map failed: ' + e.message);
-    console.error(e);
+    // Form-phase dropdown change
+    document.getElementById('tpaSelect').addEventListener('change', function() {
+      const newSchema = this.value;
+      if (newSchema && newSchema !== selectedSchema) {
+        document.getElementById('btnRemap').classList.remove('hidden');
+        document.getElementById('tpaBadge').innerHTML = `<span class="tpa-badge no-schema">&#9888; Changed — click Re-map</span>`;
+      } else if (newSchema === selectedSchema) {
+        document.getElementById('btnRemap').classList.add('hidden');
+        const dn = newSchema.replace('.json', '').replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        document.getElementById('tpaBadge').innerHTML = `<span class="tpa-badge ready">&#10003; ${dn}</span>`;
+      }
+    });
+  } catch(e) {
+    console.error('Schema load failed:', e);
   }
 }
 
 
 // ════════════════════════════════════════════════
-// OCR WORKFLOW
+// OCR EXTRACTION (Phase 1 → Phase 2 transition)
 // ════════════════════════════════════════════════
 async function runOCR() {
   const fileKeys = Object.keys(uploadedFiles);
-  if (fileKeys.length === 0) {
-    alert('Please upload at least one document.');
-    return;
+  if (fileKeys.length === 0) return alert('Please upload at least one document.');
+
+  // Validate MRD number is entered
+  const mrdInput = document.getElementById('mrdNumber');
+  const mrdValue = (mrdInput.value || '').trim();
+  if (!mrdValue) {
+    mrdInput.focus();
+    mrdInput.style.borderColor = '#e53935';
+    return alert('Please enter the MRD Number before extracting data.');
   }
+  mrdInput.style.borderColor = '';
 
   showLoading('Uploading documents and running OCR...');
 
   try {
-    // Build FormData with all files (each section can have multiple files)
+    // Build form data
     const formData = new FormData();
     const docTypes = [];
     let totalFileCount = 0;
     fileKeys.forEach(key => {
-      const filesArr = uploadedFiles[key]; // array of { file, name, size }
-      filesArr.forEach(f => {
+      uploadedFiles[key].forEach(f => {
         formData.append('files', f.file);
         docTypes.push(key);
         totalFileCount++;
       });
     });
     formData.append('document_types', docTypes.join(','));
+    formData.append('mrd_number', mrdValue);
 
-    // Step 1: Upload + OCR via workflow/start
     updateLoadingText(`Extracting data from ${totalFileCount} document(s)...`);
     const res = await fetch(API + '/workflow/start', { method: 'POST', body: formData });
     const json = await res.json();
-
     if (!json.success) throw new Error(json.error || 'OCR failed');
 
     sessionId = json.data.session_id;
+    document.getElementById('sessionInfo').textContent = `Session: ${sessionId}`;
     rawOcrMerged = {};
     rawExtractions = json.data.raw_extractions || [];
 
-    // Merge raw extractions
     rawExtractions.forEach(ext => {
       if (ext.fields) {
-        Object.entries(ext.fields).forEach(([k, v]) => {
-          if (!rawOcrMerged[k]) rawOcrMerged[k] = v;
-        });
+        Object.entries(ext.fields).forEach(([k, v]) => { if (!rawOcrMerged[k]) rawOcrMerged[k] = v; });
       }
     });
 
-    // Show TPA auto-detection if found
+    // TPA auto-detection
     let autoDetected = false;
-    if (json.data.tpa_detection && json.data.tpa_detection.template_name) {
+    if (json.data.tpa_detection && json.data.tpa_detection.has_schema) {
       const det = json.data.tpa_detection;
-      if (det.has_schema) {
-        selectedSchema = det.schema_name;
-        selectedTemplate = det.template_name;
-        autoDetected = true;
+      selectedSchema = det.schema_name;
+      selectedTemplate = det.template_name;
+      autoDetected = true;
+    }
 
-        // Update Step 1 dropdown too
-        const tpaSelect = document.getElementById('tpaSelect');
-        for (let i = 0; i < tpaSelect.options.length; i++) {
-          if (tpaSelect.options[i].value === selectedSchema) {
-            tpaSelect.selectedIndex = i;
-            break;
-          }
-        }
-
-        document.getElementById('tpaDetected').classList.remove('hidden');
-        document.getElementById('tpaNotDetected').classList.add('hidden');
-        const detName = det.match_key.replace(/\b\w/g, c => c.toUpperCase());
-        document.getElementById('tpaDetectedName').textContent =
-          `${detName} → ${det.template_name} (confidence: ${det.confidence || 100}%)`;
+    // If manually pre-selected in upload phase, use that
+    if (!autoDetected && !selectedSchema) {
+      const preSelect = document.getElementById('tpaSelectUpload').value;
+      if (preSelect) {
+        selectedSchema = preSelect;
+        const opt = document.getElementById('tpaSelectUpload').options[document.getElementById('tpaSelectUpload').selectedIndex];
+        selectedTemplate = opt.dataset.template || preSelect.replace('.json', '.pdf');
       }
     }
 
-    // If not auto-detected, use manual selection from Step 1 or prompt
-    if (!autoDetected && !selectedSchema) {
-      document.getElementById('tpaNotDetected').classList.remove('hidden');
-      document.getElementById('tpaDetected').classList.add('hidden');
-    }
-
-    // Populate Step 2 TPA dropdown
-    populateStep2Dropdown();
-
-    document.getElementById('sessionInfo').textContent = `Session: ${sessionId}`;
-
-    // Capture initial mapped data from workflow/start as fallback
+    // Initial mapped data
     const initialMappedData = json.data.mapped_data || {};
 
-    // Step 2: Remap against selected/detected TPA schema
+    // Remap against selected schema
     if (selectedSchema) {
-      updateLoadingText('Mapping fields to ' + selectedSchema.replace('.json','').replace(/[-_]/g,' ') + '...');
+      updateLoadingText('Mapping OCR fields to TPA form schema...');
       const remapForm = new FormData();
       remapForm.append('schema_name', selectedSchema);
-
       try {
-        const remapRes = await fetch(API + '/workflow/' + sessionId + '/remap', {
-          method: 'POST', body: remapForm
-        });
+        const remapRes = await fetch(API + '/workflow/' + sessionId + '/remap', { method: 'POST', body: remapForm });
         const remapJson = await remapRes.json();
-
         if (remapJson.success) {
           mappedData = remapJson.data.mapped_data || {};
           selectedTemplate = remapJson.data.template_name || selectedTemplate;
         } else {
-          // Remap failed (e.g., session lost on reload) — use initial data
-          console.warn('Remap failed, using initial mapped data:', remapJson.error);
           mappedData = initialMappedData;
         }
-      } catch (remapErr) {
-        console.warn('Remap request failed, using initial mapped data:', remapErr);
-        mappedData = initialMappedData;
-      }
+      } catch(e) { mappedData = initialMappedData; }
 
-      // Step 3: Load schema fields for the form UI
+      // Load schema fields
       const schemaRes = await fetch(API + '/workflow/' + sessionId + '/schema-fields?schema_name=' + encodeURIComponent(selectedSchema));
       const schemaJson = await schemaRes.json();
-
-      if (schemaJson.success) {
-        schemaFields = schemaJson.data.fields || [];
-      }
+      if (schemaJson.success) schemaFields = schemaJson.data.fields || [];
     } else {
-      // No schema detected — show raw OCR only, staff must select TPA form
-      mappedData = {};
+      mappedData = initialMappedData;
       schemaFields = [];
     }
 
-    // Render results
-    renderOCRResults();
-    renderFormFields();
+    // Auto-detect GIPSA
+    autoDetectGipsa();
+
+    // Sync TPA dropdown in form phase
+    syncTPADropdown();
+
+    // Render all schema fields into tabs
+    renderAllTabFields();
 
     hideLoading();
-    goToStep(2);
 
-  } catch (e) {
+    // ── MRD Validation Feedback ──
+    const mrdValidation = json.data.mrd_validation;
+    mrdValidationData = mrdValidation || null;
+    // Pre-fill MRD edit field with the value staff entered in Phase 1
+    const mrdPhase1Value = document.getElementById('mrdNumber').value.trim();
+    document.getElementById('mrdFieldEdit').value = mrdPhase1Value;
+    // Populate the inline MRD card in Patient Details tab
+    populateMrdCard();
+
+    // ── Transition to Phase 2 ──
+    enterFormPhase();
+
+  } catch(e) {
     hideLoading();
     alert('OCR Error: ' + e.message);
     console.error(e);
@@ -1207,166 +971,392 @@ async function runOCR() {
 
 
 // ════════════════════════════════════════════════
-// RENDER OCR RESULTS (LEFT PANEL)
+// SYNC TPA DROPDOWN (form phase)
 // ════════════════════════════════════════════════
-function renderOCRResults() {
-  const container = document.getElementById('ocrResults');
-
-  if (rawExtractions.length === 0) {
-    container.innerHTML = '<p style="padding:20px; text-align:center; color:var(--text-secondary)">No data extracted.</p>';
-    return;
-  }
-
-  let html = '';
-  rawExtractions.forEach(ext => {
-    if (ext.error) {
-      html += `<div style="padding:12px;"><span class="ocr-doc-badge" style="background:var(--danger-light);color:var(--danger);">${ext.type} — Error</span><p style="font-size:12px;color:var(--danger);">${ext.error}</p></div>`;
-      return;
+function syncTPADropdown() {
+  const select = document.getElementById('tpaSelect');
+  if (selectedSchema) {
+    for (let i = 0; i < select.options.length; i++) {
+      if (select.options[i].value === selectedSchema) { select.selectedIndex = i; break; }
     }
-    const fields = ext.fields || {};
-    const count = Object.keys(fields).length;
-    html += `<div style="padding:8px 12px;"><span class="ocr-doc-badge">${ext.type} (${ext.file}) — ${count} fields</span></div>`;
-    Object.entries(fields).forEach(([key, val]) => {
-      const display = typeof val === 'boolean' ? (val ? '&#10003; Yes' : '&#10007; No') : String(val).substring(0, 60);
-      html += `<div class="ocr-result-item"><span class="ocr-key" title="${key}">${key}</span><span class="ocr-value">${display}</span></div>`;
-    });
-  });
-
-  container.innerHTML = html;
-
-  const totalFields = Object.keys(rawOcrMerged).length;
-  document.getElementById('ocrFieldCount').textContent = `${totalFields} fields`;
+    const dn = selectedSchema.replace('.json', '').replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    document.getElementById('tpaBadge').innerHTML = `<span class="tpa-badge ready">&#10003; ${dn}</span>`;
+  }
 }
 
 
 // ════════════════════════════════════════════════
-// RENDER FORM FIELDS (RIGHT PANEL)
+// GIPSA AUTO-DETECTION + HANDLERS
 // ════════════════════════════════════════════════
-function renderFormFields() {
-  const container = document.getElementById('formFieldsContainer');
+const GIPSA_TPA_LIST = [
+  'oriental insurance','national insurance','new india assurance','united india insurance',
+  'general insurance corporation','oriental','national','new india','united india','gic',
+  'iffco tokio','bajaj allianz','icici lombard','hdfc ergo','tata aig','reliance general',
+  'sbi general','cholamandalam','chola ms','future generali','universal sompo','go digit',
+  'niva bupa','star health','care health','aditya birla',
+];
 
-  if (schemaFields.length === 0) {
-    container.innerHTML = '<p style="text-align:center;color:var(--text-secondary)">No schema fields loaded.</p>';
-    return;
+function autoDetectGipsa() {
+  const ico = (mappedData.insurance_company || rawOcrMerged['Insurance Company'] || rawOcrMerged['insurance_company'] || '').toLowerCase();
+  if (!ico) return;
+  const match = GIPSA_TPA_LIST.some(n => ico.includes(n) || n.includes(ico));
+  if (match) {
+    handleGipsaChange(true);
+    document.querySelector('input[name="gipsa"][value="yes"]').checked = true;
+    document.getElementById('gipsaLabelYes').classList.add('active');
+    document.getElementById('gipsaLabelNo').classList.remove('active');
   }
+}
 
-  // Group fields by section
-  const sectionMap = {};
-  const ungrouped = [];
+function handleGipsaChange(flag) {
+  isGipsaCase = flag;
+  generatePPNFlag = flag;
+  document.getElementById('gipsaLabelYes').classList.toggle('active', flag);
+  document.getElementById('gipsaLabelNo').classList.toggle('active', !flag);
+  if (flag) {
+    document.getElementById('ppnSection').classList.remove('hidden');
+    document.getElementById('ppnCheckbox').checked = true;
+  } else {
+    document.getElementById('ppnSection').classList.add('hidden');
+    generatePPNFlag = false;
+  }
+  if (sessionId) persistGipsa();
+}
 
-  schemaFields.forEach(field => {
-    let placed = false;
-    for (const sec of SECTIONS) {
-      if (sec.pattern.test(field.field_id)) {
-        if (!sectionMap[sec.id]) sectionMap[sec.id] = [];
-        sectionMap[sec.id].push(field);
-        placed = true;
-        break;
-      }
+function handlePPNChange() {
+  generatePPNFlag = document.getElementById('ppnCheckbox').checked;
+  if (sessionId) persistGipsa();
+}
+
+async function persistGipsa() {
+  try {
+    const form = new FormData();
+    form.append('is_gipsa', isGipsaCase);
+    form.append('generate_ppn', generatePPNFlag);
+    await fetch(API + '/workflow/' + sessionId + '/gipsa', { method: 'POST', body: form });
+  } catch(e) { console.error('GIPSA persist failed:', e); }
+}
+
+
+// ════════════════════════════════════════════════
+// REMAP (when staff changes TPA dropdown in form phase)
+// ════════════════════════════════════════════════
+async function remapToSelectedSchema() {
+  const select = document.getElementById('tpaSelect');
+  const newSchema = select.value;
+  if (!newSchema) return alert('Please select a TPA form.');
+  if (!sessionId) return alert('No active session.');
+
+  const opt = select.options[select.selectedIndex];
+  selectedSchema = newSchema;
+  selectedTemplate = opt.dataset.template || newSchema.replace('.json', '.pdf');
+
+  showLoading('Re-mapping fields to new TPA form...');
+  try {
+    const remapForm = new FormData();
+    remapForm.append('schema_name', selectedSchema);
+    const remapRes = await fetch(API + '/workflow/' + sessionId + '/remap', { method: 'POST', body: remapForm });
+    const remapJson = await remapRes.json();
+    if (remapJson.success) {
+      mappedData = remapJson.data.mapped_data || {};
+      selectedTemplate = remapJson.data.template_name || selectedTemplate;
     }
-    if (!placed) ungrouped.push(field);
-  });
 
-  let html = '';
-  let totalFilled = 0;
+    const schemaRes = await fetch(API + '/workflow/' + sessionId + '/schema-fields?schema_name=' + encodeURIComponent(selectedSchema));
+    const schemaJson = await schemaRes.json();
+    if (schemaJson.success) schemaFields = schemaJson.data.fields || [];
 
-  SECTIONS.forEach(sec => {
-    const fields = sectionMap[sec.id] || [];
-    if (fields.length === 0) return;
+    renderAllTabFields();
+    syncTPADropdown();
+    document.getElementById('btnRemap').classList.add('hidden');
+    hideLoading();
+  } catch(e) {
+    hideLoading();
+    alert('Re-map failed: ' + e.message);
+  }
+}
 
-    const filledInSection = fields.filter(f => mappedData[f.field_id] !== undefined && mappedData[f.field_id] !== '').length;
-    totalFilled += filledInSection;
 
-    html += `<div class="form-section">
-      <div class="form-section-header">
-        <span>${sec.title}</span>
-        <span class="count">${filledInSection} / ${fields.length} filled</span>
-      </div>
-      <div class="field-row">`;
+// ════════════════════════════════════════════════
+// RENDER ALL SCHEMA FIELDS INTO TABS
+// ════════════════════════════════════════════════
+function renderAllTabFields() {
+  // Assign each schema field to a tab section
+  const assigned = new Set();
 
-    fields.forEach(field => {
-      const val = mappedData[field.field_id];
-      const hasValue = val !== undefined && val !== '' && val !== null;
+  TAB_FIELD_RULES.forEach(rule => {
+    const container = document.getElementById(rule.container);
+    let html = '';
+    let tabFilled = 0;
 
-      if (field.type === 'checkbox') {
-        const checked = val === true || val === 'true' || val === 'True';
-        html += `<div class="field-group checkbox-group">
-          <input type="checkbox" id="f_${field.field_id}" data-fid="${field.field_id}" ${checked ? 'checked' : ''}
-                 onchange="updateFieldValue('${field.field_id}', this.checked)">
-          <label for="f_${field.field_id}">${field.label}</label>
-        </div>`;
+    rule.sections.forEach(sec => {
+      const fields = schemaFields.filter(f => !assigned.has(f.field_id) && sec.pattern.test(f.field_id));
+      if (fields.length === 0) return;
+      fields.forEach(f => assigned.add(f.field_id));
+
+      // ── Special handling for cost section: show "ESTIMATE ATTACHED" banner + only sum total ──
+      if (sec.id === 'cost') {
+        const result = renderCostSection(fields);
+        html += result.html;
+        tabFilled += result.filled;
       } else {
-        const cssClass = hasValue ? 'ocr-filled' : '';
-        const displayVal = hasValue ? String(val) : '';
-        html += `<div class="field-group">
-          <label for="f_${field.field_id}">${field.label}${hasValue ? ' &#10003;' : ''}</label>
-          <input type="text" id="f_${field.field_id}" class="${cssClass}" data-fid="${field.field_id}"
-                 value="${escapeHtml(displayVal)}" placeholder="${field.label}"
-                 onchange="updateFieldValue('${field.field_id}', this.value)">
-        </div>`;
+        const result = renderFieldSection(sec.title, fields);
+        html += result.html;
+        tabFilled += result.filled;
       }
     });
 
-    html += `</div></div>`;
+    container.innerHTML = html || '<p style="text-align:center;color:var(--text-secondary)">No fields in this section for the selected TPA form.</p>';
+    document.getElementById(rule.badge).textContent = `${tabFilled} filled`;
   });
 
-  // Ungrouped fields
+  // Ungrouped fields go to "Cost & Declarations" tab as "Other Fields"
+  const ungrouped = schemaFields.filter(f => !assigned.has(f.field_id));
   if (ungrouped.length > 0) {
-    const filledUG = ungrouped.filter(f => mappedData[f.field_id] !== undefined && mappedData[f.field_id] !== '').length;
-    totalFilled += filledUG;
-
-    html += `<div class="form-section">
-      <div class="form-section-header">
-        <span>Other Fields</span>
-        <span class="count">${filledUG} / ${ungrouped.length} filled</span>
-      </div>
-      <div class="field-row">`;
-    ungrouped.forEach(field => {
-      const val = mappedData[field.field_id];
-      const hasValue = val !== undefined && val !== '' && val !== null;
-      if (field.type === 'checkbox') {
-        const checked = val === true || val === 'true' || val === 'True';
-        html += `<div class="field-group checkbox-group">
-          <input type="checkbox" id="f_${field.field_id}" data-fid="${field.field_id}" ${checked ? 'checked' : ''}
-                 onchange="updateFieldValue('${field.field_id}', this.checked)">
-          <label for="f_${field.field_id}">${field.label}</label>
-        </div>`;
-      } else {
-        const cssClass = hasValue ? 'ocr-filled' : '';
-        html += `<div class="field-group">
-          <label for="f_${field.field_id}">${field.label}</label>
-          <input type="text" id="f_${field.field_id}" class="${cssClass}" data-fid="${field.field_id}"
-                 value="${escapeHtml(hasValue ? String(val) : '')}" placeholder="${field.label}"
-                 onchange="updateFieldValue('${field.field_id}', this.value)">
-        </div>`;
-      }
-    });
-    html += `</div></div>`;
+    const costContainer = document.getElementById('costFieldsContainer');
+    const result = renderFieldSection('Other Fields', ungrouped);
+    costContainer.innerHTML += result.html;
+    const currentCount = parseInt(document.getElementById('costFillBadge').textContent) || 0;
+    document.getElementById('costFillBadge').textContent = `${currentCount + result.filled} filled`;
   }
-
-  container.innerHTML = html;
-
-  document.getElementById('filledCount').textContent = `${totalFilled} filled`;
-  document.getElementById('totalFieldCount').textContent = `${schemaFields.length} total`;
-  updateFooterStatus();
 }
 
+function renderCostSection(fields) {
+  // Separate sum_total field from individual line items
+  const sumTotalField = fields.find(f => SUM_TOTAL_FIELD_IDS.has(f.field_id));
+  const lineItemFields = fields.filter(f => !SUM_TOTAL_FIELD_IDS.has(f.field_id));
+  let filled = 0;
 
-function updateFieldValue(fieldId, value) {
+  // Build the "ESTIMATE ATTACHED" banner for line items
+  let lineItemsHtml = '';
+  lineItemFields.forEach(f => {
+    // Hidden input so generatePDF still sees these fields (we'll clear values before sending)
+    lineItemsHtml += `<input type="hidden" id="f_${f.field_id}" data-fid="${f.field_id}" value="">`;
+  });
+
+  // Build editable sum total field
+  let sumTotalHtml = '';
+  if (sumTotalField) {
+    const val = mappedData[sumTotalField.field_id];
+    const hasValue = val !== undefined && val !== '' && val !== null;
+    if (hasValue) filled++;
+    const css = hasValue ? 'ocr-filled' : '';
+    sumTotalHtml = `<div class="field-group" style="max-width:400px;">
+      <label for="f_${sumTotalField.field_id}" style="font-weight:700;font-size:14px;">
+        Total Estimated Cost${hasValue ? ' &#10003;' : ''}
+      </label>
+      <input type="text" id="f_${sumTotalField.field_id}" class="${css}" data-fid="${sumTotalField.field_id}"
+             value="${esc(hasValue ? String(val) : '')}" placeholder="Enter total estimated cost (Rs.)"
+             onchange="onFieldChange('${sumTotalField.field_id}', this.value)"
+             style="font-size:16px;font-weight:700;padding:12px;">
+    </div>`;
+  }
+
+  const html = `<div class="form-section">
+    <div class="form-section-header">
+      <span>Estimated Cost</span>
+      <span class="count">${filled} / 1 filled</span>
+    </div>
+    <div style="background:linear-gradient(135deg,#fff8e1,#fff3c4);border:2px solid #f9a825;border-radius:8px;padding:16px 20px;margin:12px 0;text-align:center;">
+      <div style="font-size:18px;font-weight:900;color:#e65100;letter-spacing:2px;margin-bottom:6px;">
+        ESTIMATE ATTACHED
+      </div>
+      <div style="font-size:12px;color:#795548;">
+        Individual cost line items will show "ESTIMATE ATTACHED" on the TPA form.<br>
+        Only the <strong>total estimated cost</strong> will be populated with the actual amount.
+      </div>
+    </div>
+    ${lineItemsHtml}
+    <div class="field-row">${sumTotalHtml}</div>
+  </div>`;
+
+  return { html, filled };
+}
+
+function renderFieldSection(title, fields) {
+  let filled = 0;
+  let fieldsHtml = '';
+
+  fields.forEach(field => {
+    const val = mappedData[field.field_id];
+    const hasValue = val !== undefined && val !== '' && val !== null;
+    if (hasValue) filled++;
+
+    if (field.type === 'checkbox') {
+      const checked = val === true || val === 'true' || val === 'True';
+      fieldsHtml += `<div class="field-group checkbox-group">
+        <input type="checkbox" id="f_${field.field_id}" data-fid="${field.field_id}" ${checked ? 'checked' : ''}
+               onchange="onFieldChange('${field.field_id}', this.checked)">
+        <label for="f_${field.field_id}">${esc(field.label)}</label>
+      </div>`;
+    } else {
+      const css = hasValue ? 'ocr-filled' : '';
+      fieldsHtml += `<div class="field-group">
+        <label for="f_${field.field_id}">${esc(field.label)}${hasValue ? ' &#10003;' : ''}</label>
+        <input type="text" id="f_${field.field_id}" class="${css}" data-fid="${field.field_id}"
+               value="${esc(hasValue ? String(val) : '')}" placeholder="${esc(field.label)}"
+               onchange="onFieldChange('${field.field_id}', this.value)">
+      </div>`;
+    }
+  });
+
+  const html = `<div class="form-section">
+    <div class="form-section-header">
+      <span>${title}</span>
+      <span class="count">${filled} / ${fields.length} filled</span>
+    </div>
+    <div class="field-row">${fieldsHtml}</div>
+  </div>`;
+
+  return { html, filled };
+}
+
+function onFieldChange(fieldId, value) {
   mappedData[fieldId] = value;
-  // Update visual indicator
   const input = document.getElementById('f_' + fieldId);
   if (input && input.type !== 'checkbox') {
-    input.classList.toggle('ocr-filled', value !== '' && value !== null && value !== undefined);
+    input.classList.toggle('ocr-filled', !!value && value !== '');
+    // Update label checkmark
+    const label = input.previousElementSibling;
+    if (label && label.tagName === 'LABEL') {
+      const baseLabel = esc(schemaFields.find(f => f.field_id === fieldId)?.label || fieldId);
+      label.innerHTML = value ? baseLabel + ' &#10003;' : baseLabel;
+    }
   }
-  updateFooterStatus();
-  // Re-count filled
-  let filled = 0;
-  schemaFields.forEach(f => {
-    const v = mappedData[f.field_id];
-    if (v !== undefined && v !== '' && v !== null) filled++;
+  // Update tab badge counts
+  updateTabBadges();
+}
+
+function updateTabBadges() {
+  const assigned = new Set();
+  TAB_FIELD_RULES.forEach(rule => {
+    let tabFilled = 0;
+    rule.sections.forEach(sec => {
+      schemaFields.forEach(f => {
+        if (!assigned.has(f.field_id) && sec.pattern.test(f.field_id)) {
+          assigned.add(f.field_id);
+          const v = mappedData[f.field_id];
+          if (v !== undefined && v !== '' && v !== null) tabFilled++;
+        }
+      });
+    });
+    document.getElementById(rule.badge).textContent = `${tabFilled} filled`;
   });
-  document.getElementById('filledCount').textContent = `${filled} filled`;
+  // Count ungrouped in cost tab
+  let costExtra = 0;
+  schemaFields.forEach(f => {
+    if (!assigned.has(f.field_id)) {
+      const v = mappedData[f.field_id];
+      if (v !== undefined && v !== '' && v !== null) costExtra++;
+    }
+  });
+  if (costExtra > 0) {
+    const cur = parseInt(document.getElementById('costFillBadge').textContent) || 0;
+    // badge already includes section counts, just recalc
+  }
+}
+
+
+// ════════════════════════════════════════════════
+// ATTACHMENTS
+// ════════════════════════════════════════════════
+async function handleAttachmentUpload(input) {
+  if (!input.files.length) return;
+  if (!sessionId) { alert('No active session.'); input.value = ''; return; }
+
+  showLoading('Uploading attachments...');
+  try {
+    const fd = new FormData();
+    Array.from(input.files).forEach(f => fd.append('files', f));
+    const res = await fetch(API + '/workflow/' + sessionId + '/attachments', { method: 'POST', body: fd });
+    const json = await res.json();
+    if (!json.success) throw new Error(json.error || 'Upload failed');
+    input.value = '';
+    await refreshAttachments();
+    hideLoading();
+  } catch(e) { hideLoading(); alert('Upload failed: ' + e.message); }
+}
+
+async function refreshAttachments() {
+  if (!sessionId) return;
+  try {
+    const res = await fetch(API + '/workflow/' + sessionId + '/attachments');
+    const json = await res.json();
+    if (json.success) { attachmentsList = json.data || []; renderAttachments(); }
+  } catch(e) { console.error(e); }
+}
+
+function renderAttachments() {
+  const grid = document.getElementById('attachmentGrid');
+  const c = attachmentsList.length;
+  document.getElementById('attCount').textContent = `${c} file(s)`;
+  const badge = document.getElementById('tabBadgeAtt');
+  if (c > 0) { badge.textContent = c; badge.classList.remove('hidden'); }
+  else { badge.classList.add('hidden'); }
+
+  if (c === 0) {
+    grid.innerHTML = '<p style="color:var(--text-secondary); grid-column:1/-1;">No additional attachments uploaded yet.</p>';
+    return;
+  }
+  grid.innerHTML = attachmentsList.map(att => {
+    const isImg = /\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(att.filename);
+    const icon = isImg ? '&#128247;' : '&#128196;';
+    const sz = att.size ? Math.round(att.size / 1024) + ' KB' : '';
+    return `<div class="attachment-item">
+      <button class="att-remove" onclick="removeAttachment('${att.file_id}')" title="Remove">&times;</button>
+      <div class="att-icon">${icon}</div>
+      <div class="att-name">${esc(att.filename)}</div>
+      <div class="att-size">${sz}</div>
+    </div>`;
+  }).join('');
+}
+
+async function removeAttachment(fileId) {
+  if (!confirm('Remove this attachment?')) return;
+  try {
+    const res = await fetch(API + '/workflow/' + sessionId + '/attachments/' + fileId, { method: 'DELETE' });
+    const json = await res.json();
+    if (!json.success) throw new Error(json.error);
+    await refreshAttachments();
+  } catch(e) { alert('Remove failed: ' + e.message); }
+}
+
+
+// ════════════════════════════════════════════════
+// CHECKLIST (Generate tab)
+// ════════════════════════════════════════════════
+function updateChecklist() {
+  const tpaDone = !!selectedSchema;
+  setCheck('chkTPA', 'chkTPAStatus', tpaDone,
+    tpaDone ? selectedSchema.replace('.json','').replace(/[-_]/g,' ') : 'Not selected');
+
+  let filled = 0;
+  schemaFields.forEach(f => { const v = mappedData[f.field_id]; if (v !== undefined && v !== '' && v !== null) filled++; });
+  setCheck('chkFields', 'chkFieldsStatus', filled > 0, `${filled} / ${schemaFields.length} fields`);
+
+  if (isGipsaCase && generatePPNFlag) {
+    setCheck('chkPPN', 'chkPPNStatus', true, 'Will be generated (GIPSA)');
+  } else if (isGipsaCase) {
+    setCheck('chkPPN', 'chkPPNStatus', false, 'GIPSA but PPN disabled');
+  } else {
+    setCheckSkip('chkPPN', 'chkPPNStatus', 'N/A (Non-GIPSA)');
+  }
+
+  const attC = attachmentsList.length;
+  if (attC > 0) setCheck('chkAtt', 'chkAttStatus', true, `${attC} file(s)`);
+  else setCheckSkip('chkAtt', 'chkAttStatus', 'None (optional)');
+}
+
+function setCheck(iconId, statusId, ok, text) {
+  const icon = document.getElementById(iconId);
+  icon.innerHTML = ok ? '&#10004;' : '&#10060;';
+  icon.className = ok ? 'check-icon ok' : 'check-icon warn';
+  document.getElementById(statusId).textContent = text;
+}
+function setCheckSkip(iconId, statusId, text) {
+  document.getElementById(iconId).innerHTML = '&#8212;';
+  document.getElementById(iconId).className = 'check-icon skip';
+  document.getElementById(statusId).textContent = text;
 }
 
 
@@ -1374,12 +1364,10 @@ function updateFieldValue(fieldId, value) {
 // GENERATE PDF
 // ════════════════════════════════════════════════
 async function generatePDF() {
-  if (!sessionId) {
-    alert('No active session. Please run OCR first.');
-    return;
-  }
+  if (!sessionId) return alert('No active session.');
+  if (!selectedSchema) return alert('No TPA form selected. Go to Insurance & TPA tab.');
 
-  // Collect all form values from UI
+  // Collect all field values from all tabs
   const formData = {};
   schemaFields.forEach(field => {
     const el = document.getElementById('f_' + field.field_id);
@@ -1391,58 +1379,81 @@ async function generatePDF() {
     }
   });
 
+  // ── Cost section: inject "ESTIMATE ATTACHED" into first line item, clear others, keep sum total ──
+  let firstCostLineSet = false;
+  schemaFields.forEach(field => {
+    if (SUM_TOTAL_FIELD_IDS.has(field.field_id)) {
+      // Keep the sum total value as-is (already collected above)
+    } else if (COST_LINE_ITEM_PATTERN.test(field.field_id)) {
+      if (!firstCostLineSet) {
+        formData[field.field_id] = 'ESTIMATE ATTACHED';
+        firstCostLineSet = true;
+      } else {
+        delete formData[field.field_id]; // Clear individual line items
+      }
+    }
+  });
+
   showLoading('Saving verified data...');
 
   try {
-    // Update session data
+    // Save data
     const updateRes = await fetch(API + '/workflow/' + sessionId + '/data', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
     });
-
     if (!updateRes.ok) throw new Error('Failed to save data');
 
-    // Generate PDF
-    updateLoadingText('Generating pre-auth PDF...');
-    console.log('Generating with template:', selectedTemplate, 'schema:', selectedSchema);
+    // ── Update MRD number in session if staff edited it in Phase 2 ──
+    const editedMrd = (document.getElementById('mrdFieldEdit').value || '').trim();
+    if (editedMrd) {
+      try {
+        await fetch(API + '/workflow/' + sessionId + '/mrd', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mrd_number: editedMrd }),
+        });
+      } catch(e) { console.warn('MRD update failed (non-blocking):', e); }
+    }
+
+    // Persist GIPSA
+    await persistGipsa();
+
+    // Generate
+    updateLoadingText('Generating claim package...');
     const genForm = new FormData();
     genForm.append('template_name', selectedTemplate);
     genForm.append('schema_name', selectedSchema);
 
-    const genRes = await fetch(API + '/workflow/' + sessionId + '/generate', {
-      method: 'POST', body: genForm
-    });
+    const genRes = await fetch(API + '/workflow/' + sessionId + '/generate', { method: 'POST', body: genForm });
     const genJson = await genRes.json();
-
-    if (!genJson.success) throw new Error(genJson.detail?.error || 'PDF generation failed');
+    if (!genJson.success) throw new Error(genJson.error || 'Generation failed');
 
     generatedFormId = genJson.data.form_id;
-    const previewUrl = API + genJson.data.preview_url;
     const exportUrl = API + '/forms/export/' + generatedFormId;
 
-    // Show preview
-    document.getElementById('pdfPreview').src = previewUrl;
-    document.getElementById('downloadLink').href = exportUrl;
+    document.getElementById('summarySection').classList.remove('hidden');
+    const dlLink = document.getElementById('downloadLink');
+    dlLink.href = exportUrl;
+    dlLink.classList.remove('hidden');
 
-    // Summary
     const filledFields = Object.keys(formData).length;
-    const summaryHtml = `
+    document.getElementById('summaryList').innerHTML = `
       <li><span class="summary-label">Session ID</span><span class="summary-value">${sessionId}</span></li>
-      <li><span class="summary-label">TPA Form</span><span class="summary-value">${selectedSchema.replace('.json','')}</span></li>
-      <li><span class="summary-label">MRD Number</span><span class="summary-value">${document.getElementById('mrdNumber').value || 'N/A'}</span></li>
-      <li><span class="summary-label">Patient Name</span><span class="summary-value">${formData.patient_name || formData.patient_representative_name || 'N/A'}</span></li>
-      <li><span class="summary-label">Documents Uploaded</span><span class="summary-value">${Object.keys(uploadedFiles).length}</span></li>
+      <li><span class="summary-label">TPA Form</span><span class="summary-value">${selectedSchema.replace('.json','').replace(/[-_]/g,' ')}</span></li>
+      <li><span class="summary-label">Patient Name</span><span class="summary-value">${formData.patient_name || 'N/A'}</span></li>
+      <li><span class="summary-label">MRD Number</span><span class="summary-value">${genJson.data.mrd_number || (document.getElementById('mrdFieldEdit').value || '').trim() || 'N/A'}</span></li>
       <li><span class="summary-label">Fields Populated</span><span class="summary-value">${filledFields} / ${schemaFields.length}</span></li>
+      <li><span class="summary-label">GIPSA Case</span><span class="summary-value">${genJson.data.is_gipsa ? 'Yes' : 'No'}</span></li>
+      <li><span class="summary-label">PPN Generated</span><span class="summary-value">${genJson.data.ppn_generated ? 'Yes' : 'No'}</span></li>
+      <li><span class="summary-label">Attachments Merged</span><span class="summary-value">${genJson.data.attachments_merged || 0}</span></li>
+      <li><span class="summary-label">Filename</span><span class="summary-value">${genJson.data.filename}</span></li>
       <li><span class="summary-label">Generated At</span><span class="summary-value">${new Date().toLocaleString()}</span></li>
-      <li><span class="summary-label">Form ID</span><span class="summary-value">${generatedFormId}</span></li>
     `;
-    document.getElementById('summaryList').innerHTML = summaryHtml;
 
     hideLoading();
-    goToStep(3);
-
-  } catch (e) {
+  } catch(e) {
     hideLoading();
     alert('Generation Error: ' + e.message);
     console.error(e);
@@ -1450,47 +1461,82 @@ async function generatePDF() {
 }
 
 
-async function submitForm() {
-  if (!generatedFormId) {
-    alert('No form generated yet.');
-    return;
-  }
-  showLoading('Submitting to TPA...');
-  try {
-    const res = await fetch(API + '/forms/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ form_id: generatedFormId, notes: 'Submitted from Provider Portal' }),
-    });
-    const json = await res.json();
-    hideLoading();
-    alert('Form submitted successfully! Status: ' + (json.data?.status || 'submitted'));
-  } catch (e) {
-    hideLoading();
-    alert('Submission failed: ' + e.message);
-  }
-}
-
-
 // ════════════════════════════════════════════════
 // UTILITIES
 // ════════════════════════════════════════════════
-function showLoading(text) {
-  document.getElementById('loadingText').textContent = text || 'Processing...';
-  document.getElementById('loadingOverlay').classList.remove('hidden');
-}
-function updateLoadingText(text) {
-  document.getElementById('loadingText').textContent = text;
-}
-function hideLoading() {
-  document.getElementById('loadingOverlay').classList.add('hidden');
+function showLoading(t) { document.getElementById('loadingText').textContent = t || 'Processing...'; document.getElementById('loadingOverlay').classList.remove('hidden'); }
+function updateLoadingText(t) { document.getElementById('loadingText').textContent = t; }
+function hideLoading() { document.getElementById('loadingOverlay').classList.add('hidden'); }
+function esc(s) { if (!s) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function populateMrdCard() {
+  const badge = document.getElementById('mrdStatusBadge');
+  const banner = document.getElementById('mrdValidationBanner');
+  const docGroup = document.getElementById('mrdDocValueGroup');
+  const docValues = document.getElementById('mrdDocValues');
+
+  if (!mrdValidationData) {
+    badge.textContent = '—';
+    badge.style.cssText = 'background:var(--gray-100);color:var(--text-secondary);';
+    banner.classList.add('hidden');
+    docGroup.classList.add('hidden');
+    return;
+  }
+
+  const v = mrdValidationData;
+  const styles = {
+    verified:          { bg:'#e8f5e9', border:'#4caf50', icon:'&#10003;', color:'#2e7d32', label:'Verified',    badgeBg:'#4caf50' },
+    mismatch:          { bg:'#fff3e0', border:'#ff9800', icon:'&#9888;', color:'#e65100', label:'Mismatch',    badgeBg:'#ff9800' },
+    not_found_in_docs: { bg:'#e3f2fd', border:'#2196f3', icon:'&#9432;', color:'#1565c0', label:'Not in Docs', badgeBg:'#2196f3' },
+  };
+  const s = styles[v.status] || styles.not_found_in_docs;
+
+  // Badge
+  badge.innerHTML = s.label;
+  badge.style.cssText = `background:${s.badgeBg};color:#fff;font-weight:600;padding:4px 12px;border-radius:12px;font-size:12px;`;
+
+  // Banner message
+  let msg = '';
+  if (v.status === 'verified') {
+    msg = `${s.icon} MRD <b>${esc(v.entered)}</b> verified — matches documents.`;
+  } else if (v.status === 'mismatch') {
+    const dvStr = v.found_in_documents.map(d => `<b>${esc(d.key)}</b>: ${esc(d.value)}`).join(', ');
+    msg = `${s.icon} MRD mismatch! You entered <b>"${esc(v.entered)}"</b> but documents show: ${dvStr}. Please correct the MRD below.`;
+  } else {
+    msg = `${s.icon} MRD <b>${esc(v.entered)}</b> accepted. Could not find MRD in documents for cross-verification.`;
+  }
+  banner.style.cssText = `border-radius:6px;padding:10px 16px;margin-bottom:14px;font-size:13px;display:flex;align-items:center;gap:8px;background:${s.bg};border:1px solid ${s.border};color:${s.color};`;
+  banner.innerHTML = msg;
+  banner.classList.remove('hidden');
+
+  // Document MRD values
+  if (v.found_in_documents && v.found_in_documents.length > 0) {
+    const chips = v.found_in_documents.map(d =>
+      `<span style="background:${s.bg};border:1px solid ${s.border};border-radius:4px;padding:3px 10px;font-size:13px;color:${s.color};font-weight:600;">${esc(d.key)}: ${esc(d.value)}</span>`
+    ).join(' ');
+    docValues.innerHTML = chips;
+    docGroup.classList.remove('hidden');
+  } else {
+    docGroup.classList.add('hidden');
+  }
 }
 
-function escapeHtml(str) {
-  if (!str) return '';
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function onMrdFieldEdit(newValue) {
+  // Update the Phase 1 input so generatePDF session update stays consistent
+  const phase1Input = document.getElementById('mrdNumber');
+  if (phase1Input) phase1Input.value = newValue;
+  // Re-evaluate validation status if we have doc data
+  if (mrdValidationData && mrdValidationData.found_in_documents && mrdValidationData.found_in_documents.length > 0) {
+    const trimmed = newValue.trim();
+    const matchesAny = mrdValidationData.found_in_documents.some(d => String(d.value).trim() === trimmed);
+    mrdValidationData.entered = trimmed;
+    mrdValidationData.status = matchesAny ? 'verified' : 'mismatch';
+    mrdValidationData.match = matchesAny;
+  } else if (mrdValidationData) {
+    mrdValidationData.entered = newValue.trim();
+  }
+  populateMrdCard();
 }
-
 </script>
 </body>
 </html>

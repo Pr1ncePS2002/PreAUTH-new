@@ -45,6 +45,8 @@ from services.mapping_engine import MappingEngine
 from services.ocr_service import OCRService
 from services.form_engine import FormEngine
 from services.his_service import HISService
+from services.pdf.generate_ppn_pdf import generate_ppn_pdf
+from services.pdf.merge_claim_documents import merge_claim_documents
 
 load_dotenv()
 
@@ -298,6 +300,17 @@ TPA_TEMPLATE_MAP = {
     "universal sompo": "UNIVERSAL SOMPOO  PREAUTH FORM.pdf",
     "vidal": "Vidal TPA.pdf",
     "aditya birla": "Aditya Birla.pdf",
+}
+
+# GIPSA TPA list — insurance companies that require PPN declaration
+GIPSA_TPA_LIST = {
+    "oriental insurance", "national insurance", "new india assurance",
+    "united india insurance", "general insurance corporation",
+    "oriental", "national", "new india", "united india", "gic",
+    "iffco tokio", "bajaj allianz", "icici lombard", "hdfc ergo",
+    "tata aig", "reliance general", "sbi general", "cholamandalam",
+    "chola ms", "future generali", "universal sompo", "go digit",
+    "niva bupa", "star health", "care health", "aditya birla",
 }
 
 
@@ -709,6 +722,7 @@ def detect_tpa(insurance_company: str = Query(...)):
 async def workflow_start(
     files: List[UploadFile] = File(...),
     document_types: str = Form(""),  # comma-separated types matching file order
+    mrd_number: str = Form(""),  # staff-entered MRD number for identification + filename
 ):
     """
     Step 1: Upload multiple documents and run OCR on each.
@@ -849,6 +863,40 @@ async def workflow_start(
         mapped_data = inject_hospital_data(mapped_data, schema_fields)
         mapped_data = calculate_age_from_dob(mapped_data)
 
+    # ── MRD validation against OCR-extracted data ──
+    mrd_validation = None
+    if mrd_number:
+        mrd_number = mrd_number.strip()
+        # Search for MRD in OCR results (clinical notes, estimates, etc.)
+        ocr_mrd_candidates = []
+        for key in ("MRD No", "MRD Number", "Medical Record Number", "MR No",
+                    "Patient MRD", "Medical Record No", "mrd_number", "MRD"):
+            val = all_extracted.get(key)
+            if val:
+                ocr_mrd_candidates.append({"key": key, "value": str(val).strip()})
+        
+        if ocr_mrd_candidates:
+            # Check if any OCR-extracted MRD matches the staff-entered one
+            matched = any(
+                mrd_number.lower() == c["value"].lower()
+                for c in ocr_mrd_candidates
+            )
+            mrd_validation = {
+                "entered": mrd_number,
+                "found_in_documents": ocr_mrd_candidates,
+                "match": matched,
+                "status": "verified" if matched else "mismatch",
+            }
+        else:
+            mrd_validation = {
+                "entered": mrd_number,
+                "found_in_documents": [],
+                "match": None,
+                "status": "not_found_in_docs",
+            }
+        # Ensure mrd_number is in mapped_data for downstream use (filename, etc.)
+        mapped_data["mrd_number"] = mrd_number
+
     # Store session (persist to disk so it survives server reloads)
     _sessions[session_id] = {
         "session_id": session_id,
@@ -857,6 +905,8 @@ async def workflow_start(
         "raw_ocr_merged": all_extracted,
         "mapped_data": mapped_data,
         "tpa_detection": tpa_detection,
+        "mrd_number": mrd_number or None,
+        "mrd_validation": mrd_validation,
         "status": "extracted",
         "created": datetime.utcnow().isoformat(),
     }
@@ -870,6 +920,8 @@ async def workflow_start(
         "mapped_data": mapped_data,
         "tpa_detection": tpa_detection,
         "raw_extractions": raw_extractions,
+        "mrd_number": mrd_number or None,
+        "mrd_validation": mrd_validation,
     })
 
 
@@ -991,6 +1043,22 @@ def workflow_update_data(session_id: str, data: dict):
     return ok({"session_id": session_id, "status": "verified", "fields": len(data)})
 
 
+@app.put("/workflow/{session_id}/mrd")
+def workflow_update_mrd(session_id: str, body: dict):
+    """
+    Update the MRD number in the session (staff edited it in Phase 2 form).
+    """
+    session = _load_session(session_id)
+    if not session:
+        err(f"Session {session_id} not found", 404)
+    mrd = (body.get("mrd_number") or "").strip()
+    if mrd:
+        session["mrd_number"] = mrd
+        session.setdefault("mapped_data", {})["mrd_number"] = mrd
+        _save_session(session_id)
+    return ok({"session_id": session_id, "mrd_number": mrd})
+
+
 @app.post("/workflow/{session_id}/generate")
 def workflow_generate(
     session_id: str,
@@ -1018,7 +1086,15 @@ def workflow_generate(
     if not template_name or not schema_name:
         err("No TPA form selected — please select a form before generating", 400)
 
-    logger.info("Generating PDF: template=%s, schema=%s", template_name, schema_name)
+    is_gipsa = session.get("is_gipsa_case", False)
+    should_generate_ppn = session.get("generate_ppn", False) and is_gipsa
+    attachments = session.get("attachments", [])
+    uploaded_files = session.get("uploaded_files", [])
+
+    logger.info(
+        "Generating PDF: template=%s, schema=%s, gipsa=%s, ppn=%s, attachments=%d",
+        template_name, schema_name, is_gipsa, should_generate_ppn, len(attachments),
+    )
 
     template_path = BASE_DIR / "templates" / template_name
     schema_path = BASE_DIR / "analyzed" / schema_name
@@ -1029,19 +1105,90 @@ def workflow_generate(
         err(f"Schema not found: {schema_name} — this template has not been analyzed yet", 404)
 
     form_id = str(uuid.uuid4())[:8]
-    output_filename = f"{template_path.stem}_{form_id}_filled.pdf"
-    output_path = OUTPUT_DIR / output_filename
+
+    # ── Determine MRD number for filename (staff-entered takes priority) ──
+    mrd_number = (
+        session.get("mrd_number")
+        or data.get("mrd_number")
+        or session.get("raw_ocr_merged", {}).get("mrd_number")
+        or session.get("raw_ocr_merged", {}).get("MRD No")
+        or session.get("raw_ocr_merged", {}).get("MRD Number")
+        or session.get("raw_ocr_merged", {}).get("Medical Record Number")
+    )
+
+    # ── Step 1: Generate TPA claim form ──
+    tpa_output_filename = f"{template_path.stem}_{form_id}_filled.pdf"
+    tpa_output_path = OUTPUT_DIR / tpa_output_filename
 
     try:
-        result_path = form_engine.populate(
+        tpa_result_path = form_engine.populate(
             str(template_path),
             str(schema_path),
             data,
-            str(output_path),
+            str(tpa_output_path),
         )
     except Exception as e:
-        logger.error("Form population failed: %s", e)
-        err(f"Form population failed: {str(e)}", 500)
+        logger.error("TPA form population failed: %s", e)
+        err(f"TPA form population failed: {str(e)}", 500)
+
+    # ── Step 2: Generate PPN declaration (if GIPSA) ──
+    ppn_result_path = None
+    if should_generate_ppn:
+        try:
+            # Merge raw OCR fields as fallback so PPN gets maximum data coverage
+            # Raw OCR keys (e.g. "Policy Number", "Insurance Company") are used
+            # when the TPA schema field IDs don't match PPN expectations.
+            ppn_combined_data = dict(session.get("raw_ocr_merged", {}))
+            ppn_combined_data.update(data)  # mapped_data takes priority over raw OCR
+            ppn_output_path = str(OUTPUT_DIR / f"ppn_{form_id}_filled.pdf")
+            ppn_result_path = generate_ppn_pdf(ppn_combined_data, ppn_output_path)
+            logger.info("PPN declaration generated: %s", ppn_result_path)
+        except Exception as e:
+            logger.error("PPN generation failed (non-fatal): %s", e)
+            # PPN failure is non-fatal — continue with TPA form only
+
+    # ── Step 3: Collect attachment file paths (deduplicated) ──
+    attachment_paths = []
+    seen_paths = set()
+    # Include uploaded documents (scans from OCR step)
+    for uf in uploaded_files:
+        p = Path(uf.get("path", ""))
+        if p.exists() and str(p) not in seen_paths:
+            attachment_paths.append(str(p))
+            seen_paths.add(str(p))
+
+    # Include explicitly uploaded attachments
+    for att in attachments:
+        p = Path(att.get("path", ""))
+        if p.exists() and str(p) not in seen_paths:
+            attachment_paths.append(str(p))
+            seen_paths.add(str(p))
+
+    # ── Step 4: Merge everything into final package ──
+    needs_merge = ppn_result_path or attachment_paths
+
+    if needs_merge:
+        try:
+            if mrd_number:
+                final_filename = f"claim_package_MRD_{mrd_number}.pdf"
+            else:
+                final_filename = f"claim_package_{form_id}.pdf"
+            final_output_path = str(OUTPUT_DIR / final_filename)
+            final_path = merge_claim_documents(
+                tpa_pdf=tpa_result_path,
+                ppn_pdf=ppn_result_path,
+                attachments=attachment_paths,
+                output_path=final_output_path,
+            )
+            result_path = final_path
+            output_filename = final_filename
+        except Exception as e:
+            logger.error("PDF merge failed (falling back to TPA-only): %s", e)
+            result_path = tpa_result_path
+            output_filename = tpa_output_filename
+    else:
+        result_path = tpa_result_path
+        output_filename = tpa_output_filename
 
     form_info = {
         "path": result_path,
@@ -1051,6 +1198,11 @@ def workflow_generate(
         "created": datetime.utcnow().isoformat(),
         "data_keys": list(data.keys()),
         "session_id": session_id,
+        "is_gipsa": is_gipsa,
+        "ppn_generated": ppn_result_path is not None,
+        "attachments_count": len(attachment_paths),
+        "tpa_only_path": tpa_result_path,
+        "ppn_path": ppn_result_path,
     }
     _populated_forms[form_id] = form_info
     session["form_id"] = form_id
@@ -1062,6 +1214,10 @@ def workflow_generate(
         "filename": output_filename,
         "preview_url": f"/forms/preview/{form_id}",
         "export_url": f"/forms/export/{form_id}",
+        "is_gipsa": is_gipsa,
+        "ppn_generated": ppn_result_path is not None,
+        "attachments_merged": len(attachment_paths),
+        "mrd_number": mrd_number,
     })
 
 
@@ -1080,6 +1236,115 @@ def export_form(form_id: str):
         filename=form_info["filename"],
         headers={"Content-Disposition": f'attachment; filename="{form_info["filename"]}"'},
     )
+
+
+# ---------------------------------------------------------------------------
+# ATTACHMENTS
+# ---------------------------------------------------------------------------
+@app.post("/workflow/{session_id}/attachments")
+async def upload_attachments(
+    session_id: str,
+    files: List[UploadFile] = File(...),
+):
+    """Upload additional attachments (ID proofs, bills, reports, scans) for the claim package."""
+    session = _load_session(session_id)
+    if not session:
+        err(f"Session {session_id} not found", 404)
+
+    if "attachments" not in session:
+        session["attachments"] = []
+
+    uploaded = []
+    for file in files:
+        file_id = str(uuid.uuid4())[:8]
+        safe_name = f"att_{file_id}_{file.filename}"
+        save_path = UPLOADS_DIR / safe_name
+
+        content = await file.read()
+        with open(save_path, "wb") as f:
+            f.write(content)
+
+        info = {
+            "file_id": file_id,
+            "filename": file.filename,
+            "saved_as": safe_name,
+            "path": str(save_path),
+            "size": len(content),
+            "content_type": file.content_type or "",
+        }
+        session["attachments"].append(info)
+        uploaded.append(info)
+        logger.info("Attachment uploaded: %s -> %s", file.filename, save_path)
+
+    _save_session(session_id)
+    return ok({
+        "uploaded": len(uploaded),
+        "total_attachments": len(session["attachments"]),
+        "files": uploaded,
+    })
+
+
+@app.get("/workflow/{session_id}/attachments")
+def list_attachments(session_id: str):
+    """List all attachments for a session."""
+    session = _load_session(session_id)
+    if not session:
+        err(f"Session {session_id} not found", 404)
+    return ok(session.get("attachments", []))
+
+
+@app.delete("/workflow/{session_id}/attachments/{file_id}")
+def remove_attachment(session_id: str, file_id: str):
+    """Remove an attachment from a session."""
+    session = _load_session(session_id)
+    if not session:
+        err(f"Session {session_id} not found", 404)
+
+    attachments = session.get("attachments", [])
+    found = None
+    for att in attachments:
+        if att["file_id"] == file_id:
+            found = att
+            break
+
+    if not found:
+        err(f"Attachment {file_id} not found", 404)
+
+    attachments.remove(found)
+    session["attachments"] = attachments
+
+    # Clean up file
+    try:
+        Path(found["path"]).unlink(missing_ok=True)
+    except Exception:
+        pass
+
+    _save_session(session_id)
+    return ok({"removed": file_id, "remaining": len(attachments)})
+
+
+# ---------------------------------------------------------------------------
+# GIPSA / PPN
+# ---------------------------------------------------------------------------
+@app.post("/workflow/{session_id}/gipsa")
+def update_gipsa_status(
+    session_id: str,
+    is_gipsa: bool = Form(False),
+    generate_ppn: bool = Form(False),
+):
+    """Update the GIPSA status and PPN generation flag for a session."""
+    session = _load_session(session_id)
+    if not session:
+        err(f"Session {session_id} not found", 404)
+
+    session["is_gipsa_case"] = is_gipsa
+    session["generate_ppn"] = generate_ppn if is_gipsa else False
+    _save_session(session_id)
+
+    return ok({
+        "is_gipsa_case": session["is_gipsa_case"],
+        "generate_ppn": session["generate_ppn"],
+    })
 
 
 @app.get("/workflow/{session_id}/schema-fields")

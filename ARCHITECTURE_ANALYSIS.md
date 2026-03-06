@@ -1,7 +1,43 @@
 # TPA Pre-Authorization System — Deep Architecture Analysis & Migration Plan
 
 **Generated:** 2026-03-01
+**Last Updated:** 2026-03-05
 **Scope:** Full pipeline audit, Document AI migration analysis, field-wise evaluation, quality framework, implementation plan
+
+---
+
+## RECENT CHANGES (March 2026)
+
+### Two-Phase UI Redesign
+- Frontend rebuilt as two-phase wizard: Phase 1 (MRD + upload + OCR) → Phase 2 (6-tab form).
+- MRD number is required before extraction; validated against OCR-extracted MRD from documents.
+- MRD validation states: `verified`, `mismatch`, `not_found_in_docs`.
+
+### Cost Section — "ESTIMATE ATTACHED"
+- Individual cost line items (room rent, ICU, OT, etc.) are NOT populated with amounts on the TPA form.
+- First cost line-item field gets `"ESTIMATE ATTACHED"` text (rendered in bold via `FormEngine._draw_text()`).
+- Only the sum total field gets the actual amount.
+- Sum total field IDs: `cost_total_expected_hospitalization` (Bajaj), `sum_total_expected_cost_of_hospitalization` (Ericson), `sum_total_expected_cost_hospitalization` (Heritage).
+
+### GIPSA / PPN Declaration
+- Auto-detection of GIPSA cases from 26 known TPA names.
+- PPN Declaration PDF generated for GIPSA cases with expanded field map (50+ aliases covering all 3 schemas + raw OCR keys).
+- PPN generator receives merged `raw_ocr_merged` + `mapped_data` for maximum field coverage.
+
+### MRD-Based Filename
+- Claim packages named `claim_package_MRD_{mrd_number}.pdf` using staff-entered MRD.
+- Staff-entered MRD stored in session; takes priority for filename over OCR-extracted MRD.
+
+### Generate Tab Layout
+- Card 1: Pre-generation checklist + summary (summary appears after generation).
+- Card 2: Generate button + Go Back & Edit.
+- Download/preview appears below after generation.
+
+### Upload Duplicate Fix
+- `handleFileSelect()` now replaces files per category instead of appending.
+
+### PDF Merge with Deduplication
+- Attachment paths are deduplicated before merge to prevent duplicate pages.
 
 ---
 

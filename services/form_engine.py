@@ -228,7 +228,11 @@ class FormEngine:
         x = field["coordinates"]["x"]
         y = page_height - field["coordinates"]["y"]
         font_size = field.get("font_size", 10)
-        can.setFont("Helvetica", font_size)
+        # Use bold font for "ESTIMATE ATTACHED" banner text
+        if str(value).strip().upper() == "ESTIMATE ATTACHED":
+            can.setFont("Helvetica-Bold", max(font_size, 11))
+        else:
+            can.setFont("Helvetica", font_size)
         can.drawString(x, y, str(value))
 
     def _draw_text_box(self, can, field: dict, value, page_height: float):
