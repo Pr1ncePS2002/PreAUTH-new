@@ -417,7 +417,7 @@
       "page": 1,
       "type": "text_line",
       "coordinates": {
-        "x": 300,
+        "x": 260,
         "y": 528.5
       },
       "font_size": 9,
@@ -429,7 +429,7 @@
       "page": 1,
       "type": "text_line",
       "coordinates": {
-        "x": 200,
+        "x": 170,
         "y": 544.7
       },
       "font_size": 9,
@@ -504,7 +504,7 @@
       "page": 1,
       "type": "checkbox",
       "coordinates": {
-        "x": 250,
+        "x": 150,
         "y": 609.5
       },
       "font_size": 9
@@ -548,7 +548,7 @@
       "page": 1,
       "type": "checkbox",
       "coordinates": {
-        "x": 290,
+        "x": 272,
         "y": 625.7
       },
       "font_size": 9
@@ -1192,8 +1192,8 @@
       "page": 2,
       "type": "text_line",
       "coordinates": {
-        "x": 490,
-        "y": 205.2
+        "x": 400,
+        "y": 225.2
       },
       "font_size": 9,
       "max_width": 100
@@ -1241,8 +1241,8 @@
       "page": 2,
       "type": "text_box",
       "coordinates": {
-        "x": 200,
-        "y": 380
+        "x": 100,
+        "y": 370
       },
       "font_size": 9,
       "max_width": 290,
@@ -1254,7 +1254,7 @@
       "page": 2,
       "type": "text_box",
       "coordinates": {
-        "x": 460,
+        "x": 400,
         "y": 380
       },
       "font_size": 9,
@@ -1280,7 +1280,7 @@
       "type": "text_line",
       "coordinates": {
         "x": 150,
-        "y": 321.4
+        "y": 328.4
       },
       "font_size": 9,
       "max_width": 100
@@ -1291,8 +1291,8 @@
       "page": 3,
       "type": "text_box",
       "coordinates": {
-        "x": 460,
-        "y": 355
+        "x": 400,
+        "y": 345
       },
       "font_size": 9,
       "max_width": 180,
@@ -1304,7 +1304,7 @@
       "page": 3,
       "type": "text_box",
       "coordinates": {
-        "x": 200,
+        "x": 120,
         "y": 655
       },
       "font_size": 9,
@@ -1317,7 +1317,7 @@
       "page": 3,
       "type": "text_box",
       "coordinates": {
-        "x": 460,
+        "x": 430,
         "y": 655
       },
       "font_size": 9,

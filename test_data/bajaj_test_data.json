@@ -14,7 +14,7 @@
 
   "patient_name": "RAJESH KUMAR SHARMA",
   "patient_gender_male": true,
-  "patient_gender_female": false,
+  "patient_gender_female": true,
   "patient_age_years": "45",
   "patient_age_months": "6",
   "patient_dob": "15/03/1979",
