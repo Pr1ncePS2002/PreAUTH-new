@@ -1,0 +1,22 @@
+{
+    "ppn_hospital_name": "Amrita Hospital, Faridabad",
+    "ppn_hospital_address": "Sector 88, Faridabad, Haryana, 121002",
+    "ppn_patient_name": "Rohan Sharma",
+    "ppn_age_sex": "45 Y / Male",
+    "ppn_ip_no": "IP-123456",
+    "ppn_uhid_no": "UHID-987654",
+    "ppn_mobile_no": "9876543210",
+    "ppn_date_of_admission": "05/03/2026",
+    "ppn_time_of_admission": "10:30 AM",
+    "ppn_date_of_discharge": "10/03/2026",
+    "ppn_time_of_discharge": "02:00 PM",
+    "ppn_id_proof": "A-123, Nehru Apartments, New Delhi - 110019",
+    "ppn_attendant_name": "Anita Sharma",
+    "ppn_attendant_mobile": "9876543211",
+    "ppn_attendant_address": "A-123, Nehru Apartments, New Delhi - 110019",
+    "ppn_policy_number": "P-2024-XYZ-123 / UI-234-987-C",
+    "ppn_insurance_company": "Bajaj Allianz General Insurance",
+    "ppn_additional_facility": "Post-Discharge Cardiac Rehabilitation Program",
+    "ppn_cost_amount": "25000",
+    "ppn_cost_words": "Twenty Five Thousand Rupees Only"
+}

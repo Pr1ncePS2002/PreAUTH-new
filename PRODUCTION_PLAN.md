@@ -570,111 +570,83 @@ def cross_check(extracted_data: dict) -> list[Warning]:
 
 ---
 
-## Phase 4 — Production Hardening (Week 3-4)
+## Phase 4 — Production Stack & Deployment (Week 3-4)
 
-### 4.1 Database migration (SQLite → PostgreSQL)
+This phase transitions the application from a local prototype to a scalable, secure, and production-ready cloud service on the Google Cloud Platform (GCP).
 
-Replace in-memory dicts with persistent storage:
+### 4.1 Application Containerization
+- **Action:** Create a `Dockerfile` to package the FastAPI application, its dependencies, and the Gunicorn/Uvicorn web server into a standard container image.
+- **Hosting:** Deploy the container image to **Google Cloud Run**.
+- **Why Cloud Run:** It's a serverless platform that automatically scales with usage (even to zero, saving costs) and simplifies deployment, removing the need to manage servers.
 
-| Current | Production |
-|---|---|
-| `_sessions` dict | `sessions` table (PostgreSQL) |
-| `_populated_forms` dict | `forms` table |
-| `_ocr_results` dict | `ocr_results` table |
-| JSON files in `sessions/` | DB rows with JSONB columns |
+### 4.2 Data & File Storage Migration
+- **Action:** Replace all filesystem operations (`sessions/`, `uploads/`, `output/`) with cloud-native services.
+- **Database (Structured Data): Google Firestore**
+    - **Migration:** Convert the `sessions/` directory logic to use Firestore. Each case will be a "document" in a `sessions` collection. This provides a scalable, queryable, and real-time database for all case metadata.
+- **File Storage (PDFs & Uploads): Google Cloud Storage**
+    - **Migration:** Modify the upload and generation logic to save all binary files (uploaded docs, generated PDFs) to a Cloud Storage bucket. The Firestore documents will only store a secure link to these files, which is far more efficient.
 
-**Schema:**
-```sql
-CREATE TABLE sessions (
-    id UUID PRIMARY KEY,
-    mrd_number VARCHAR(50),
-    patient_name VARCHAR(200),
-    status VARCHAR(20) DEFAULT 'active',   -- active, completed, expired
-    mapped_data JSONB,
-    ocr_raw JSONB,
-    warnings JSONB,
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-    updated_at TIMESTAMPTZ DEFAULT NOW(),
-    expires_at TIMESTAMPTZ  -- DATA_RETENTION_HOURS from now
-);
+### 4.3 Security & Secrets Management
+- **Authentication:** Integrate **Google Identity Platform** to enable "Sign in with Google" for your staff. This is highly secure and easy to manage. Protect all API endpoints to require a valid user login.
+- **Secrets:** Store the Google Cloud service account key and any other secrets in **Google Secret Manager**. Modify the application to fetch these credentials securely at startup instead of from a file.
+- **Audit Logging:** Create an `audit_log` collection in Firestore to track key events (e.g., `case_created`, `field_edited`, `form_generated`) and associate them with the logged-in user.
 
-CREATE TABLE audit_log (
-    id SERIAL PRIMARY KEY,
-    session_id UUID REFERENCES sessions(id),
-    action VARCHAR(50),      -- 'field_edited', 'suggestion_accepted', 'form_generated'
-    field_id VARCHAR(100),
-    old_value TEXT,
-    new_value TEXT,
-    actor VARCHAR(100),      -- staff username from JWT
-    timestamp TIMESTAMPTZ DEFAULT NOW()
-);
+### 4.4 Deployment Architecture (GCP Serverless)
+```
+                    ┌───────────────────────────┐
+  Staff Device ─────▶│   Google Cloud Platform   │
+ (Browser/PWA)      │                           │
+                    │ ┌───────────────────────┐ │
+                    │ │      Cloud Run        │ │ (FastAPI App)
+                    │ └──────────┬──────────┘ │
+                    │            │              │
+                    │ ┌──────────▼──────────┐ │
+                    │ │     Firestore       │ │ (Session Data, Audit Log)
+                    │ └──────────┬──────────┘ │
+                    │            │              │
+                    │ ┌──────────▼──────────┐ │
+                    │ │   Cloud Storage     │ │ (PDFs, Uploads)
+                    │ └──────────┬──────────┘ │
+                    │            │              │
+                    │ ┌──────────▼──────────┐ │
+                    │ │    Secret Manager   │ │ (API Keys)
+                    │ └──────────┬──────────┘ │
+                    │            │              │
+                    │ ┌──────────▼──────────┐ │
+                    │ │ Gemini / Document AI│ │ (OCR Service)
+                    │ └───────────────────────┘ │
+                    └───────────────────────────┘
 ```
 
-### 4.2 Authentication hardening
-
-- Replace `JWT_SECRET = "dev-secret-change-in-production"` with env-only secret
-- Add role-based access: `staff`, `supervisor`, `admin`
-- Supervisor can review/approve pre-auth before submission
-- Audit log captures every field edit with username + timestamp
-
-### 4.3 Rate limiting & error handling
-
-```python
-from slowapi import Limiter
-limiter = Limiter(key_func=get_remote_address)
-
-@app.post("/ai/suggest")
-@limiter.limit("30/minute")   # prevent abuse of Gemini API
-async def ai_suggest_field(...):
-```
-
-### 4.4 Deployment architecture
-
-```
-                    ┌─────────────────┐
-  Internet ────────▶│  Nginx / Caddy  │ (SSL, rate limit, static files)
-                    └────────┬────────┘
-                             │
-                    ┌────────▼────────┐
-                    │ Gunicorn + Uvicorn│  (2-4 workers)
-                    │   FastAPI app    │
-                    └────────┬────────┘
-                             │
-              ┌──────────────┼──────────────┐
-              │              │              │
-     ┌────────▼──────┐ ┌────▼─────┐ ┌──────▼──────┐
-     │  PostgreSQL   │ │  Redis   │ │ File Store  │
-     │  (sessions,   │ │ (cache,  │ │ (uploads,   │
-     │   audit log)  │ │  queues) │ │  output)    │
-     └───────────────┘ └──────────┘ └─────────────┘
-                             │
-              ┌──────────────┼──────────────┐
-              │              │              │
-     ┌────────▼──────┐ ┌────▼─────┐ ┌──────▼──────┐
-     │  Vertex AI    │ │Document  │ │   HIS API   │
-     │  Gemini 2.5   │ │  AI      │ │   (future)  │
-     │  Flash        │ │(fallback)│ │             │
-     └───────────────┘ └──────────┘ └─────────────┘
-```
-
-### 4.5 Caching layer (Redis)
-
-- Cache identical document extractions (hash of file bytes → result)
-- Cache Gemini suggestions for common diagnoses (e.g., "Appendicitis" → standard fields)
-- Session data in Redis for multi-worker consistency
-- TTL = DATA_RETENTION_HOURS for PHI compliance
-
-### 4.6 Monitoring & observability
-
-- **Structured logging** (JSON format) → ELK / CloudWatch
-- **Metrics:** extraction_time_ms, confidence_avg, unmatched_key_count, suggestion_acceptance_rate
-- **Alerts:** Gemini API errors > 5/min, avg confidence < 0.5, PHI cleanup failures
+### 4.5 Monitoring & Observability
+- **Structured Logging:** All `print` and `logging` statements in Cloud Run are automatically sent to **Google Cloud Logging**, enabling powerful search and analysis.
+- **Metrics & Alerts:** Set up alerts in Google Cloud Monitoring for key indicators like a high rate of Gemini API errors, a drop in average extraction confidence, or increased application latency.
 
 ---
 
-## Phase 5 — Advanced Features (Week 4+)
+## Phase 5 — Mobile-First Experience (PWA) (Week 4)
 
-### 5.1 Learning from staff corrections
+This phase focuses on making the web application feel like a native mobile app for staff using their phones.
+
+### 5.1 Responsive UI
+- **Action:** Add CSS media queries to `frontend/index.html` to ensure the layout is optimized for mobile screens. The two-column layout should stack vertically, and all form elements must be large and easily tappable.
+
+### 5.2 Camera-Direct Upload
+- **Action:** Modify the file input tag in the HTML to `<input type="file" accept="image/*" capture="environment">`.
+- **Impact:** On a mobile device, this will directly open the phone's camera, allowing staff to instantly photograph and upload documents.
+
+### 5.3 "Add to Home Screen" (Progressive Web App)
+- **Action:**
+    1. Create a `manifest.json` file defining the app's name ("Pre-Auth Helper"), icon, and theme color.
+    2. Create a basic `service-worker.js` file to cache the main application shell (HTML, CSS, JS).
+    3. Link both files in `frontend/index.html`.
+- **Impact:** Mobile browsers will prompt staff to "Add to Home Screen." The app will then launch full-screen from its own icon, just like a native app.
+
+---
+
+## Phase 6 — Advanced Features (Week 5+)
+
+### 6.1 Learning from staff corrections
 
 Track what staff changes after OCR + AI suggestion:
 
@@ -693,13 +665,13 @@ After 100+ corrections, use this data to:
 2. Build a hospital-specific dictionary for doctor names, department names, etc.
 3. Track which fields need the most corrections → prioritize prompt tuning
 
-### 5.2 Multi-page context extraction
+### 6.2 Multi-page context extraction
 
 For documents > 1 page, current code extracts each page independently. Upgrade to:
 - Send ALL pages of a single document in one Gemini call (Gemini supports multi-image)
 - Explicitly instruct: "Pages 1-3 are a single clinical note. Extract one unified JSON."
 
-### 5.3 TPA-specific form logic
+### 6.3 TPA-specific form logic
 
 Different TPAs have different rules:
 - **Bajaj Allianz:** Requires ICD-10 code mandatory
@@ -708,7 +680,7 @@ Different TPAs have different rules:
 
 Create `config/tpa_rules.json` with per-TPA validation and auto-fill rules.
 
-### 5.4 Real HIS integration
+### 6.4 Real HIS integration
 
 Replace `HISService` stub with actual hospital HIS API:
 - Pull patient demographics, policy details, past admission history
@@ -723,14 +695,13 @@ Replace `HISService` stub with actual hospital HIS API:
 |------|-------|------------|--------|
 | 1 | Phase 1 | Schema-first prompts + confidence scoring | **+40% extraction accuracy** |
 | 1 | Phase 1 | Dynamic schema injection | Auto-adapts to any TPA form |
-| 2 | Phase 2 | `/ai/suggest` + `/ai/suggest-batch` APIs | Staff productivity boost |
-| 2 | Phase 2 | Inline suggestion UI (ghost text + accept) | **Core UX differentiator** |
+| 2 | Phase 2 | `/ai/suggest-batch` API + Inline suggestion UI | **Core UX differentiator** |
 | 2 | Phase 3 | Validation + cross-document checks | Catch errors before submission |
-| 3 | Phase 3 | Warning banners in UI | Staff sees issues instantly |
-| 3 | Phase 4 | PostgreSQL + audit log | Production data persistence |
-| 3 | Phase 4 | Auth hardening + rate limiting | Security compliance |
-| 4 | Phase 4 | Docker + deployment config | Production deployment |
-| 4+ | Phase 5 | Learning from corrections, HIS integration | Continuous improvement |
+| 3 | Phase 4 | Cloud Run, Firestore, Cloud Storage migration | **Production-ready backend** |
+| 3 | Phase 4 | Google Sign-In authentication | Security & Auditing |
+| 4 | Phase 5 | Responsive CSS + Camera Upload | **Full mobile usability** |
+| 4 | Phase 5 | PWA "Add to Home Screen" feature | Native app-like experience |
+| 5+ | Phase 6 | Learning from corrections, HIS integration | Continuous improvement |
 
 ---
 
@@ -741,8 +712,8 @@ Replace `HISService` stub with actual hospital HIS API:
 |---|---|
 | `services/extractors/gemini_extractor.py` | Rewrite prompts, confidence parsing, schema injection |
 | `services/mapping_engine.py` | Becomes safety-net only (Gemini does primary mapping) |
-| `app.py` | New `/ai/suggest`, `/ai/suggest-batch` endpoints, validation integration |
-| `frontend/index.html` | Suggestion UI, confidence indicators, warning banners, auto-fill button |
+| `app.py` | New `/ai/suggest` endpoints, validation, **Firestore/Cloud Storage integration** |
+| `frontend/index.html` | Suggestion UI, confidence indicators, **responsive CSS, PWA links, camera input** |
 | `services/extractors/hybrid_extractor.py` | Pass target schema through to Gemini |
 | `config/field_mapping.json` | Add `gemini_description` to all fields (used in prompt) |
 
@@ -754,6 +725,9 @@ Replace `HISService` stub with actual hospital HIS API:
 | `config/hospital_defaults.json` | Hospital info, common diagnoses, room rates |
 | `config/tpa_rules.json` | Per-TPA validation rules and auto-fill logic |
 | `config/medical_abbreviations.json` | Externalized abbreviation glossary (updateable without code change) |
+| `Dockerfile` | **Container definition for Cloud Run deployment** |
+| `manifest.json` | **PWA "Add to Home Screen" configuration** |
+| `service-worker.js` | **PWA offline caching script** |
 
 ---
 

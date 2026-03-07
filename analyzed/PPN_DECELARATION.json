@@ -9,8 +9,8 @@
       "label": "Name of the Hospital",
       "type": "text_line",
       "page": 1,
-      "coordinates": {"x": 200, "y": 94},
-      "font_size": 9,
+      "coordinates": {"x": 200, "y": 30},
+      "font_size": 10,
       "max_width": 290
     },
     {
@@ -18,8 +18,8 @@
       "label": "Address",
       "type": "text_line",
       "page": 1,
-      "coordinates": {"x": 95, "y": 108},
-      "font_size": 8,
+      "coordinates": {"x": 115, "y": 50},
+      "font_size": 10,
       "max_width": 400
     },
     {
@@ -27,7 +27,7 @@
       "label": "Patient Name (Block Letters)",
       "type": "text_line",
       "page": 1,
-      "coordinates": {"x": 210, "y": 122},
+      "coordinates": {"x": 210, "y": 65},
       "font_size": 9,
       "max_width": 180
     },
@@ -36,7 +36,7 @@
       "label": "Age/Sex",
       "type": "text_line",
       "page": 1,
-      "coordinates": {"x": 410, "y": 122},
+      "coordinates": {"x": 445, "y": 65},
       "font_size": 9,
       "max_width": 80
     },
@@ -45,7 +45,7 @@
       "label": "IP No",
       "type": "text_line",
       "page": 1,
-      "coordinates": {"x": 60, "y": 137},
+      "coordinates": {"x": 100, "y": 82},
       "font_size": 9,
       "max_width": 90
     },
@@ -54,8 +54,8 @@
       "label": "UHID No",
       "type": "text_line",
       "page": 1,
-      "coordinates": {"x": 210, "y": 137},
-      "font_size": 9,
+      "coordinates": {"x": 260, "y": 82},
+      "font_size": 8,
       "max_width": 100
     },
     {
@@ -63,7 +63,7 @@
       "label": "Mobile No of Patient",
       "type": "text_line",
       "page": 1,
-      "coordinates": {"x": 390, "y": 137},
+      "coordinates": {"x": 469, "y": 82},
       "font_size": 9,
       "max_width": 100
     },
@@ -72,7 +72,7 @@
       "label": "Date of Admission",
       "type": "text_line",
       "page": 1,
-      "coordinates": {"x": 110, "y": 152},
+      "coordinates": {"x": 135, "y": 98},
       "font_size": 9,
       "max_width": 80
     },
@@ -81,7 +81,7 @@
       "label": "Time of Admission",
       "type": "text_line",
       "page": 1,
-      "coordinates": {"x": 315, "y": 152},
+      "coordinates": {"x": 325, "y": 98},
       "font_size": 9,
       "max_width": 80
     },
@@ -90,7 +90,7 @@
       "label": "Date of Discharge",
       "type": "text_line",
       "page": 1,
-      "coordinates": {"x": 110, "y": 167},
+      "coordinates": {"x": 140, "y": 115},
       "font_size": 9,
       "max_width": 80
     },
@@ -99,7 +99,7 @@
       "label": "Time of Discharge",
       "type": "text_line",
       "page": 1,
-      "coordinates": {"x": 315, "y": 167},
+      "coordinates": {"x": 325, "y": 115},
       "font_size": 9,
       "max_width": 80
     },
@@ -108,7 +108,7 @@
       "label": "Address of the Patient (ID Proof)",
       "type": "text_line",
       "page": 1,
-      "coordinates": {"x": 155, "y": 182},
+      "coordinates": {"x": 165, "y": 133},
       "font_size": 9,
       "max_width": 330
     },
@@ -117,7 +117,7 @@
       "label": "Name of the Attendant",
       "type": "text_line",
       "page": 1,
-      "coordinates": {"x": 175, "y": 197},
+      "coordinates": {"x": 175, "y": 148},
       "font_size": 9,
       "max_width": 310
     },
@@ -126,7 +126,7 @@
       "label": "Mobile No of Attendant",
       "type": "text_line",
       "page": 1,
-      "coordinates": {"x": 160, "y": 212},
+      "coordinates": {"x": 170, "y": 167},
       "font_size": 9,
       "max_width": 100
     },
@@ -135,7 +135,7 @@
       "label": "Attendant Address",
       "type": "text_line",
       "page": 1,
-      "coordinates": {"x": 270, "y": 212},
+      "coordinates": {"x": 310, "y": 168},
       "font_size": 9,
       "max_width": 220
     },
@@ -144,7 +144,7 @@
       "label": "Policy No/TPA card No",
       "type": "text_line",
       "page": 1,
-      "coordinates": {"x": 170, "y": 280},
+      "coordinates": {"x": 200, "y": 290},
       "font_size": 9,
       "max_width": 310
     },
@@ -153,7 +153,7 @@
       "label": "Insurance Company",
       "type": "text_line",
       "page": 1,
-      "coordinates": {"x": 155, "y": 296},
+      "coordinates": {"x": 185, "y": 315},
       "font_size": 9,
       "max_width": 330
     },
@@ -162,7 +162,7 @@
       "label": "Name of the Additional Facility/Provision/Procedure/Treatment",
       "type": "text_line",
       "page": 1,
-      "coordinates": {"x": 55, "y": 376},
+      "coordinates": {"x": 380, "y": 406},
       "font_size": 9,
       "max_width": 430
     },
@@ -171,7 +171,7 @@
       "label": "Cost Amount (Rs)",
       "type": "text_line",
       "page": 1,
-      "coordinates": {"x": 320, "y": 390},
+      "coordinates": {"x": 390, "y": 425},
       "font_size": 9,
       "max_width": 100
     },
@@ -180,7 +180,7 @@
       "label": "Cost in Words",
       "type": "text_line",
       "page": 1,
-      "coordinates": {"x": 75, "y": 404},
+      "coordinates": {"x": 125, "y": 438},
       "font_size": 9,
       "max_width": 410
     }

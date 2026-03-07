@@ -36,6 +36,13 @@ FORMS = [
         "test_data": "test_data/heritage_test_data.json",
         "output": "output/heritage_test_filled.pdf",
     },
+    {
+        "name": "PPN Declaration",
+        "template": "templates/PPN_DECELARATION.pdf",
+        "schema": "analyzed/PPN_DECELARATION.json",
+        "test_data": "test_data/ppn_test_data.json",
+        "output": "output/ppn_test_filled.pdf",
+    },
     # Add more forms here as they are calibrated:
     # {
     #     "name": "Star Health Preauth",
