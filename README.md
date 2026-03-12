@@ -44,11 +44,43 @@ GEMINI_MODEL=gemini-2.5-flash
 
 ## Run
 
+**Desktop only** (localhost access):
 ```powershell
 .\venv\Scripts\uvicorn.exe app:app --reload --port 8001
 ```
 
-Open the UI: http://localhost:8001/ui
+**With Mobile QR Upload** (LAN access for phone scanning):
+```powershell
+.\venv\Scripts\uvicorn.exe app:app --reload --host 0.0.0.0 --port 8001
+```
+
+> **⚠ Network IP Setup (Important!)**
+>
+> The QR code shown on the desktop UI contains a URL that the phone uses to connect.
+> This URL is built from `APP_BASE_URL` in your `.env` file, which must contain your
+> laptop's **current network IP address**.
+>
+> **Your IP changes every time you connect to a different network** — home Wi-Fi,
+> phone hotspot, office LAN, etc. will each assign a different IP to your laptop.
+>
+> Before starting the server, find your current IP:
+> ```powershell
+> Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.IPAddress -notlike '127.*' -and $_.IPAddress -notlike '169.*' }
+> ```
+> Then update `APP_BASE_URL` in `.env`:
+> ```env
+> APP_BASE_URL=http://<YOUR_CURRENT_IP>:8001
+> ```
+> **Examples:**
+> - Phone hotspot → `APP_BASE_URL=http://172.20.10.4:8001`
+> - Home Wi-Fi → `APP_BASE_URL=http://192.168.1.6:8001`
+> - Office LAN → `APP_BASE_URL=http://10.0.0.25:8001`
+>
+> If the phone shows "Connection Error" after scanning the QR, the IP is most likely wrong.
+>
+> **Note:** Do NOT use quotes or semicolons in `.env` values. Write `APP_BASE_URL=http://...` not `"http://..."`.
+
+Open the UI: http://localhost:8001/ui (or http://&lt;YOUR_IP&gt;:8001/ui from your phone)
 
 ## How To Use
 
