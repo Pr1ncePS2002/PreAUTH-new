@@ -300,6 +300,63 @@ select.form-control { cursor: pointer; }
   .tab-item { padding: 10px 12px; font-size: 12px; }
   .upload-grid { grid-template-columns: 1fr 1fr; }
 }
+
+/* ── QR Code Panel ────────────────────────────── */
+.qr-panel { text-align: center; padding: 20px; }
+.qr-panel img { max-width: 200px; border: 2px solid var(--border); border-radius: 8px; margin: 12px 0; }
+.qr-panel .qr-label { font-size: 14px; font-weight: 600; color: var(--primary); margin-bottom: 4px; }
+.qr-panel .qr-hint { font-size: 12px; color: var(--text-secondary); }
+.qr-divider {
+  display: flex; align-items: center; gap: 12px; margin: 16px 0;
+  font-size: 13px; font-weight: 600; color: var(--text-secondary);
+}
+.qr-divider::before, .qr-divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+
+/* ── Mobile Uploads Panel ─────────────────────── */
+.mob-badge {
+  position: absolute; top: 6px; left: 6px; background: var(--accent); color: white;
+  padding: 1px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; z-index: 2;
+}
+.upload-card.has-mobile { border-color: var(--accent); background: rgba(2,136,209,0.04); }
+.mobile-uploads-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px;
+}
+.mobile-upload-item {
+  border: 1px solid var(--border); border-radius: var(--radius); padding: 12px;
+  background: var(--gray-50); position: relative;
+}
+.mobile-upload-item .mob-icon { font-size: 28px; text-align: center; margin-bottom: 6px; }
+.mobile-upload-item .mob-name {
+  font-size: 11px; font-weight: 600; word-break: break-all; text-align: center;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.mobile-upload-item .mob-meta { font-size: 10px; color: var(--text-secondary); text-align: center; }
+.mobile-upload-item .mob-source {
+  display: inline-block; padding: 1px 6px; border-radius: 8px; font-size: 10px; font-weight: 600;
+  margin-top: 4px;
+}
+.mob-source.mobile { background: rgba(2,136,209,0.1); color: var(--accent); }
+.mob-source.desktop { background: rgba(26,35,126,0.08); color: var(--primary); }
+
+/* ── Desktop Dropzone ─────────────────────────── */
+.dropzone {
+  border: 2px dashed var(--gray-300); border-radius: var(--radius); padding: 32px 16px;
+  text-align: center; cursor: pointer; transition: all 0.2s; background: var(--gray-50);
+}
+.dropzone:hover, .dropzone.dragover { border-color: var(--accent); background: rgba(2,136,209,0.04); }
+.dropzone .dz-icon { font-size: 36px; margin-bottom: 8px; }
+.dropzone .dz-label { font-size: 14px; font-weight: 600; color: var(--text); }
+.dropzone .dz-hint { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+
+/* ── WS Status Dot ──────────────────────────── */
+.ws-dot {
+  width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px;
+}
+.ws-dot.connected { background: var(--success); animation: wsPulse 2s infinite; }
+.ws-dot.disconnected { background: var(--danger); }
+@keyframes wsPulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
 </style>
 </head>
 <body>
@@ -335,6 +392,7 @@ select.form-control { cursor: pointer; }
     <span>&#128206;</span> Attachments
     <span class="tab-badge hidden" id="tabBadgeAtt">0</span>
   </div>
+
   <div class="tab-item" data-tab="generate" onclick="switchTab('generate')">
     <span>&#9889;</span> Generate PDF
   </div>
@@ -355,7 +413,10 @@ select.form-control { cursor: pointer; }
       <div class="mrd-input-group">
         <div class="form-group">
           <label class="form-label">MRD Number <span style="color:#e53935;">*</span></label>
-          <input type="text" id="mrdNumber" class="form-control" placeholder="Enter MRD Number (e.g., MRD-2025-001)" autocomplete="off" required>
+          <div style="display:flex; gap:8px; align-items:center;">
+            <input type="text" id="mrdNumber" class="form-control" placeholder="Enter MRD Number (e.g., MRD-2025-001)" autocomplete="off" required style="flex:1;">
+            <button type="button" class="btn btn-accent" id="btnGenQR" onclick="onMrdBlur()" title="Generate QR for mobile upload" style="white-space:nowrap; padding:8px 14px;">&#128241; QR</button>
+          </div>
         </div>
         <div class="form-group" style="flex:0 0 200px;">
           <label class="form-label">Patient Name</label>
@@ -376,6 +437,28 @@ select.form-control { cursor: pointer; }
     </div>
     <div class="card-body">
       <div class="upload-grid" id="uploadGrid"></div>
+
+      <!-- QR Code for Mobile Scan -->
+      <div id="qrSection" style="margin-top:20px;">
+        <div class="qr-divider">OR SCAN FROM PHONE</div>
+        <div class="qr-panel">
+          <div id="qrPlaceholder">
+            <div style="font-size:36px; margin-bottom:8px; opacity:0.3;">&#128241;</div>
+            <div class="qr-label" style="opacity:0.5;">Enter MRD Number to generate QR Code</div>
+            <div class="qr-hint">Staff can scan documents using their phone camera</div>
+          </div>
+          <div id="qrActive" class="hidden">
+            <div class="qr-label">&#128241; Scan with Phone to Upload</div>
+            <div class="qr-hint">Unique QR for MRD: <strong id="qrMrdLabel"></strong></div>
+            <img id="qrCodeImg" src="" alt="QR Code">
+            <div style="font-size:11px; color:var(--text-secondary); margin-top:4px;">
+              <span class="ws-dot" id="wsDot"></span>
+              <span id="wsStatusText">Connecting...</span>
+              &nbsp;|&nbsp; Expires in <span id="qrTimer">30:00</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -544,6 +627,8 @@ select.form-control { cursor: pointer; }
       </div>
     </div>
   </div>
+
+
 
   <!-- ── Tab: Generate PDF ── -->
   <div id="tab-generate" class="tab-content hidden">
@@ -743,16 +828,30 @@ function switchTab(tabId) {
 // ════════════════════════════════════════════════
 function renderUploadGrid() {
   const grid = document.getElementById('uploadGrid');
-  grid.innerHTML = DOC_TYPES.map(dt => `
-    <div class="upload-card" id="upload-${dt.key}" onclick="triggerUpload('${dt.key}')">
+  grid.innerHTML = DOC_TYPES.map(dt => {
+    const mobCount = mobileFilesByType[dt.key] ? mobileFilesByType[dt.key].length : 0;
+    const mobBadge = mobCount > 0 ? `<div class="mob-badge" title="${mobCount} file(s) from phone">&#128241; ${mobCount}</div>` : '';
+    return `
+    <div class="upload-card ${mobCount > 0 ? 'has-mobile' : ''}" id="upload-${dt.key}" onclick="triggerUpload('${dt.key}')">
       <button class="remove-btn" onclick="event.stopPropagation(); removeFile('${dt.key}')">&times;</button>
+      ${mobBadge}
       <div class="icon">${dt.icon}</div>
       <div class="title">${dt.label}</div>
       <div class="subtitle">Click to upload (multiple files OK)</div>
       <div class="file-info" id="fileinfo-${dt.key}"></div>
       <input type="file" id="input-${dt.key}" accept="${dt.accept}" multiple onchange="handleFileSelect('${dt.key}', this)">
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
+  // Re-apply desktop file info
+  Object.keys(uploadedFiles).forEach(key => {
+    const card = document.getElementById('upload-' + key);
+    if (card && uploadedFiles[key] && uploadedFiles[key].length) {
+      card.classList.add('has-file');
+      const count = uploadedFiles[key].length;
+      const names = uploadedFiles[key].map(f => f.name).join(', ');
+      document.getElementById('fileinfo-' + key).textContent = count === 1 ? names : `${count} files: ${names}`;
+    }
+  });
 }
 
 function triggerUpload(key) { document.getElementById('input-' + key).click(); }
@@ -778,12 +877,23 @@ function removeFile(key) {
 
 function updateUploadCount() {
   const sections = Object.keys(uploadedFiles).length;
-  const totalFiles = Object.values(uploadedFiles).reduce((s, a) => s + a.length, 0);
-  document.getElementById('uploadCount').textContent = `${totalFiles} file(s) in ${sections} / 6 sections`;
+  const totalDesktop = Object.values(uploadedFiles).reduce((s, a) => s + a.length, 0);
+  const totalMobile = Object.values(mobileFilesByType).reduce((s, a) => s + a.length, 0);
+  const totalFiles = totalDesktop + totalMobile;
+  const mobileSections = Object.keys(mobileFilesByType).filter(k => mobileFilesByType[k].length > 0).length;
+  const allSections = new Set([...Object.keys(uploadedFiles), ...Object.keys(mobileFilesByType).filter(k => mobileFilesByType[k].length > 0)]).size;
+  document.getElementById('uploadCount').textContent = `${totalFiles} file(s) in ${allSections} / 6 sections`;
   document.getElementById('btnOCR').disabled = totalFiles === 0;
-  document.getElementById('footerStatus').textContent = totalFiles > 0
-    ? `${totalFiles} document(s) ready for OCR extraction`
-    : 'Upload patient documents to begin';
+  let statusText = '';
+  if (totalFiles > 0) {
+    const parts = [];
+    if (totalDesktop > 0) parts.push(`${totalDesktop} desktop`);
+    if (totalMobile > 0) parts.push(`${totalMobile} mobile`);
+    statusText = `${totalFiles} document(s) ready — ${parts.join(' + ')}`;
+  } else {
+    statusText = 'Upload patient documents to begin';
+  }
+  document.getElementById('footerStatus').textContent = statusText;
 }
 
 
@@ -847,7 +957,8 @@ async function loadSchemas() {
 // ════════════════════════════════════════════════
 async function runOCR() {
   const fileKeys = Object.keys(uploadedFiles);
-  if (fileKeys.length === 0) return alert('Please upload at least one document.');
+  const totalMobile = Object.values(mobileFilesByType).reduce((s, a) => s + a.length, 0);
+  if (fileKeys.length === 0 && totalMobile === 0) return alert('Please upload at least one document (desktop or mobile).');
 
   // Validate MRD number is entered
   const mrdInput = document.getElementById('mrdNumber');
@@ -875,8 +986,12 @@ async function runOCR() {
     });
     formData.append('document_types', docTypes.join(','));
     formData.append('mrd_number', mrdValue);
+    // Include mobile upload token so backend includes mobile-uploaded files
+    if (uploadSessionToken) {
+      formData.append('upload_token', uploadSessionToken);
+    }
 
-    updateLoadingText(`Extracting data from ${totalFileCount} document(s)...`);
+    updateLoadingText(`Extracting data from ${totalFileCount + totalMobile} document(s)...`);
     const res = await fetch(API + '/workflow/start', { method: 'POST', body: formData });
     const json = await res.json();
     if (!json.success) throw new Error(json.error || 'OCR failed');
@@ -1537,6 +1652,168 @@ function onMrdFieldEdit(newValue) {
   }
   populateMrdCard();
 }
+
+
+// ════════════════════════════════════════════════
+// MOBILE UPLOAD — QR ON MRD ENTRY, LIVE SYNC
+// ════════════════════════════════════════════════
+let uploadSessionToken = null;
+let uploadSessionExpiry = null;
+let qrTimerInterval = null;
+let ws = null;
+let wsReconnectTimer = null;
+let mobileFilesByType = {};  // { policy_card: [{file_id, filename, ...}], ... }
+
+// Generate QR when MRD is entered (blur, Enter, Tab, or button click)
+let _currentQRMrd = '';
+let _mrdDebounce = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+  const mrdInput = document.getElementById('mrdNumber');
+  if (mrdInput) {
+    mrdInput.addEventListener('blur', onMrdBlur);
+    mrdInput.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === 'Tab') { onMrdBlur(); } });
+    // Also debounce on input — generate after 1.5s of no typing
+    mrdInput.addEventListener('input', () => {
+      clearTimeout(_mrdDebounce);
+      _mrdDebounce = setTimeout(onMrdBlur, 1500);
+    });
+  }
+});
+
+function onMrdBlur() {
+  clearTimeout(_mrdDebounce);
+  const mrdInput = document.getElementById('mrdNumber');
+  const mrd = (mrdInput.value || '').trim();
+  if (!mrd) return;
+  // Only generate if we don't already have a session for this MRD
+  if (uploadSessionToken && _currentQRMrd === mrd) return;
+  generateQRCode(mrd);
+}
+
+async function generateQRCode(mrdNumber) {
+  if (!mrdNumber) return;
+  try {
+    const res = await fetch(API + '/mobile/create-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mrd_number: mrdNumber })
+    });
+    const json = await res.json();
+    if (!json.success) throw new Error(json.error || 'Failed to create upload session');
+
+    // Clean up old session
+    disconnectWebSocket();
+    if (qrTimerInterval) clearInterval(qrTimerInterval);
+    mobileFilesByType = {};
+
+    uploadSessionToken = json.data.session_token;
+    uploadSessionExpiry = new Date(json.data.expires_at + 'Z').getTime();
+    _currentQRMrd = mrdNumber;
+
+    // Show QR in Phase 1
+    const qrImg = document.getElementById('qrCodeImg');
+    if (qrImg) qrImg.src = 'data:image/png;base64,' + json.data.qr_code_base64;
+    document.getElementById('qrPlaceholder').classList.add('hidden');
+    const qrActive = document.getElementById('qrActive');
+    qrActive.classList.remove('hidden');
+    document.getElementById('qrMrdLabel').textContent = mrdNumber;
+    updateWSStatus(false);
+
+    startQRTimer();
+    connectWebSocket();
+    renderUploadGrid();
+    updateUploadCount();
+  } catch (e) {
+    console.error('QR Error:', e.message);
+  }
+}
+
+function startQRTimer() {
+  if (qrTimerInterval) clearInterval(qrTimerInterval);
+  qrTimerInterval = setInterval(() => {
+    const diff = Math.max(0, uploadSessionExpiry - Date.now());
+    const mins = Math.floor(diff / 60000);
+    const secs = Math.floor((diff % 60000) / 1000);
+    const display = `${mins}:${String(secs).padStart(2, '0')}`;
+    const el = document.getElementById('qrTimer');
+    if (el) el.textContent = display;
+    if (diff <= 0) {
+      clearInterval(qrTimerInterval);
+      if (el) el.textContent = 'Expired';
+      disconnectWebSocket();
+    }
+  }, 1000);
+}
+
+function updateWSStatus(connected) {
+  const dot = document.getElementById('wsDot');
+  const txt = document.getElementById('wsStatusText');
+  if (dot) { dot.className = 'ws-dot ' + (connected ? 'connected' : 'disconnected'); }
+  if (txt) txt.textContent = connected ? 'Live' : 'Connecting...';
+}
+
+function connectWebSocket() {
+  if (!uploadSessionToken) return;
+  disconnectWebSocket();
+
+  const proto = location.protocol === 'https:' ? 'wss' : 'ws';
+  const wsUrl = `${proto}://${location.host}/ws/upload/${uploadSessionToken}`;
+  ws = new WebSocket(wsUrl);
+
+  ws.onopen = () => {
+    updateWSStatus(true);
+  };
+
+  ws.onmessage = (event) => {
+    try {
+      const msg = JSON.parse(event.data);
+      if (msg.type === 'documents_uploaded' || msg.type === 'current_uploads') {
+        // Rebuild mobileFilesByType from the full file list
+        mobileFilesByType = {};
+        (msg.files || []).forEach(f => {
+          const dt = f.document_type || 'generic';
+          if (!mobileFilesByType[dt]) mobileFilesByType[dt] = [];
+          mobileFilesByType[dt].push(f);
+        });
+        renderUploadGrid();
+        updateUploadCount();
+      }
+    } catch (e) { /* ignore parse errors */ }
+  };
+
+  ws.onclose = () => {
+    updateWSStatus(false);
+    // Auto-reconnect if session still valid
+    if (uploadSessionExpiry && Date.now() < uploadSessionExpiry) {
+      wsReconnectTimer = setTimeout(connectWebSocket, 3000);
+    }
+  };
+
+  ws.onerror = () => { updateWSStatus(false); };
+}
+
+function disconnectWebSocket() {
+  if (wsReconnectTimer) { clearTimeout(wsReconnectTimer); wsReconnectTimer = null; }
+  if (ws) { try { ws.close(); } catch(e){} ws = null; }
+}
+
+// Extend resetSession to clean up mobile state
+const _origResetSession = resetSession;
+resetSession = function() {
+  disconnectWebSocket();
+  if (qrTimerInterval) clearInterval(qrTimerInterval);
+  uploadSessionToken = null;
+  uploadSessionExpiry = null;
+  _currentQRMrd = '';
+  mobileFilesByType = {};
+  // Reset QR panel to placeholder state
+  const qrPlaceholder = document.getElementById('qrPlaceholder');
+  const qrActiveEl = document.getElementById('qrActive');
+  if (qrPlaceholder) qrPlaceholder.classList.remove('hidden');
+  if (qrActiveEl) qrActiveEl.classList.add('hidden');
+  _origResetSession();
+};
 </script>
 </body>
 </html>

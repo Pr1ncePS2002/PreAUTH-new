@@ -29,13 +29,18 @@ import logging
 import shutil
 import contextlib
 import threading
+import base64
+import io
+import secrets
+import time
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional, List
 
 import jwt
+import qrcode
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, UploadFile, File, Depends, Query, Form
+from fastapi import FastAPI, HTTPException, UploadFile, File, Depends, Query, Form, Body, Request, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -164,6 +169,16 @@ his_service = HISService()  # Stub mode
 _populated_forms: dict[str, dict] = {}  # form_id -> {path, data, template, schema, created}
 _ocr_results: dict[str, dict] = {}     # result_id -> {file, type, data}
 _sessions: dict[str, dict] = {}        # session_id -> full workflow state
+
+# Mobile upload sessions: session_token -> {mrd_number, created, expires_at, files: [...]}
+_upload_sessions: dict[str, dict] = {}
+
+# WebSocket connections per upload_token: upload_token -> list[WebSocket]
+_ws_connections: dict[str, list] = {}
+
+SESSION_EXPIRY_MINUTES = int(os.getenv("SESSION_EXPIRY_MINUTES", "30"))
+MAX_UPLOAD_SIZE = int(os.getenv("MAX_UPLOAD_SIZE_MB", "5")) * 1024 * 1024  # 5MB default
+ALLOWED_UPLOAD_EXTENSIONS = {".jpg", ".jpeg", ".png", ".pdf"}
 
 
 def _save_session(session_id: str):
@@ -720,12 +735,14 @@ def detect_tpa(insurance_company: str = Query(...)):
 # ---------------------------------------------------------------------------
 @app.post("/workflow/start")
 async def workflow_start(
-    files: List[UploadFile] = File(...),
+    files: List[UploadFile] = File(None),
     document_types: str = Form(""),  # comma-separated types matching file order
     mrd_number: str = Form(""),  # staff-entered MRD number for identification + filename
+    upload_token: str = Form(""),  # optional — mobile upload session token to include those files
 ):
     """
     Step 1: Upload multiple documents and run OCR on each.
+    Also includes any files previously uploaded via mobile (upload_token).
     Returns a session with all extracted data merged into a master form dict.
     """
     session_id = str(uuid.uuid4())[:12]
@@ -735,28 +752,49 @@ async def workflow_start(
     all_extracted: dict = {}
     raw_extractions: list[dict] = []
 
-    # --- Step 1: Save all files to disk (fast, sequential) ---
+    # --- Step 1a: Save desktop-uploaded files to disk ---
     file_info = []
-    for i, file in enumerate(files):
-        doc_type = type_list[i] if i < len(type_list) else "generic"
-        file_id = str(uuid.uuid4())[:8]
-        safe_name = f"{file_id}_{file.filename}"
-        save_path = UPLOADS_DIR / safe_name
+    if files:
+        for i, file in enumerate(files):
+            doc_type = type_list[i] if i < len(type_list) else "generic"
+            file_id = str(uuid.uuid4())[:8]
+            safe_name = f"{file_id}_{file.filename}"
+            save_path = UPLOADS_DIR / safe_name
 
-        content = await file.read()
-        with open(save_path, "wb") as f:
-            f.write(content)
+            content = await file.read()
+            with open(save_path, "wb") as f:
+                f.write(content)
 
-        info = {
-            "file_id": file_id,
-            "filename": file.filename,
-            "saved_as": safe_name,
-            "path": str(save_path),
-            "document_type": doc_type,
-            "size": len(content),
-        }
-        file_info.append(info)
-        uploaded.append(info)
+            info = {
+                "file_id": file_id,
+                "filename": file.filename,
+                "saved_as": safe_name,
+                "path": str(save_path),
+                "document_type": doc_type,
+                "size": len(content),
+            }
+            file_info.append(info)
+            uploaded.append(info)
+
+    # --- Step 1b: Include mobile-uploaded files ---
+    if upload_token:
+        us = _upload_sessions.get(upload_token)
+        if us and us.get("files"):
+            for mf in us["files"]:
+                fi = {
+                    "file_id": mf["file_id"],
+                    "filename": mf["filename"],
+                    "saved_as": mf["saved_as"],
+                    "path": mf["path"],
+                    "document_type": mf.get("document_type", "generic"),
+                    "size": mf["size"],
+                }
+                file_info.append(fi)
+                uploaded.append(fi)
+            logger.info("Including %d mobile-uploaded files from upload_token=%s...", len(us["files"]), upload_token[:8])
+
+    if not file_info:
+        err("No files provided (upload documents on desktop or via mobile)", 400)
 
     # --- Step 2: Run OCR on all documents IN PARALLEL (major speedup for Document AI) ---
     # Document AI takes 6–30s per file; parallel cuts total wait to max(individual times)
@@ -1379,6 +1417,7 @@ def workflow_schema_fields(
 # ---------------------------------------------------------------------------
 FRONTEND_DIR = BASE_DIR / "frontend"
 FRONTEND_DIR.mkdir(exist_ok=True)
+app.mount("/uploads", StaticFiles(directory=str(UPLOADS_DIR)), name="uploads")
 
 @app.get("/ui", response_class=HTMLResponse)
 @app.get("/ui/{rest_of_path:path}", response_class=HTMLResponse)
@@ -1407,3 +1446,248 @@ def root():
 @app.get("/health")
 def health():
     return ok({"status": "healthy"})
+
+
+# ---------------------------------------------------------------------------
+# MOBILE UPLOAD — QR Code + Upload Session + WebSocket Sync
+# ---------------------------------------------------------------------------
+
+async def _ws_broadcast(session_id: str, message: dict):
+    """Send a message to all WebSocket clients connected to a session."""
+    connections = _ws_connections.get(session_id, [])
+    dead = []
+    for ws in connections:
+        try:
+            await ws.send_json(message)
+        except Exception:
+            dead.append(ws)
+    for ws in dead:
+        connections.remove(ws)
+
+
+def _generate_upload_token() -> str:
+    """Generate a cryptographically secure upload session token."""
+    return secrets.token_urlsafe(24)
+
+
+def _is_upload_session_valid(session_token: str) -> bool:
+    """Check if an upload session token is valid and not expired."""
+    us = _upload_sessions.get(session_token)
+    if not us:
+        return False
+    return datetime.utcnow().isoformat() < us["expires_at"]
+
+
+@app.post("/mobile/create-session")
+def create_upload_session(
+    request: Request,
+    request_body: dict = Body(...),
+):
+    """
+    Create a mobile upload session. Does NOT require an existing workflow session.
+    Called as soon as MRD is entered — before Extract Data.
+    Returns a session_token and QR code (base64 PNG).
+    """
+    mrd_number = request_body.get("mrd_number", "")
+    if not mrd_number:
+        err("mrd_number is required", 400)
+
+    # Generate secure token
+    session_token = _generate_upload_token()
+    expires_at = (datetime.utcnow() + timedelta(minutes=SESSION_EXPIRY_MINUTES)).isoformat()
+
+    _upload_sessions[session_token] = {
+        "mrd_number": mrd_number,
+        "created": datetime.utcnow().isoformat(),
+        "expires_at": expires_at,
+        "files": [],  # list of uploaded file info dicts
+    }
+
+    # Build mobile upload URL — derive base from request or env var
+    base_url = os.getenv("APP_BASE_URL", "")
+    if not base_url:
+        # Derive from the incoming request (works across LAN, phone, etc.)
+        host = request.headers.get("host", request.base_url.netloc)
+        scheme = request.headers.get("x-forwarded-proto", request.url.scheme)
+        base_url = f"{scheme}://{host}"
+    mobile_path = f"/mobile-upload?session={session_token}"
+    mobile_url = f"{base_url}{mobile_path}"
+
+    # Generate QR code as base64 PNG
+    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_M, box_size=8, border=2)
+    qr.add_data(mobile_url)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+    buf = io.BytesIO()
+    img.save(buf, format="PNG")
+    qr_base64 = base64.b64encode(buf.getvalue()).decode("utf-8")
+
+    logger.info("Mobile upload session created: token=%s... mrd=%s", session_token[:8], mrd_number)
+
+    return ok({
+        "session_token": session_token,
+        "mobile_url": mobile_url,
+        "qr_code_base64": qr_base64,
+        "expires_at": expires_at,
+        "mrd_number": mrd_number,
+    })
+
+
+@app.get("/mobile/session/{session_token}")
+def get_upload_session(session_token: str):
+    """Validate a mobile upload session token and return session info + doc types."""
+    us = _upload_sessions.get(session_token)
+    if not us:
+        err("Invalid or expired session", 404)
+    if not _is_upload_session_valid(session_token):
+        err("Session expired. Please rescan QR code.", 410)
+    return ok({
+        "session_token": session_token,
+        "mrd_number": us["mrd_number"],
+        "expires_at": us["expires_at"],
+        "doc_types": [
+            {"key": "policy_card",    "label": "Insurance / Policy Card",  "icon": "\U0001f3e5"},
+            {"key": "aadhaar",        "label": "Patient ID (Aadhaar)",     "icon": "\U0001f4b3"},
+            {"key": "attendant_id",   "label": "Attendant ID Card",        "icon": "\U0001f465"},
+            {"key": "clinical_notes", "label": "Clinical Documents",       "icon": "\U0001f4cb"},
+            {"key": "estimate",       "label": "Estimate / Proforma",      "icon": "\U0001f4b0"},
+            {"key": "generic",        "label": "Other Documents",          "icon": "\U0001f4ce"},
+        ],
+        "files": us.get("files", []),
+    })
+
+
+@app.post("/mobile/upload")
+async def mobile_upload_documents(
+    session_token: str = Form(...),
+    files: List[UploadFile] = File(...),
+    document_type: str = Form("generic"),
+    uploaded_from: str = Form("mobile"),
+):
+    """
+    Upload documents from mobile (or desktop dropzone).
+    Stores files in the upload session and broadcasts to desktop via WebSocket.
+    """
+    us = _upload_sessions.get(session_token)
+    if not us:
+        err("Invalid session token", 404)
+    if not _is_upload_session_valid(session_token):
+        err("Session expired. Please rescan QR code.", 410)
+
+    uploaded = []
+    for file in files:
+        ext = Path(file.filename or "").suffix.lower()
+        if ext not in ALLOWED_UPLOAD_EXTENSIONS:
+            continue
+
+        content = await file.read()
+        if len(content) > MAX_UPLOAD_SIZE:
+            continue
+
+        file_id = str(uuid.uuid4())[:8]
+        safe_name = f"mob_{file_id}_{file.filename}"
+        save_path = UPLOADS_DIR / safe_name
+
+        with open(save_path, "wb") as f:
+            f.write(content)
+
+        info = {
+            "file_id": file_id,
+            "filename": file.filename,
+            "saved_as": safe_name,
+            "path": str(save_path),
+            "size": len(content),
+            "document_type": document_type,
+            "uploaded_from": uploaded_from,
+            "content_type": file.content_type or "",
+            "uploaded_at": datetime.utcnow().isoformat(),
+        }
+        us["files"].append(info)
+        uploaded.append(info)
+        logger.info("Mobile upload: %s -> %s (type=%s, from=%s)", file.filename, save_path, document_type, uploaded_from)
+
+    # Broadcast to desktop via WebSocket — send full file list
+    await _ws_broadcast(session_token, {
+        "type": "documents_uploaded",
+        "files": [
+            {
+                "file_id": u["file_id"],
+                "filename": u["saved_as"],
+                "original_name": u["filename"],
+                "size_bytes": u["size"],
+                "document_type": u["document_type"],
+                "uploaded_from": u["uploaded_from"],
+                "uploaded_at": u["uploaded_at"],
+            }
+            for u in us["files"]
+        ],
+    })
+
+    return ok({
+        "uploaded": len(uploaded),
+        "total_files": len(us["files"]),
+        "documents": uploaded,
+    })
+
+
+@app.get("/mobile/uploads/{session_token}")
+def list_mobile_uploads(session_token: str):
+    """List all documents uploaded via this upload session."""
+    us = _upload_sessions.get(session_token)
+    if not us:
+        err("Invalid session token", 404)
+    return ok(us.get("files", []))
+
+
+@app.websocket("/ws/upload/{upload_token}")
+async def websocket_endpoint(websocket: WebSocket, upload_token: str):
+    """WebSocket endpoint for real-time desktop sync of mobile uploads."""
+    await websocket.accept()
+    if upload_token not in _ws_connections:
+        _ws_connections[upload_token] = []
+    _ws_connections[upload_token].append(websocket)
+    logger.info("WebSocket connected: upload_token=%s... (total=%d)", upload_token[:8], len(_ws_connections[upload_token]))
+
+    try:
+        # Send current files on connect
+        us = _upload_sessions.get(upload_token)
+        if us:
+            await websocket.send_json({
+                "type": "current_uploads",
+                "files": [
+                    {
+                        "file_id": u["file_id"],
+                        "filename": u["saved_as"],
+                        "original_name": u["filename"],
+                        "size_bytes": u["size"],
+                        "document_type": u["document_type"],
+                        "uploaded_from": u["uploaded_from"],
+                        "uploaded_at": u["uploaded_at"],
+                    }
+                    for u in us.get("files", [])
+                ],
+            })
+        # Keep connection alive — listen for pings
+        while True:
+            data = await websocket.receive_text()
+            if data == "ping":
+                await websocket.send_json({"type": "pong"})
+    except WebSocketDisconnect:
+        pass
+    finally:
+        conns = _ws_connections.get(upload_token, [])
+        if websocket in conns:
+            conns.remove(websocket)
+        logger.info("WebSocket disconnected: upload_token=%s...", upload_token[:8])
+
+
+# ---------------------------------------------------------------------------
+# SERVE MOBILE UPLOAD PAGE
+# ---------------------------------------------------------------------------
+@app.get("/mobile-upload", response_class=HTMLResponse)
+def serve_mobile_upload():
+    """Serve the mobile upload page."""
+    mobile_path = FRONTEND_DIR / "mobile-upload.html"
+    if not mobile_path.exists():
+        return HTMLResponse("<h1>Mobile upload page not found</h1>", 404)
+    return HTMLResponse(mobile_path.read_text(encoding="utf-8"))

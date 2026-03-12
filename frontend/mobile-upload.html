@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Mobile Document Upload</title>
+<style>
+:root {
+  --primary: #1a237e;
+  --accent: #0288d1;
+  --success: #2e7d32;
+  --success-light: #e8f5e9;
+  --warning: #f57f17;
+  --warning-light: #fff8e1;
+  --danger: #c62828;
+  --danger-light: #ffebee;
+  --text: #212121;
+  --text-secondary: #616161;
+  --border: #e0e0e0;
+  --bg: #f0f2f5;
+  --card-bg: #ffffff;
+  --radius: 12px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg); color: var(--text); min-height: 100vh;
+  -webkit-tap-highlight-color: transparent;
+}
+.header {
+  background: linear-gradient(135deg, #0d1642, var(--primary));
+  color: white; padding: 14px 20px; text-align: center;
+  position: sticky; top: 0; z-index: 100;
+}
+.header h1 { font-size: 17px; font-weight: 600; }
+.header .sub { font-size: 12px; opacity: 0.8; margin-top: 2px; }
+.status-bar {
+  padding: 8px 16px; font-size: 12px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.status-bar.active { background: var(--success-light); color: var(--success); }
+.status-bar.expired { background: var(--danger-light); color: var(--danger); }
+.status-bar.loading { background: var(--warning-light); color: var(--warning); }
+.dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+.dot.green { background: var(--success); animation: pulse 2s infinite; }
+.dot.red { background: var(--danger); }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+.container { padding: 12px; max-width: 480px; margin: 0 auto; }
+.card {
+  background: var(--card-bg); border-radius: var(--radius);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07); margin-bottom: 12px; overflow: hidden;
+}
+.card-hdr { padding: 12px 14px; border-bottom: 1px solid #f0f0f0; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+.card-body { padding: 14px; }
+
+/* Document Type Grid */
+.doc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.doc-type-card {
+  border: 2px dashed var(--border); border-radius: var(--radius);
+  padding: 14px 8px; text-align: center; cursor: pointer;
+  transition: all 0.2s; position: relative; background: white;
+}
+.doc-type-card:active { transform: scale(0.97); }
+.doc-type-card .dt-icon { font-size: 28px; margin-bottom: 4px; }
+.doc-type-card .dt-label { font-size: 11px; font-weight: 600; color: var(--text); line-height: 1.2; }
+.doc-type-card .dt-count {
+  position: absolute; top: 6px; right: 6px;
+  background: var(--accent); color: white; width: 20px; height: 20px;
+  border-radius: 50%; font-size: 11px; font-weight: 700;
+  display: none; align-items: center; justify-content: center;
+}
+.doc-type-card.has-files { border-color: var(--success); border-style: solid; background: var(--success-light); }
+.doc-type-card.has-files .dt-count { display: flex; }
+
+/* Upload Modal */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5); z-index: 200;
+  display: flex; align-items: flex-end; justify-content: center;
+}
+.modal-sheet {
+  background: white; border-radius: 16px 16px 0 0; width: 100%;
+  max-width: 480px; max-height: 80vh; overflow-y: auto; padding: 20px 16px;
+}
+.modal-sheet h3 { font-size: 16px; margin-bottom: 12px; }
+.capture-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.cap-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 16px 8px; border: 2px solid var(--border); border-radius: var(--radius);
+  background: white; cursor: pointer; font-family: inherit;
+}
+.cap-btn:active { transform: scale(0.97); }
+.cap-btn .ic { font-size: 28px; }
+.cap-btn .lb { font-size: 12px; font-weight: 600; }
+.cap-btn.camera { border-color: var(--accent); background: rgba(2,136,209,0.04); }
+.cap-btn.gallery { border-color: var(--primary); background: rgba(26,35,126,0.03); }
+
+/* File list in modal */
+.file-list { list-style: none; }
+.file-item {
+  display: flex; align-items: center; gap: 10px; padding: 10px;
+  border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px;
+}
+.file-item.uploading { opacity: 0.6; }
+.file-item.done { border-color: var(--success); background: var(--success-light); }
+.file-thumb { width: 48px; height: 48px; border-radius: 6px; object-fit: cover; background: #f5f5f5; flex-shrink: 0; }
+.file-info { flex: 1; min-width: 0; }
+.file-info .fn { font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.file-info .fs { font-size: 11px; color: var(--text-secondary); }
+.file-info .st { font-size: 11px; margin-top: 1px; }
+.file-info .st.ok { color: var(--success); }
+.file-info .st.wait { color: var(--warning); }
+.btn-del { width: 28px; height: 28px; border: none; border-radius: 50%; background: var(--danger-light); color: var(--danger); cursor: pointer; font-size: 13px; }
+
+.btn-upload {
+  width: 100%; padding: 12px; border: none; border-radius: var(--radius);
+  background: var(--success); color: white; font-size: 15px; font-weight: 600;
+  cursor: pointer; font-family: inherit; margin-top: 8px;
+}
+.btn-upload:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-close {
+  width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius);
+  background: white; color: var(--text); font-size: 13px; cursor: pointer; font-family: inherit; margin-top: 6px;
+}
+
+.uploads-summary { font-size: 12px; color: var(--text-secondary); text-align: center; padding: 8px 0; }
+.uploads-summary strong { color: var(--success); }
+
+.error-screen { text-align: center; padding: 60px 20px; }
+.error-screen .ic { font-size: 56px; margin-bottom: 12px; }
+.error-screen h2 { font-size: 18px; margin-bottom: 6px; }
+.error-screen p { font-size: 13px; color: var(--text-secondary); }
+
+.spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.hidden { display: none !important; }
+input[type="file"] { display: none; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>&#128247; Document Upload</h1>
+  <div class="sub">Pre-Authorization System</div>
+</div>
+
+<div class="status-bar loading" id="statusBar">
+  <span><span class="dot"></span> Connecting...</span>
+  <span id="timerDisplay"></span>
+</div>
+
+<!-- Loading -->
+<div id="loadingScreen" class="container">
+  <div style="text-align:center;padding:40px 0;">
+    <div class="spinner" style="width:36px;height:36px;border-width:3px;border-color:#e0e0e0;border-top-color:var(--accent);margin:0 auto 14px;"></div>
+    <p style="font-size:14px;color:var(--text-secondary);">Validating session...</p>
+  </div>
+</div>
+
+<!-- Error -->
+<div id="errorScreen" class="container hidden">
+  <div class="error-screen">
+    <div class="ic" id="errorIcon">&#9888;&#65039;</div>
+    <h2 id="errorTitle">Session Expired</h2>
+    <p id="errorMessage">Please rescan the QR code from the desktop application.</p>
+  </div>
+</div>
+
+<!-- Main Upload Screen -->
+<div id="uploadScreen" class="container hidden">
+  <div class="card">
+    <div class="card-hdr">&#128203; MRD: <span id="displayMrd" style="color:var(--accent);">—</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-hdr">&#128206; Select Document Type</div>
+    <div class="card-body">
+      <div class="doc-grid" id="docGrid"></div>
+    </div>
+  </div>
+
+  <div class="uploads-summary" id="uploadsSummary"></div>
+</div>
+
+<!-- Upload Modal -->
+<div id="uploadModal" class="modal-overlay hidden" onclick="if(event.target===this)closeModal()">
+  <div class="modal-sheet">
+    <h3 id="modalTitle">Upload Document</h3>
+    <div class="capture-btns">
+      <button class="cap-btn camera" onclick="openCamera()">
+        <span class="ic">&#128247;</span>
+        <span class="lb">Take Photo</span>
+      </button>
+      <button class="cap-btn gallery" onclick="openGallery()">
+        <span class="ic">&#128444;&#65039;</span>
+        <span class="lb">From Gallery</span>
+      </button>
+    </div>
+    <input type="file" id="cameraInput" accept="image/jpeg,image/png" capture="environment">
+    <input type="file" id="galleryInput" accept="image/jpeg,image/png,application/pdf" multiple>
+    <ul class="file-list" id="modalFileList"></ul>
+    <button class="btn-upload" id="btnModalUpload" onclick="uploadCurrentFiles()" disabled>&#128228; Upload</button>
+    <button class="btn-close" onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<script>
+const API = window.location.origin;
+let sessionToken = null;
+let sessionInfo = null;
+let docTypes = [];
+let activeDocType = null;
+let modalFiles = [];
+let allUploaded = {};
+let expiryTimer = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  sessionToken = params.get('session');
+  if (!sessionToken) {
+    showError('No Session', 'No upload session found. Please scan the QR code from the desktop.');
+    return;
+  }
+  validateSession();
+  setupFileInputs();
+});
+
+async function validateSession() {
+  try {
+    const res = await fetch(API + '/mobile/session/' + encodeURIComponent(sessionToken));
+    const json = await res.json();
+    if (!res.ok || !json.success) {
+      showError('Session Invalid', json.detail?.error || json.detail || 'Session invalid');
+      return;
+    }
+    sessionInfo = json.data;
+    docTypes = sessionInfo.doc_types || [];
+    document.getElementById('displayMrd').textContent = sessionInfo.mrd_number || '—';
+    startExpiryTimer(sessionInfo.expires_at);
+
+    (sessionInfo.files || []).forEach(f => {
+      const dt = f.document_type || 'generic';
+      allUploaded[dt] = (allUploaded[dt] || 0) + 1;
+    });
+
+    renderDocGrid();
+    updateSummary();
+
+    document.getElementById('loadingScreen').classList.add('hidden');
+    document.getElementById('uploadScreen').classList.remove('hidden');
+    const sb = document.getElementById('statusBar');
+    sb.className = 'status-bar active';
+    sb.querySelector('span:first-child').innerHTML = '<span class="dot green"></span> Session Active';
+  } catch (e) {
+    showError('Connection Error', 'Could not connect to server. Check your network.');
+  }
+}
+
+function renderDocGrid() {
+  const grid = document.getElementById('docGrid');
+  grid.innerHTML = docTypes.map(dt => {
+    const count = allUploaded[dt.key] || 0;
+    const cls = count > 0 ? 'has-files' : '';
+    return `<div class="doc-type-card ${cls}" onclick="openDocType('${dt.key}')">
+      <div class="dt-count" style="${count > 0 ? 'display:flex' : ''}">${count}</div>
+      <div class="dt-icon">${dt.icon}</div>
+      <div class="dt-label">${esc(dt.label)}</div>
+    </div>`;
+  }).join('');
+}
+
+function updateSummary() {
+  const total = Object.values(allUploaded).reduce((s, n) => s + n, 0);
+  document.getElementById('uploadsSummary').innerHTML = total > 0
+    ? `<strong>${total}</strong> document(s) uploaded &mdash; visible on desktop in real-time`
+    : 'Tap a category to start uploading documents';
+}
+
+function openDocType(key) {
+  activeDocType = key;
+  modalFiles = [];
+  const dt = docTypes.find(d => d.key === key);
+  document.getElementById('modalTitle').textContent = dt ? dt.label : 'Upload';
+  renderModalFiles();
+  document.getElementById('uploadModal').classList.remove('hidden');
+}
+
+function closeModal() {
+  document.getElementById('uploadModal').classList.add('hidden');
+  activeDocType = null;
+  modalFiles = [];
+}
+
+function setupFileInputs() {
+  document.getElementById('cameraInput').addEventListener('change', function() {
+    if (this.files.length) addFiles(this.files);
+    this.value = '';
+  });
+  document.getElementById('galleryInput').addEventListener('change', function() {
+    if (this.files.length) addFiles(this.files);
+    this.value = '';
+  });
+}
+function openCamera() { document.getElementById('cameraInput').click(); }
+function openGallery() { document.getElementById('galleryInput').click(); }
+
+function addFiles(fileList) {
+  const allowed = ['image/jpeg', 'image/png', 'application/pdf'];
+  Array.from(fileList).forEach(file => {
+    if (!allowed.includes(file.type)) return;
+    const id = 'd_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4);
+    const doc = { id, file, name: file.name, size: file.size, thumbUrl: null, status: 'pending' };
+    if (file.type.startsWith('image/')) {
+      compressImage(file).then(r => { doc.file = r.file; doc.size = r.file.size; doc.thumbUrl = r.thumbUrl; renderModalFiles(); });
+    }
+    modalFiles.push(doc);
+    renderModalFiles();
+  });
+}
+
+function compressImage(file) {
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.createElement('canvas');
+        const max = 1920;
+        let w = img.width, h = img.height;
+        if (w > max || h > max) { if (w > h) { h = Math.round(h * max / w); w = max; } else { w = Math.round(w * max / h); h = max; } }
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        canvas.toBlob(blob => {
+          if (blob.size > 1.5 * 1024 * 1024) {
+            canvas.toBlob(b2 => {
+              resolve({ file: new File([b2], file.name, { type: 'image/jpeg' }), thumbUrl: canvas.toDataURL('image/jpeg', 0.3) });
+            }, 'image/jpeg', 0.6);
+          } else {
+            resolve({ file: new File([blob], file.name, { type: 'image/jpeg' }), thumbUrl: canvas.toDataURL('image/jpeg', 0.3) });
+          }
+        }, 'image/jpeg', 0.85);
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderModalFiles() {
+  const list = document.getElementById('modalFileList');
+  const btn = document.getElementById('btnModalUpload');
+  btn.disabled = modalFiles.filter(d => d.status === 'pending').length === 0;
+
+  if (modalFiles.length === 0) {
+    list.innerHTML = '<p style="text-align:center;color:var(--text-secondary);font-size:12px;padding:12px;">Take a photo or choose from gallery</p>';
+    return;
+  }
+
+  list.innerHTML = modalFiles.map(doc => {
+    const kb = Math.round(doc.size / 1024);
+    const isPdf = doc.file.type === 'application/pdf';
+    const thumb = doc.thumbUrl
+      ? `<img class="file-thumb" src="${doc.thumbUrl}" alt="">`
+      : `<div class="file-thumb" style="display:flex;align-items:center;justify-content:center;font-size:20px;">${isPdf ? '&#128196;' : '&#128247;'}</div>`;
+    const stHtml = doc.status === 'done' ? '<div class="st ok">&#10004; Uploaded</div>'
+      : doc.status === 'uploading' ? '<div class="st wait">Uploading...</div>'
+      : '<div class="st wait">Ready</div>';
+    const delBtn = doc.status === 'pending' ? `<button class="btn-del" onclick="removeModalFile('${doc.id}')">&#128465;</button>` : '';
+    return `<li class="file-item ${doc.status === 'done' ? 'done' : doc.status === 'uploading' ? 'uploading' : ''}">
+      ${thumb}
+      <div class="file-info"><div class="fn">${esc(doc.name)}</div><div class="fs">${kb} KB</div>${stHtml}</div>
+      ${delBtn}
+    </li>`;
+  }).join('');
+}
+
+function removeModalFile(id) {
+  modalFiles = modalFiles.filter(d => d.id !== id);
+  renderModalFiles();
+}
+
+async function uploadCurrentFiles() {
+  const pending = modalFiles.filter(d => d.status === 'pending');
+  if (!pending.length) return;
+
+  const btn = document.getElementById('btnModalUpload');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Uploading...';
+  pending.forEach(d => d.status = 'uploading');
+  renderModalFiles();
+
+  try {
+    const fd = new FormData();
+    fd.append('session_token', sessionToken);
+    fd.append('document_type', activeDocType);
+    fd.append('uploaded_from', 'mobile');
+    pending.forEach(d => fd.append('files', d.file, d.name));
+
+    const res = await fetch(API + '/mobile/upload', { method: 'POST', body: fd });
+    const json = await res.json();
+    if (!res.ok || !json.success) throw new Error(json.detail?.error || json.detail || 'Upload failed');
+
+    pending.forEach(d => d.status = 'done');
+    renderModalFiles();
+    allUploaded[activeDocType] = (allUploaded[activeDocType] || 0) + pending.length;
+    renderDocGrid();
+    updateSummary();
+    setTimeout(() => closeModal(), 800);
+  } catch (e) {
+    pending.forEach(d => d.status = 'pending');
+    renderModalFiles();
+    alert('Upload failed: ' + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '&#128228; Upload';
+  }
+}
+
+function startExpiryTimer(expiresAt) {
+  const exp = new Date(expiresAt + 'Z');
+  function tick() {
+    const diff = exp - new Date();
+    if (diff <= 0) { clearInterval(expiryTimer); showError('Session Expired', 'Please rescan the QR code.'); return; }
+    const m = Math.floor(diff / 60000), s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('timerDisplay').textContent = `${m}:${s.toString().padStart(2, '0')} left`;
+  }
+  tick();
+  expiryTimer = setInterval(tick, 1000);
+}
+
+function showError(title, msg) {
+  document.getElementById('loadingScreen').classList.add('hidden');
+  document.getElementById('uploadScreen').classList.add('hidden');
+  document.getElementById('uploadModal').classList.add('hidden');
+  document.getElementById('errorTitle').textContent = title;
+  document.getElementById('errorMessage').textContent = msg;
+  document.getElementById('errorScreen').classList.remove('hidden');
+  const sb = document.getElementById('statusBar');
+  sb.className = 'status-bar expired';
+  sb.querySelector('span:first-child').innerHTML = '<span class="dot red"></span> ' + title;
+}
+
+function esc(s) { return s ? String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;') : ''; }
+</script>
+</body>
+</html>
