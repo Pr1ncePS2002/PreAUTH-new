@@ -39,6 +39,11 @@
 ### PDF Merge with Deduplication
 - Attachment paths are deduplicated before merge to prevent duplicate pages.
 
+### Mobile Upload Workflow
+- **Token-based sessions**: A secure, short-lived token is generated via `POST /mobile/initiate-upload` for mobile clients.
+- **WebSocket for real-time updates**: The mobile client connects to `GET /mobile/ws/{upload_token}` to receive real-time feedback on the upload process.
+- **Direct file uploads**: Mobile clients upload files directly using the session token.
+
 ---
 
 ## TABLE OF CONTENTS
@@ -56,95 +61,81 @@
 ## 1.1 Full Pipeline Architecture
 
 ```
-┌──────────────┐     ┌──────────────┐     ┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐
-│  User Uploads │────▶│  OCR Service │────▶│  Raw KV Merge    │────▶│  Mapping Engine   │────▶│  Form Engine     │
-│  (multi-file) │     │  (Gemini)    │     │  (first-win)     │     │  (alias+fuzzy)    │     │  (PDF overlay)   │
-└──────────────┘     └──────────────┘     └──────────────────┘     └──────────────────┘     └──────────────────┘
-         │                  │                      │                        │                        │
-         │                  │                      │                        │                        │
-    files saved to     Gemini Vision        all_extracted dict       mapped_data dict         Filled PDF
-    uploads/           returns JSON KV      (merged across docs)    (field_id → value)       output/*.pdf
+[Desktop Web App]        [Mobile Device]
+  │ 1. Enter MRD           │
+  │ 2. POST /mobile/init   │
+  │    (receive token)     │
+  │ 3. Display QR Code ◀───┘
+  │                        │ 4. Scan QR, open mobile page
+  │                        │ 5. Connect WebSocket (/ws/{token})
+  │                        │ 6. Upload Files (POST /mobile/upload)
+  │                        │    (sends file list via WebSocket)
+  │ 7. Live update UI      │
+  │    (files appear)      │
+  └────────────────────────┘
+           │
+           │ 8. Staff clicks "Extract Data"
+           │
+┌──────────▼──────────┐     ┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐
+│  OCR Service        │────▶│  Raw KV Merge    │────▶│  Mapping Engine   │────▶│  Form Engine     │
+│  (Gemini)           │     │  (first-win)     │     │  (alias+fuzzy)    │     │  (PDF overlay)   │
+└─────────────────────┘     └──────────────────┘     └──────────────────┘     └──────────────────┘
 ```
 
 ### Detailed Stage-by-Stage Trace
 
-#### Stage 1: Document Upload (`app.py` — `workflow_start`)
-- **File:** `app.py`, lines 680–750
-- **Data Structure:** `UploadFile[]` → saved to `uploads/{uuid}_{filename}`
-- **Document types:** comma-separated string aligned with file order
-- **Tracking:** Each file gets a `file_id` (8-char UUID), stored in `uploaded[]` list
-- **Assumption:** Document types are correctly provided by the user in the UI; no server-side classification
+#### Stage 1: Upload Session Initiation (`app.py` — `initiate_upload_session`)
+- **File:** `app.py`
+- **Trigger**: Staff enters MRD number in the desktop UI.
+- **Process**:
+    1. Backend receives MRD via `POST /mobile/initiate-upload`.
+    2. A secure, unique `upload_token` is generated.
+    3. A session is created in `_upload_sessions` mapping the token to the MRD and an expiry time.
+    4. The token is returned to the desktop UI, which then renders it as a QR code.
 
-#### Stage 2: OCR Extraction (`services/ocr_service.py`)
-- **File:** `services/ocr_service.py`, lines 148–230
-- **Mode:** `gemini` (default) — uses `google.genai.Client`
-- **Process:**
-  1. Read file bytes + detect MIME type
-  2. Build type-specific prompt via `_build_gemini_prompt()` (lines 109–140)
-  3. Send image bytes + prompt to Gemini Vision as multipart content
-  4. Parse JSON response, stripping markdown fences
-- **Data Structure:** Returns `dict[str, str|bool]` — flat key-value pairs
-- **Document AI mode:** Skeleton exists (lines 248–290) but is **commented out in requirements.txt** and untested
+#### Stage 2: Mobile Upload & Real-time Sync (`app.py` & `frontend/`)
+- **File:** `app.py` (WebSocket handler), `frontend/mobile-upload.html`
+- **Process**:
+    1. Staff scans the QR code, opening the mobile upload page with the token.
+    2. The mobile page establishes a WebSocket connection to `GET /mobile/ws/{upload_token}`.
+    3. The desktop UI is also connected to this WebSocket channel.
+    4. As the staff uploads files from their phone via `POST /mobile/upload`, the backend saves the file and broadcasts the file info (name, type) over the WebSocket.
+    5. The desktop UI receives the WebSocket message and dynamically adds the new file to the list, providing live feedback.
 
-**Key observations:**
-- No confidence scoring from Gemini extraction
-- No retry logic on API failure
-- No rate limiting
-- JSON parsing has single fallback (returns `{}` on failure)
-- No image preprocessing (rotation, DPI normalization, contrast enhancement)
-- Prompt is static per document type; no adaptive re-prompting
-- Expected fields in prompt are hints only, not enforced
+#### Stage 3: OCR Extraction (`app.py` — `workflow_start`)
+- **File:** `services/ocr_service.py`, `app.py`
+- **Trigger**: Staff clicks "Extract Data" on the desktop UI after all documents have appeared.
+- **Process**:
+  1. The backend retrieves all file paths associated with the session.
+  2. It runs OCR extraction (Gemini Vision) in parallel for all uploaded documents.
+  3. It parses the JSON responses from Gemini.
+- **Data Structure:** Returns `dict[str, str|bool]` — flat key-value pairs for each document.
+- **Key observations**:
+    - The core extraction logic remains the same, but it's triggered after the mobile upload phase is complete.
+    - No confidence scoring from Gemini extraction.
+    - No retry logic on API failure.
 
-#### Stage 3: Raw KV Merge (`app.py` — `workflow_start`)
-- **File:** `app.py`, lines 750–760
-- **Strategy:** First-win merge — later documents do NOT overwrite earlier keys
-- **Problem:** If Aadhaar extracts a weak "Name" and policy card extracts a better "Name", the first one wins regardless of quality
-- **No deduplication or conflict resolution**
-- **No source tracking** — impossible to know which document a value came from after merge
+#### Stage 4: Raw KV Merge (`app.py` — `workflow_start`)
+- **File:** `app.py`
+- **Strategy:** First-win merge — later documents do NOT overwrite keys from earlier ones.
+- **Problem:** If Aadhaar extracts a weak "Name" and a policy card extracts a better "Name", the first one wins regardless of quality.
+- **No source tracking** — impossible to know which document a value came from after the merge.
 
-#### Stage 4: TPA Detection (`app.py` — `detect_tpa_template`)
-- **File:** `app.py`, lines 590–640
+#### Stage 5: TPA Detection & Mapping (`app.py` & `services/mapping_engine.py`)
+- **File:** `app.py`, `services/mapping_engine.py`
 - **Strategy:**
-  1. Look for `Insurance Company`, `TPA Name`, or `insurance_company` in OCR results
-  2. Substring match against `TPA_TEMPLATE_MAP` (40+ entries, lines 190–240)
-  3. Fuzzy fallback using `rapidfuzz.partial_ratio` with threshold 60
-- **Weakness:** Detection relies on OCR accurately extracting insurance company name — if Gemini misreads it, wrong template is selected
-- **Hardcoded:** Entire `TPA_TEMPLATE_MAP` is in `app.py` — should be externalized
-
-#### Stage 5: Mapping Engine (`services/mapping_engine.py`)
-- **File:** `services/mapping_engine.py`, lines 96–165
-- **Strategy (4 layers):**
-
-| Priority | Layer | File Location | Mechanism |
-|----------|-------|---------------|-----------|
-| 1 | Exact match | `_resolve_key_exact()` lines 165–180 | `ocr_key in valid_fields` |
-| 2 | Alias match | `_resolve_key_exact()` lines 180–190 | Normalized alias → field_id via `_alias_index` |
-| 3 | Fuzzy match | `_fuzzy_match()` lines 215–245 | `rapidfuzz.token_sort_ratio` > 70 threshold |
-| 4 | Gemini fallback | `gemini_suggest_mappings()` lines 250–320 | LLM-based mapping (not called in main workflow) |
-
-- **Post-mapping in app.py** (lines 770–810):
-  - Pass 2: Schema-label fuzzy matching (threshold 65) — matches remaining OCR keys directly against schema field `label` strings
-  - `inject_hospital_data()` — hardcoded "Amrita Hospital" values
-  - `calculate_age_from_dob()` — computes age from DOB and writes to ALL schema variant field names
-
-**Key observations:**
-- `_alias_index` supports multiple field_ids per alias (multi-schema), picks first match in current schema
-- Fuzzy threshold of 70 is aggressive — can cause false matches (e.g., "OT Charges" matching "ICU Charges")
-- No confidence score returned with mappings
-- `claimed_fields` set prevents duplicate mapping but may silently drop valid data
-- Gender handling is duplicated in both `MappingEngine.handle_gender()` and `FormEngine._handle_gender()`
+  1. **TPA Detection**: Looks for `Insurance Company` or `TPA Name` in the merged OCR results to find a matching template from `TPA_TEMPLATE_MAP`.
+  2. **Mapping (Pass 1)**: The `MappingEngine` uses exact, alias, and fuzzy matching (`rapidfuzz.token_sort_ratio` > 70) to map OCR keys to schema field IDs.
+  3. **Mapping (Pass 2)**: Inline logic in `app.py` performs a second fuzzy match against schema field `label` strings for any remaining unmapped keys.
+  4. **Data Injection**: Hardcoded hospital data is injected, and age is calculated from DOB.
 
 #### Stage 6: PDF Generation (`services/form_engine.py`)
-- **File:** `services/form_engine.py`, lines 145–240
-- **Strategy:** ReportLab overlay on blank PDF template
-  1. Load schema JSON (coordinate-based field definitions)
-  2. For each page, create a transparent overlay canvas
-  3. Draw text/checkboxes at converted coordinates: `y_pdf = page_height - y_schema`
-  4. Merge overlay onto template page using PyPDF2
-- **Field types supported:** `text_line`, `text_box`, `checkbox`, `date_field`
-- **Font:** Hardcoded `Helvetica` / `Helvetica-Bold`
-- **No text wrapping** for long values
-- **No Unicode/Devanagari support** — will fail for Hindi names/addresses
+- **File:** `services/form_engine.py`
+- **Strategy:** ReportLab overlay on a blank PDF template.
+  1. Loads the coordinate-based schema JSON.
+  2. Draws text and checkboxes onto a transparent canvas at the specified coordinates.
+  3. Merges the overlay with the blank TPA form using PyPDF2.
+- **Weaknesses**: No text wrapping for long values and no support for Unicode fonts (e.g., for Hindi).
 
 ---
 

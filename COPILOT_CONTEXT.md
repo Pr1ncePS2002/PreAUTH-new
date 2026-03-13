@@ -61,18 +61,21 @@ pip install -r requirements.txt
 
 ## User flow
 
-### Phase 1 — MRD + Upload + OCR
-- Staff enters **MRD number** (required) → uploads documents → clicks **Extract Data**.
-- Backend: saves files, runs parallel OCR, merges results, validates MRD against documents, auto-detects TPA, maps fields.
-- MRD validation: verified (match) / mismatch (warning) / not_found_in_docs (info).
+### Phase 1 — MRD Entry & Mobile Upload Initiation
+1.  **MRD Entry**: Staff enters the patient's MRD number on the desktop web application.
+2.  **Session & QR Code Generation**: The backend generates a secure, short-lived upload session and displays a QR code on the desktop UI.
+3.  **Mobile Connection**: Staff scans the QR code with their phone. This opens a mobile-optimized upload page on their phone's browser.
+4.  **Real-time Link**: A WebSocket connection is established, linking the desktop and mobile sessions for live feedback.
 
-### Phase 2 — 6-Tab Form
-- **Patient Details**: Hospital/provider + patient demographics.
-- **Insurance & TPA**: Policy, insurance company, GIPSA toggle, PPN checkbox.
-- **Clinical Details**: Doctor, diagnosis, hospitalization, injury.
-- **Cost & Declarations**: "ESTIMATE ATTACHED" banner — only sum total editable. Individual line items hidden. On PDF generation, first cost field gets "ESTIMATE ATTACHED" text, only total gets the amount.
-- **Attachments**: Additional supporting documents.
-- **Generate PDF**: Checklist + summary card, Generate + Go Back card. Preview + download after generation.
+### Phase 2 — Document Upload via Mobile
+1.  **Live Uploads**: Staff uses their phone to take pictures of documents (Aadhaar, Policy Card, etc.). As they upload, the files instantly appear on the desktop UI in real-time.
+2.  **Extraction**: Once all documents are uploaded, the staff clicks **"Extract Data"** on the desktop application.
+3.  **OCR & Mapping**: The backend uses Gemini Vision to perform OCR, validates the MRD number against the documents, auto-detects the TPA, and maps the extracted data to the master form.
+
+### Phase 3 — Review, Edit & Generate
+1.  **Form Population**: The extracted and mapped data populates the 6-tab master form on the desktop UI.
+2.  **Staff Review**: The staff reviews, edits, and corrects any fields across the different tabs (Patient, Insurance, Clinical, etc.).
+3.  **PDF Generation**: Once satisfied, the staff navigates to the "Generate" tab to create the final, filled TPA form and the complete claim package PDF.
 
 ### Claim Package
 - Named `claim_package_MRD_{mrd_number}.pdf` (falls back to `claim_package_{form_id}.pdf`).
@@ -97,6 +100,8 @@ pip install -r requirements.txt
 **Forms**: `GET /forms/templates`, `GET /forms/schemas`, `GET /forms/preview/{form_id}`, `GET /forms/export/{form_id}`
 
 **HIS (stub)**: `GET /patient/search`, `GET /patient/{mrd}`, `GET /patient/{mrd}/preauth-data`
+
+**Mobile Upload**: `POST /mobile/initiate-upload`, `GET /mobile/ws/{upload_token}`, `POST /mobile/upload`
 
 ---
 

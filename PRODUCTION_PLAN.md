@@ -30,14 +30,27 @@ Switch to **Gemini Vision as the primary extraction engine** across all document
 ## Target Architecture (To-Be)
 
 ```
-  Upload → classify doc → Gemini Vision (schema-first prompt per doc type)
-       → DIRECT {field_id: value, _confidence: {}, _flags: {}}
-       → Light validation pass (format, range, cross-check)
-       → Staff edits in master form with inline AI suggestions
-       → FormEngine writes onto PDF coordinates
+  Desktop UI         Mobile UI (via QR)
+  ----------         ------------------
+  1. Enter MRD       4. Scan QR
+  2. Get QR Code     5. Open Camera/Files
+                     6. POST /mobile/upload
+  (WebSocket) ◀───── 7. File appears on Desktop UI in real-time
+       │
+       │ 8. Click "Extract Data"
+       ▼
+  Backend (FastAPI on Cloud Run)
+       │
+       ├─ Gemini Vision (schema-first prompt)
+       │    → Returns pre-mapped {field_id: value, _confidence}
+       ├─ Validation & Cross-Check Layer
+       │    → Flags inconsistencies (name mismatch, expired policy)
+       ├─ AI Suggestion Engine
+       │    → Fills gaps based on context (e.g., diagnosis → typical LOS)
+       └─ FormEngine (PDF Generation)
 ```
 
-**Key change:** Give Gemini the exact target field_ids. It returns data pre-mapped. The MappingEngine becomes a safety net, not the primary mapper.
+**Key change:** The workflow is now mobile-first for uploads, using WebSockets for a live, interactive experience between the staff's phone and desktop. The backend extraction logic is enhanced with schema-first prompts and a validation layer.
 
 ---
 
@@ -578,6 +591,24 @@ This phase transitions the application from a local prototype to a scalable, sec
 - **Action:** Create a `Dockerfile` to package the FastAPI application, its dependencies, and the Gunicorn/Uvicorn web server into a standard container image.
 - **Hosting:** Deploy the container image to **Google Cloud Run**.
 - **Why Cloud Run:** It's a serverless platform that automatically scales with usage (even to zero, saving costs) and simplifies deployment, removing the need to manage servers.
+
+---
+
+## Phase 5 — Mobile & Remote Hardening (Week 4)
+
+This phase focuses on securing and optimizing the mobile upload workflow.
+
+### 5.1 Secure WebSocket Endpoint
+- **Action:** Implement authentication and authorization for the WebSocket connection at `/mobile/ws/{upload_token}`.
+- **Details:** Ensure that only authenticated clients with a valid token can establish a connection.
+
+### 5.2 Rate Limiting and Abuse Prevention
+- **Action:** Apply rate limiting to the `/mobile/initiate-upload` and `/mobile/upload` endpoints.
+- **Details:** Prevent abuse by limiting the number of sessions a single IP can create and the number of files that can be uploaded per session.
+
+### 5.3 Mobile Session Management
+- **Action:** Enhance the in-memory `_upload_sessions` store with more robust lifecycle management.
+- **Details:** Implement stricter expiry and cleanup for mobile sessions to prevent memory leaks.
 
 ### 4.2 Data & File Storage Migration
 - **Action:** Replace all filesystem operations (`sessions/`, `uploads/`, `output/`) with cloud-native services.
