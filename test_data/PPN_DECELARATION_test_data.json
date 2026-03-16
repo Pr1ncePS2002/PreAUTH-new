@@ -1,0 +1,22 @@
+{
+  "ppn_hospital_name": "TEST_ppn_hospital_name",
+  "ppn_hospital_address": "TEST_ppn_hospital_address",
+  "ppn_patient_name": "TEST_ppn_patient_name",
+  "ppn_age_sex": "TEST_ppn_age_sex",
+  "ppn_ip_no": "TEST_ppn_ip_no",
+  "ppn_uhid_no": "TEST_ppn_uhid_no",
+  "ppn_mobile_no": "TEST_ppn_mobile_no",
+  "ppn_date_of_admission": "TEST_ppn_date_of_admission",
+  "ppn_time_of_admission": "TEST_ppn_time_of_admission",
+  "ppn_date_of_discharge": "TEST_ppn_date_of_discharge",
+  "ppn_time_of_discharge": "TEST_ppn_time_of_discharge",
+  "ppn_id_proof": "TEST_ppn_id_proof",
+  "ppn_attendant_name": "TEST_ppn_attendant_name",
+  "ppn_attendant_mobile": "TEST_ppn_attendant_mobile",
+  "ppn_attendant_address": "TEST_ppn_attendant_address",
+  "ppn_policy_number": "TEST_ppn_policy_number",
+  "ppn_insurance_company": "TEST_ppn_insurance_company",
+  "ppn_additional_facility": "TEST_ppn_additional_facility",
+  "ppn_cost_amount": "TEST_ppn_cost_amount",
+  "ppn_cost_words": "TEST_ppn_cost_words"
+}

@@ -1,0 +1,302 @@
+{
+  "template_id": "GEMINI_ANALYZED",
+  "form_title": "Cashless Hospitalisation Request for Health Insurance Policy Part C (Revised)",
+  "hospital_name": "Cashless Hospitalisation Request for Health Insurance Policy Part C (Revised)",
+  "total_pages": 3,
+  "page_heights": {
+    "1": 841.8898,
+    "2": 841.8898,
+    "3": 841.8898
+  },
+  "analysis_model": "gemini-2.5-flash",
+  "fields": [
+    {
+      "field_id": "tpa_insurance_company_name",
+      "label": "Name of TPA / Insurance company",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 194.3,
+        "y": 121.4
+      },
+      "font_size": 7,
+      "max_width": 346.2
+    },
+    {
+      "field_id": "tpa_toll_free_phone_number",
+      "label": "Toll free phone number",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 194.3,
+        "y": 134.3
+      },
+      "font_size": 7,
+      "max_width": 361
+    },
+    {
+      "field_id": "tpa_toll_free_fax",
+      "label": "Toll free FAX",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 194.3,
+        "y": 147.2
+      },
+      "font_size": 7,
+      "max_width": 361
+    },
+    {
+      "field_id": "hospital_name",
+      "label": "Name of Hospital",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 194.3,
+        "y": 160.1
+      },
+      "font_size": 7,
+      "max_width": 361
+    },
+    {
+      "field_id": "hospital_address",
+      "label": "Address",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 194.3,
+        "y": 180.1
+      },
+      "font_size": 7,
+      "max_width": 361
+    },
+    {
+      "field_id": "hospital_rohini_id",
+      "label": "Rohini ID",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 194.3,
+        "y": 192.9
+      },
+      "font_size": 7,
+      "max_width": 361
+    },
+    {
+      "field_id": "hospital_email_id",
+      "label": "E-mail Id",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 194.3,
+        "y": 205.8
+      },
+      "font_size": 7,
+      "max_width": 361
+    },
+    {
+      "field_id": "patient_name",
+      "label": "Name of the Patient",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 147.5,
+        "y": 238.0
+      },
+      "font_size": 7,
+      "max_width": 392.5
+    },
+    {
+      "field_id": "patient_gender_male",
+      "label": "Male",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 107.0,
+        "y": 250.0
+      },
+      "font_size": 7,
+      "max_width": 10
+    },
+    {
+      "field_id": "patient_gender_female",
+      "label": "Female",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 154.0,
+        "y": 250.0
+      },
+      "font_size": 7,
+      "max_width": 10
+    },
+    {
+      "field_id": "patient_gender_third_gender",
+      "label": "Third Gender",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 214.0,
+        "y": 250.0
+      },
+      "font_size": 7,
+      "max_width": 10
+    },
+    {
+      "field_id": "patient_contact_number",
+      "label": "Contact number",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 467.4,
+        "y": 249.4
+      },
+      "font_size": 7,
+      "max_width": 72.6
+    },
+    {
+      "field_id": "attending_relative_contact_number",
+      "label": "Contact number of attending Relative",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 200.0,
+        "y": 262.7
+      },
+      "font_size": 7,
+      "max_width": 340.0
+    },
+    {
+      "field_id": "insured_card_id_number",
+      "label": "Insured card ID number",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 455.6,
+        "y": 273.5
+      },
+      "font_size": 7,
+      "max_width": 100
+    },
+    {
+      "field_id": "policy_corporate_number",
+      "label": "Policy number / Corporate",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 466.4,
+        "y": 273.5
+      },
+      "font_size": 7,
+      "max_width": 73.6
+    },
+    {
+      "field_id": "employee_id",
+      "label": "Employee ID",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 550.6,
+        "y": 285.3
+      },
+      "font_size": 7,
+      "max_width": 5
+    },
+    {
+      "field_id": "other_mediclaim_health_insurance_yes",
+      "label": "Yes",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 475.0,
+        "y": 286.0
+      },
+      "font_size": 7,
+      "max_width": 10
+    },
+    {
+      "field_id": "other_mediclaim_health_insurance_no",
+      "label": "No",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 505.0,
+        "y": 286.0
+      },
+      "font_size": 7,
+      "max_width": 10
+    },
+    {
+      "field_id": "employee_company_name",
+      "label": "Company Name",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 147.0,
+        "y": 297.1
+      },
+      "font_size": 7,
+      "max_width": 396.0
+    },
+    {
+      "field_id": "employee_details",
+      "label": "Give Details",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 147.0,
+        "y": 308.8
+      },
+      "font_size": 7,
+      "max_width": 408
+    },
+    {
+      "field_id": "family_physician_yes",
+      "label": "Yes",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 225.0,
+        "y": 323.0
+      },
+      "font_size": 7,
+      "max_width": 10
+    },
+    {
+      "field_id": "family_physician_no",
+      "label": "No",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 255.0,
+        "y": 323.0
+      },
+      "font_size": 7,
+      "max_width": 10
+    },
+    {
+      "field_id": "family_physician_name",
+      "label": "Name of the Family Physician",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 181.4,
+        "y": 334.3
+      },
+      "font_size": 7,
+      "max_width": 366.0
+    },
+    {
+      "field_id": "family_physician_contact_number",
+      "label": "Contact number, if any",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 181.4,
+        "y": 347.1
+      },
+      "font_size": 7,
+      "max_width": 374
+    }
+  ]
+}

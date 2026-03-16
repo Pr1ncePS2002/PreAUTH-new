@@ -1,0 +1,999 @@
+{
+  "template_id": "GEMINI_ANALYZED",
+  "form_title": "Aditya Birla Health Insurance Pre-authorization Form",
+  "hospital_name": "Aditya Birla Health Insurance Pre-authorization Form",
+  "total_pages": 4,
+  "page_heights": {
+    "1": 792.0,
+    "2": 792.0,
+    "3": 792.0,
+    "4": 792.0
+  },
+  "analysis_model": "gemini-2.5-flash",
+  "fields": [
+    {
+      "field_id": "tpa_insurance_company_name",
+      "label": "Name of TPA/Insurance company:",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 208.0,
+        "y": 109.0
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "tpa_toll_free_phone_number",
+      "label": "Toll free phone number:",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 208.0,
+        "y": 136.0
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "tpa_toll_free_fax",
+      "label": "Toll free FAX:",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 208.0,
+        "y": 163.0
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "patient_name",
+      "label": "Name of the Patient:",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 208.0,
+        "y": 217.0
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "patient_gender_male",
+      "label": "Gender: Male",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 220.5,
+        "y": 247.5
+      },
+      "font_size": 9,
+      "max_width": 11
+    },
+    {
+      "field_id": "patient_gender_female",
+      "label": "Gender: Female",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 290.5,
+        "y": 247.5
+      },
+      "font_size": 9,
+      "max_width": 11
+    },
+    {
+      "field_id": "patient_age_years",
+      "label": "Age (Years)",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 370.0,
+        "y": 247.5
+      },
+      "font_size": 9,
+      "max_width": 30
+    },
+    {
+      "field_id": "patient_age_months",
+      "label": "Age (Months)",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 460.0,
+        "y": 247.5
+      },
+      "font_size": 9,
+      "max_width": 30
+    },
+    {
+      "field_id": "patient_date_of_birth",
+      "label": "Date of birth:",
+      "type": "date_field",
+      "page": 1,
+      "coordinates": {
+        "x": 208.0,
+        "y": 274.5
+      },
+      "font_size": 9,
+      "max_width": 100
+    },
+    {
+      "field_id": "patient_contact_number",
+      "label": "Contact number:",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 208.0,
+        "y": 301.5
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "attending_relative_contact_number",
+      "label": "Contact number of attending relative:",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 208.0,
+        "y": 328.5
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "insured_card_id_number",
+      "label": "Insured card ID number:",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 208.0,
+        "y": 355.5
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "policy_number_corporate_name",
+      "label": "Policy number/ Name of corporate:",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 208.0,
+        "y": 382.5
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "employee_id",
+      "label": "Employee ID:",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 208.0,
+        "y": 409.5
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "other_mediclaim_health_insurance_yes",
+      "label": "Currently do you have any other Mediclaim/Health insurance: Yes",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 470.5,
+        "y": 439.5
+      },
+      "font_size": 9,
+      "max_width": 11
+    },
+    {
+      "field_id": "other_mediclaim_health_insurance_no",
+      "label": "Currently do you have any other Mediclaim/Health insurance: No",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 500.5,
+        "y": 439.5
+      },
+      "font_size": 9,
+      "max_width": 11
+    },
+    {
+      "field_id": "other_company_name_details",
+      "label": "Company Name: Give details",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 208.0,
+        "y": 466.5
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "family_physician_yes",
+      "label": "Do you have any family physician: Yes",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 310.5,
+        "y": 496.5
+      },
+      "font_size": 9,
+      "max_width": 11
+    },
+    {
+      "field_id": "family_physician_no",
+      "label": "Do you have any family physician: No",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 340.5,
+        "y": 496.5
+      },
+      "font_size": 9,
+      "max_width": 11
+    },
+    {
+      "field_id": "family_physician_name",
+      "label": "Name of the family physician:",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 208.0,
+        "y": 523.5
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "family_physician_contact_number",
+      "label": "Contact number If any :",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 208.0,
+        "y": 550.5
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "treating_doctor_name",
+      "label": "Name of the treating doctor:",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 208.0,
+        "y": 614.0
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "treating_doctor_contact_number",
+      "label": "Contact number:",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 208.0,
+        "y": 641.0
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "nature_of_illness_disease_complaints",
+      "label": "Nature of ILLNESS / Disease with presenting Complaints:",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 208.0,
+        "y": 668.0
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "relevant_clinical_findings",
+      "label": "Relevant clinical findings:",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 208.0,
+        "y": 695.0
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "duration_of_present_ailment_days",
+      "label": "Duration of the present ailment (Days)",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 208.0,
+        "y": 722.0
+      },
+      "font_size": 9,
+      "max_width": 50
+    },
+    {
+      "field_id": "date_of_first_consultation",
+      "label": "Date of first consultation:",
+      "type": "date_field",
+      "page": 1,
+      "coordinates": {
+        "x": 440.0,
+        "y": 722.0
+      },
+      "font_size": 9,
+      "max_width": 100
+    },
+    {
+      "field_id": "past_history_of_present_ailment",
+      "label": "Past history of present ailment if any:",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 208.0,
+        "y": 749.0
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "provisional_diagnosis",
+      "label": "Provisional diagnosis:",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 208.0,
+        "y": 776.0
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "treating_doctor_icd_10_code",
+      "label": "ICD 10 Code:",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 59.0
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "proposed_treatment_medical_management",
+      "label": "Proposed line of treatment: Medical Management",
+      "type": "checkbox",
+      "page": 2,
+      "coordinates": {
+        "x": 290.5,
+        "y": 89.5
+      },
+      "font_size": 9,
+      "max_width": 11
+    },
+    {
+      "field_id": "proposed_treatment_surgical_management",
+      "label": "Proposed line of treatment: Surgical Management",
+      "type": "checkbox",
+      "page": 2,
+      "coordinates": {
+        "x": 520.5,
+        "y": 89.5
+      },
+      "font_size": 9,
+      "max_width": 11
+    },
+    {
+      "field_id": "proposed_treatment_intensive_care_investigation",
+      "label": "Proposed line of treatment: Intensive care Investigation",
+      "type": "checkbox",
+      "page": 2,
+      "coordinates": {
+        "x": 290.5,
+        "y": 106.5
+      },
+      "font_size": 9,
+      "max_width": 11
+    },
+    {
+      "field_id": "proposed_treatment_non_allopathic",
+      "label": "Proposed line of treatment: Non allopathic treatment.",
+      "type": "checkbox",
+      "page": 2,
+      "coordinates": {
+        "x": 520.5,
+        "y": 106.5
+      },
+      "font_size": 9,
+      "max_width": 11
+    },
+    {
+      "field_id": "investigation_medical_management_details",
+      "label": "If Investigation &/or Medical Management provide details:",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 133.5
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "route_of_drug_administration",
+      "label": "Route of drug administration:",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 160.5
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "surgical_name_of_surgery",
+      "label": "If Surgical, name of surgery:",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 187.5
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "treating_doctor_icd_10_pcs_code",
+      "label": "ICD 10 PCS Code:",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 214.5
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "accident_rta_yes",
+      "label": "In case of accident: Is it RTA - Yes",
+      "type": "checkbox",
+      "page": 2,
+      "coordinates": {
+        "x": 310.5,
+        "y": 53.5
+      },
+      "font_size": 9,
+      "max_width": 11
+    },
+    {
+      "field_id": "accident_rta_no",
+      "label": "In case of accident: Is it RTA - No",
+      "type": "checkbox",
+      "page": 2,
+      "coordinates": {
+        "x": 340.5,
+        "y": 53.5
+      },
+      "font_size": 9,
+      "max_width": 11
+    },
+    {
+      "field_id": "accident_date_of_injury",
+      "label": "Date of injury:",
+      "type": "date_field",
+      "page": 2,
+      "coordinates": {
+        "x": 470.0,
+        "y": 53.5
+      },
+      "font_size": 9,
+      "max_width": 100
+    },
+    {
+      "field_id": "accident_reported_to_police_yes",
+      "label": "Reported to Police: Yes",
+      "type": "checkbox",
+      "page": 2,
+      "coordinates": {
+        "x": 310.5,
+        "y": 80.5
+      },
+      "font_size": 9,
+      "max_width": 11
+    },
+    {
+      "field_id": "accident_reported_to_police_no",
+      "label": "Reported to Police: No",
+      "type": "checkbox",
+      "page": 2,
+      "coordinates": {
+        "x": 340.5,
+        "y": 80.5
+      },
+      "font_size": 9,
+      "max_width": 11
+    },
+    {
+      "field_id": "accident_fir_no",
+      "label": "FIR No:",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 470.0,
+        "y": 80.5
+      },
+      "font_size": 9,
+      "max_width": 70
+    },
+    {
+      "field_id": "injury_due_to_substance_abuse_yes",
+      "label": "Injury /Disease caused due to substance abuse/alcohol consumption: Yes",
+      "type": "checkbox",
+      "page": 2,
+      "coordinates": {
+        "x": 500.5,
+        "y": 107.5
+      },
+      "font_size": 9,
+      "max_width": 11
+    },
+    {
+      "field_id": "injury_due_to_substance_abuse_no",
+      "label": "Injury /Disease caused due to substance abuse/alcohol consumption: No",
+      "type": "checkbox",
+      "page": 2,
+      "coordinates": {
+        "x": 530.5,
+        "y": 107.5
+      },
+      "font_size": 9,
+      "max_width": 11
+    },
+    {
+      "field_id": "test_conducted_to_establish_this_yes",
+      "label": "Test conducted to establish this: Yes",
+      "type": "checkbox",
+      "page": 2,
+      "coordinates": {
+        "x": 310.5,
+        "y": 134.5
+      },
+      "font_size": 9,
+      "max_width": 11
+    },
+    {
+      "field_id": "test_conducted_to_establish_this_no",
+      "label": "Test conducted to establish this: No",
+      "type": "checkbox",
+      "page": 2,
+      "coordinates": {
+        "x": 340.5,
+        "y": 134.5
+      },
+      "font_size": 9,
+      "max_width": 11
+    },
+    {
+      "field_id": "maternity_g",
+      "label": "In case of Maternity : G",
+      "type": "checkbox",
+      "page": 2,
+      "coordinates": {
+        "x": 290.5,
+        "y": 161.5
+      },
+      "font_size": 9,
+      "max_width": 11
+    },
+    {
+      "field_id": "maternity_p",
+      "label": "In case of Maternity : P",
+      "type": "checkbox",
+      "page": 2,
+      "coordinates": {
+        "x": 320.5,
+        "y": 161.5
+      },
+      "font_size": 9,
+      "max_width": 11
+    },
+    {
+      "field_id": "maternity_l",
+      "label": "In case of Maternity : L",
+      "type": "checkbox",
+      "page": 2,
+      "coordinates": {
+        "x": 350.5,
+        "y": 161.5
+      },
+      "font_size": 9,
+      "max_width": 11
+    },
+    {
+      "field_id": "maternity_a",
+      "label": "In case of Maternity : A",
+      "type": "checkbox",
+      "page": 2,
+      "coordinates": {
+        "x": 380.5,
+        "y": 161.5
+      },
+      "font_size": 9,
+      "max_width": 11
+    },
+    {
+      "field_id": "maternity_date_of_delivery",
+      "label": "Date of Delivery:",
+      "type": "date_field",
+      "page": 2,
+      "coordinates": {
+        "x": 470.0,
+        "y": 161.5
+      },
+      "font_size": 9,
+      "max_width": 100
+    },
+    {
+      "field_id": "admission_date",
+      "label": "Date of admission:",
+      "type": "date_field",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 215.0
+      },
+      "font_size": 9,
+      "max_width": 100
+    },
+    {
+      "field_id": "admission_time",
+      "label": "Time:",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 470.0,
+        "y": 215.0
+      },
+      "font_size": 9,
+      "max_width": 50
+    },
+    {
+      "field_id": "hospitalization_event_emergency",
+      "label": "Is this an emergency /a planned hospitalization event? Emergency",
+      "type": "checkbox",
+      "page": 2,
+      "coordinates": {
+        "x": 470.5,
+        "y": 245.5
+      },
+      "font_size": 9,
+      "max_width": 11
+    },
+    {
+      "field_id": "hospitalization_event_planned",
+      "label": "Is this an emergency /a planned hospitalization event? Planned",
+      "type": "checkbox",
+      "page": 2,
+      "coordinates": {
+        "x": 530.5,
+        "y": 245.5
+      },
+      "font_size": 9,
+      "max_width": 11
+    },
+    {
+      "field_id": "expected_days_stay_in_hospital",
+      "label": "Expected no. of days stay in hospital (Days)",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 272.5
+      },
+      "font_size": 9,
+      "max_width": 50
+    },
+    {
+      "field_id": "room_type_rs",
+      "label": "Room Type (Rs.)",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 470.0,
+        "y": 272.5
+      },
+      "font_size": 9,
+      "max_width": 50
+    },
+    {
+      "field_id": "per_day_room_rent_nursing_service_charges_patient_diet_rs",
+      "label": "Per Day Room Rent + Nursing & Service Charges + Patient's Diet (Rs.)",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 299.5
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "expected_cost_investigation_diagnostics_rs",
+      "label": "Expected cost of investigation + diagnostics (Rs.)",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 326.5
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "icu_charges_rs",
+      "label": "ICU Charges (Rs.)",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 353.5
+      },
+      "font_size": 9,
+      "max_width": 50
+    },
+    {
+      "field_id": "ot_charges_rs",
+      "label": "OT Charges (Rs.)",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 470.0,
+        "y": 353.5
+      },
+      "font_size": 9,
+      "max_width": 50
+    },
+    {
+      "field_id": "professional_fees_surgeon_anaesthetist_consultation_charges_rs",
+      "label": "Professional fees Surgeon + Anaesthetist Fees + consultation Charges (Rs.)",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 380.5
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "medicines_consumables_implants_other_hospital_expenses_rs",
+      "label": "Medicines + Consumables + Cost of Implants (if applicable specify) Other hospital expenses if any (Rs.)",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 407.5
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "all_inclusive_package_charges_rs",
+      "label": "All inclusive package charges if any applicable (Rs.)",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 434.5
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "sum_total_expected_cost_hospitalisation_rs",
+      "label": "Sum total expected cost of hospitalisation (Rs.)",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 461.5
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "past_history_diabetes_mm_yy",
+      "label": "Diabetes (MMYY)",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 515.0
+      },
+      "font_size": 9,
+      "max_width": 50
+    },
+    {
+      "field_id": "past_history_heart_disease_mm_yy",
+      "label": "Heart Disease (MMYY)",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 542.0
+      },
+      "font_size": 9,
+      "max_width": 50
+    },
+    {
+      "field_id": "past_history_hypertension_mm_yy",
+      "label": "Hypertension (MMYY)",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 569.0
+      },
+      "font_size": 9,
+      "max_width": 50
+    },
+    {
+      "field_id": "past_history_hyperlipidemias_mm_yy",
+      "label": "Hyperlipidemias (MMYY)",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 596.0
+      },
+      "font_size": 9,
+      "max_width": 50
+    },
+    {
+      "field_id": "past_history_osteoarthritis_mm_yy",
+      "label": "Osteoarthritis (MMYY)",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 623.0
+      },
+      "font_size": 9,
+      "max_width": 50
+    },
+    {
+      "field_id": "past_history_asthma_copd_bronchitis_mm_yy",
+      "label": "Asthma/COPD/Bronchitis (MMYY)",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 650.0
+      },
+      "font_size": 9,
+      "max_width": 50
+    },
+    {
+      "field_id": "past_history_cancer_mm_yy",
+      "label": "Cancer (MMYY)",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 677.0
+      },
+      "font_size": 9,
+      "max_width": 50
+    },
+    {
+      "field_id": "past_history_alcohol_drug_abuse_mm_yy",
+      "label": "Alcohol or drug abuse (MMYY)",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 704.0
+      },
+      "font_size": 9,
+      "max_width": 50
+    },
+    {
+      "field_id": "past_history_any_hiv_std_related_ailment_mm_yy",
+      "label": "Any HIV or STD/Related ailment (MMYY)",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 731.0
+      },
+      "font_size": 9,
+      "max_width": 50
+    },
+    {
+      "field_id": "past_history_any_other_ailment_details",
+      "label": "Any other Ailment give details:",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 758.0
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "declaration_treating_doctor_name",
+      "label": "Name of the treating doctor:",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 815.0
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "declaration_qualification",
+      "label": "Qualification:",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 842.0
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "declaration_registration_no_state_code",
+      "label": "Registration No. with State Code:",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 208.0,
+        "y": 869.0
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "patient_representative_name",
+      "label": "Patient's/Insured's Name:",
+      "type": "text_line",
+      "page": 3,
+      "coordinates": {
+        "x": 208.0,
+        "y": 379.0
+      },
+      "font_size": 9,
+      "max_width": 332
+    },
+    {
+      "field_id": "patient_representative_contact_number",
+      "label": "Contact Number:",
+      "type": "text_line",
+      "page": 3,
+      "coordinates": {
+        "x": 590.0,
+        "y": 466.0
+      },
+      "font_size": 9,
+      "max_width": 110
+    }
+  ]
+}

@@ -60,10 +60,7 @@ GEMINI_MODEL=gemini-2.5-flash
 > This URL is built from `APP_BASE_URL` in your `.env` file, which must contain your
 > laptop's **current network IP address**.
 >
-> **Your IP changes every time you connect to a different network** — home Wi-Fi,
-> phone hotspot, office LAN, etc. will each assign a different IP to your laptop.
->
-> Before starting the server, find your current IP:
+
 > ```powershell
 > Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.IPAddress -notlike '127.*' -and $_.IPAddress -notlike '169.*' }
 > ```
