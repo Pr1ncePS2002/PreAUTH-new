@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 TPA Form Automation Script
 Analyzes and fills TPA pre-authorization forms without using LLM
@@ -69,8 +69,8 @@ class TPAFormFiller:
         with open(output_path, 'wb') as f:
             output.write(f)
         
-        print(f"\n✓ Form filled successfully!")
-        print(f"✓ Saved to: {output_path}")
+        print(f"\n[OK] Form filled successfully!")
+        print(f"[OK] Saved to: {output_path}")
         
         return output_path
     
@@ -363,8 +363,8 @@ class FormAnalyzer:
             ]
         }
         
-        print(f"✓ Detected {len(structure['fields'])} fields across {structure['total_pages']} pages")
-        print(f"✓ Form analysis complete")
+        print(f"[OK] Detected {len(structure['fields'])} fields across {structure['total_pages']} pages")
+        print(f"[OK] Form analysis complete")
         
         return structure
 
@@ -408,7 +408,7 @@ def collect_user_inputs():
     data['investigation_cost'] = input("Investigation Cost: ").strip()
     data['total_estimated_cost'] = input("Total Estimated Cost: ").strip()
     
-    print("\n✓ Data collection complete")
+    print("\n[OK] Data collection complete")
     
     return data
 
@@ -417,7 +417,7 @@ def save_form_structure(structure, output_path):
     """Saves analyzed form structure to JSON file"""
     with open(output_path, 'w') as f:
         json.dump(structure, f, indent=2)
-    print(f"✓ Form structure saved to: {output_path}")
+    print(f"[OK] Form structure saved to: {output_path}")
 
 
 def main():
@@ -453,8 +453,8 @@ def main():
     print("\n" + "="*60)
     print("PROCESS COMPLETE")
     print("="*60)
-    print(f"✓ Filled form: {filled_pdf_path}")
-    print(f"✓ Structure file: {structure_path}")
+    print(f"[OK] Filled form: {filled_pdf_path}")
+    print(f"[OK] Structure file: {structure_path}")
     print("\nYou can now view the filled form!")
     print("="*60 + "\n")
     
