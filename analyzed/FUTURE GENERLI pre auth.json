@@ -4,8 +4,8 @@
   "hospital_name": "Future Generali Pre-Authorization / Claim Form for Cashless Facility",
   "total_pages": 2,
   "page_heights": {
-    "1": 792.0,
-    "2": 792.0
+    "1": 792,
+    "2": 792
   },
   "analysis_model": "gemini-2.5-flash",
   "fields": [
@@ -15,8 +15,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 691.6,
-        "y": 103.6
+        "x": 136.7,
+        "y": 113.6
       },
       "font_size": 8,
       "max_width": -120
@@ -27,8 +27,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 691.6,
-        "y": 103.6
+        "x": 418.9,
+        "y": 114.5
       },
       "font_size": 8,
       "max_width": -120
@@ -39,20 +39,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 117.2,
-        "y": 125.1
-      },
-      "font_size": 8,
-      "max_width": 10
-    },
-    {
-      "field_id": "gender_female",
-      "label": "Female",
-      "type": "checkbox",
-      "page": 1,
-      "coordinates": {
-        "x": 154.0,
-        "y": 125.1
+        "x": 117.6,
+        "y": 128.1
       },
       "font_size": 8,
       "max_width": 10
@@ -63,11 +51,11 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 544.4,
-        "y": 125.1
+        "x": 210.8,
+        "y": 128.1
       },
       "font_size": 8,
-      "max_width": 25.0
+      "max_width": 25
     },
     {
       "field_id": "patient_dob",
@@ -75,11 +63,23 @@
       "type": "date_field",
       "page": 1,
       "coordinates": {
-        "x": 544.4,
-        "y": 125.1
+        "x": 274.4,
+        "y": 128.6
       },
       "font_size": 8,
       "max_width": 28
+    },
+    {
+      "field_id": "gender_female",
+      "label": "Female",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 153,
+        "y": 129.5
+      },
+      "font_size": 8,
+      "max_width": 10
     },
     {
       "field_id": "policy_no",
@@ -87,23 +87,11 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 544.4,
-        "y": 125.1
+        "x": 353,
+        "y": 129.5
       },
       "font_size": 8,
       "max_width": 28
-    },
-    {
-      "field_id": "patient_attendant_mobile_no",
-      "label": "Patient/Attendant Mobile No.",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 560.3,
-        "y": 139.8
-      },
-      "font_size": 8,
-      "max_width": 12
     },
     {
       "field_id": "employee_id",
@@ -111,8 +99,20 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 560.3,
-        "y": 139.8
+        "x": 321.2,
+        "y": 142.2
+      },
+      "font_size": 8,
+      "max_width": 12
+    },
+    {
+      "field_id": "patient_attendant_mobile_no",
+      "label": "Patient/Attendant Mobile No.",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 187.1,
+        "y": 142.7
       },
       "font_size": 8,
       "max_width": 12
@@ -123,8 +123,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 595.0,
-        "y": 139.8
+        "x": 444.8,
+        "y": 143.1
       },
       "font_size": 8,
       "max_width": -23
@@ -135,8 +135,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 708.9,
-        "y": 143.8
+        "x": 187.6,
+        "y": 157.2
       },
       "font_size": 10,
       "max_width": -137
@@ -147,8 +147,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 296.9,
-        "y": 169.1
+        "x": 386.7,
+        "y": 167.2
       },
       "font_size": 10,
       "max_width": 10
@@ -159,8 +159,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 334.6,
-        "y": 169.1
+        "x": 297.1,
+        "y": 170.9
       },
       "font_size": 10,
       "max_width": 10
@@ -171,23 +171,11 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 691.6,
-        "y": 169.1
+        "x": 335.3,
+        "y": 170.9
       },
       "font_size": 10,
       "max_width": -120
-    },
-    {
-      "field_id": "insurance_company_name",
-      "label": "Insurance Co. Name",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 708.6,
-        "y": 183.7
-      },
-      "font_size": 10,
-      "max_width": -137
     },
     {
       "field_id": "other_insurance_policy_no",
@@ -195,8 +183,20 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 708.6,
-        "y": 183.7
+        "x": 369.8,
+        "y": 187.7
+      },
+      "font_size": 10,
+      "max_width": -137
+    },
+    {
+      "field_id": "insurance_company_name",
+      "label": "Insurance Co. Name",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 154.8,
+        "y": 188.1
       },
       "font_size": 10,
       "max_width": -137
@@ -207,8 +207,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 710.3,
-        "y": 197.5
+        "x": 372.1,
+        "y": 200.4
       },
       "font_size": 10,
       "max_width": -138
@@ -219,44 +219,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 710.3,
-        "y": 197.5
-      },
-      "font_size": 10,
-      "max_width": -138
-    },
-    {
-      "field_id": "family_physician_yes",
-      "label": "Yes",
-      "type": "checkbox",
-      "page": 1,
-      "coordinates": {
-        "x": 188.0,
-        "y": 211.0
-      },
-      "font_size": 10,
-      "max_width": 10
-    },
-    {
-      "field_id": "family_physician_no",
-      "label": "No",
-      "type": "checkbox",
-      "page": 1,
-      "coordinates": {
-        "x": 214.8,
-        "y": 211.0
-      },
-      "font_size": 10,
-      "max_width": 10
-    },
-    {
-      "field_id": "name_of_family_physician",
-      "label": "Name of Family Physician",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 709.6,
-        "y": 211.0
+        "x": 372.2,
+        "y": 200.7
       },
       "font_size": 10,
       "max_width": -138
@@ -267,11 +231,59 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 709.6,
-        "y": 211.0
+        "x": 474.4,
+        "y": 215.9
       },
       "font_size": 10,
       "max_width": -138
+    },
+    {
+      "field_id": "family_physician_yes",
+      "label": "Yes",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 187.6,
+        "y": 216.3
+      },
+      "font_size": 10,
+      "max_width": 10
+    },
+    {
+      "field_id": "name_of_family_physician",
+      "label": "Name of Family Physician",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 328,
+        "y": 216.3
+      },
+      "font_size": 10,
+      "max_width": -138
+    },
+    {
+      "field_id": "family_physician_no",
+      "label": "No",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 215.3,
+        "y": 216.8
+      },
+      "font_size": 10,
+      "max_width": 10
+    },
+    {
+      "field_id": "rohin_id",
+      "label": "ROHIN ID",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 480.3,
+        "y": 257.7
+      },
+      "font_size": 8,
+      "max_width": -120
     },
     {
       "field_id": "hospital_address",
@@ -279,8 +291,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 691.6,
-        "y": 237.9
+        "x": 117.1,
+        "y": 258.1
       },
       "font_size": 8,
       "max_width": -120
@@ -291,20 +303,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 691.6,
-        "y": 237.9
-      },
-      "font_size": 8,
-      "max_width": -120
-    },
-    {
-      "field_id": "rohin_id",
-      "label": "ROHIN ID",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 691.6,
-        "y": 237.9
+        "x": 336.2,
+        "y": 259
       },
       "font_size": 8,
       "max_width": -120
@@ -315,20 +315,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 166.8,
-        "y": 264.4
-      },
-      "font_size": 10,
-      "max_width": 10
-    },
-    {
-      "field_id": "hospitalization_type_planned",
-      "label": "Planned",
-      "type": "checkbox",
-      "page": 1,
-      "coordinates": {
-        "x": 220.2,
-        "y": 264.4
+        "x": 167.1,
+        "y": 268.1
       },
       "font_size": 10,
       "max_width": 10
@@ -339,8 +327,8 @@
       "type": "date_field",
       "page": 1,
       "coordinates": {
-        "x": 709.2,
-        "y": 264.4
+        "x": 358.5,
+        "y": 268.1
       },
       "font_size": 10,
       "max_width": -137
@@ -351,23 +339,23 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 709.2,
-        "y": 264.4
+        "x": 502.6,
+        "y": 268.1
       },
       "font_size": 10,
       "max_width": -137
     },
     {
-      "field_id": "expected_length_of_stay_days",
-      "label": "Expected Length of Stay (days)",
-      "type": "text_line",
+      "field_id": "hospitalization_type_planned",
+      "label": "Planned",
+      "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 709.2,
-        "y": 278.1
+        "x": 218.9,
+        "y": 269
       },
       "font_size": 10,
-      "max_width": -137
+      "max_width": 10
     },
     {
       "field_id": "name_of_treating_doctor",
@@ -375,8 +363,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 709.2,
-        "y": 278.1
+        "x": 313.4,
+        "y": 280.6
       },
       "font_size": 10,
       "max_width": -137
@@ -387,8 +375,20 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 709.2,
-        "y": 278.1
+        "x": 469.8,
+        "y": 282.2
+      },
+      "font_size": 10,
+      "max_width": -137
+    },
+    {
+      "field_id": "expected_length_of_stay_days",
+      "label": "Expected Length of Stay (days)",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 174.0,
+        "y": 284.0
       },
       "font_size": 10,
       "max_width": -137
@@ -399,8 +399,8 @@
       "type": "text_box",
       "page": 1,
       "coordinates": {
-        "x": 709.2,
-        "y": 291.5
+        "x": 276.7,
+        "y": 296.8
       },
       "font_size": 10,
       "max_width": -137
@@ -411,8 +411,8 @@
       "type": "text_box",
       "page": 1,
       "coordinates": {
-        "x": 691.6,
-        "y": 305.0
+        "x": 176.7,
+        "y": 326
       },
       "font_size": 8,
       "max_width": -120
@@ -423,20 +423,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 557.6,
-        "y": 337.6
-      },
-      "font_size": 8,
-      "max_width": 14
-    },
-    {
-      "field_id": "ailment_duration_months",
-      "label": "Duration of present Ailment (Months)",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 557.6,
-        "y": 337.6
+        "x": 189.8,
+        "y": 340.6
       },
       "font_size": 8,
       "max_width": 14
@@ -447,8 +435,20 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 557.6,
-        "y": 337.6
+        "x": 298.9,
+        "y": 340.6
+      },
+      "font_size": 8,
+      "max_width": 14
+    },
+    {
+      "field_id": "ailment_duration_months",
+      "label": "Duration of present Ailment (Months)",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 238,
+        "y": 341.9
       },
       "font_size": 8,
       "max_width": 14
@@ -459,8 +459,8 @@
       "type": "date_field",
       "page": 1,
       "coordinates": {
-        "x": 557.6,
-        "y": 337.6
+        "x": 459.4,
+        "y": 341.9
       },
       "font_size": 8,
       "max_width": 14
@@ -471,23 +471,11 @@
       "type": "text_box",
       "page": 1,
       "coordinates": {
-        "x": 207.1,
-        "y": 352.2
+        "x": 213.5,
+        "y": 355.6
       },
       "font_size": 8,
       "max_width": 332.9
-    },
-    {
-      "field_id": "provisional_diagnosis",
-      "label": "Provisional Diagnosis",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 691.6,
-        "y": 358.7
-      },
-      "font_size": 8,
-      "max_width": -120
     },
     {
       "field_id": "provisional_diagnosis_icd_code",
@@ -495,23 +483,23 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 691.6,
-        "y": 358.7
+        "x": 448.9,
+        "y": 371
       },
       "font_size": 8,
       "max_width": -120
     },
     {
-      "field_id": "treatment_medical",
-      "label": "Medical",
-      "type": "checkbox",
+      "field_id": "provisional_diagnosis",
+      "label": "Provisional Diagnosis",
+      "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 259.2,
-        "y": 381.5
+        "x": 160.3,
+        "y": 371.5
       },
       "font_size": 8,
-      "max_width": 10
+      "max_width": -120
     },
     {
       "field_id": "treatment_surgical",
@@ -519,20 +507,20 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 303.4,
-        "y": 381.5
+        "x": 302.1,
+        "y": 383
       },
       "font_size": 8,
       "max_width": 10
     },
     {
-      "field_id": "treatment_intensive",
-      "label": "Intensive",
+      "field_id": "treatment_medical",
+      "label": "Medical",
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 346.1,
-        "y": 381.5
+        "x": 259.8,
+        "y": 384.8
       },
       "font_size": 8,
       "max_width": 10
@@ -543,8 +531,20 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 393.1,
-        "y": 381.5
+        "x": 393.9,
+        "y": 385.7
+      },
+      "font_size": 8,
+      "max_width": 10
+    },
+    {
+      "field_id": "treatment_intensive",
+      "label": "Intensive",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 347.1,
+        "y": 386.2
       },
       "font_size": 8,
       "max_width": 10
@@ -555,8 +555,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 454.8,
-        "y": 381.5
+        "x": 457.6,
+        "y": 386.2
       },
       "font_size": 8,
       "max_width": 10
@@ -567,8 +567,8 @@
       "type": "text_box",
       "page": 1,
       "coordinates": {
-        "x": 707.2,
-        "y": 396.1
+        "x": 285.8,
+        "y": 399.3
       },
       "font_size": 9,
       "max_width": -135
@@ -579,8 +579,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 709.2,
-        "y": 410.8
+        "x": 189.8,
+        "y": 412.5
       },
       "font_size": 10,
       "max_width": -137
@@ -591,11 +591,35 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 709.2,
-        "y": 410.8
+        "x": 377.1,
+        "y": 413.9
       },
       "font_size": 10,
       "max_width": -137
+    },
+    {
+      "field_id": "icd_pcs_code",
+      "label": "ICD PCS Code",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 412.6,
+        "y": 427.4
+      },
+      "font_size": 10,
+      "max_width": -120
+    },
+    {
+      "field_id": "anesthesia_type_dissociative",
+      "label": "Dissociative",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 292.6,
+        "y": 428.7
+      },
+      "font_size": 10,
+      "max_width": 10
     },
     {
       "field_id": "anesthesia_type_local",
@@ -603,8 +627,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 163.7,
-        "y": 425.4
+        "x": 162.6,
+        "y": 429.2
       },
       "font_size": 10,
       "max_width": 10
@@ -615,8 +639,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 200.9,
-        "y": 425.4
+        "x": 201.2,
+        "y": 429.6
       },
       "font_size": 10,
       "max_width": 10
@@ -627,35 +651,11 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 247.8,
-        "y": 425.4
+        "x": 248,
+        "y": 430.1
       },
       "font_size": 10,
       "max_width": 10
-    },
-    {
-      "field_id": "anesthesia_type_dissociative",
-      "label": "Dissociative",
-      "type": "checkbox",
-      "page": 1,
-      "coordinates": {
-        "x": 293.4,
-        "y": 425.4
-      },
-      "font_size": 10,
-      "max_width": 10
-    },
-    {
-      "field_id": "icd_pcs_code",
-      "label": "ICD PCS Code",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 691.6,
-        "y": 425.4
-      },
-      "font_size": 10,
-      "max_width": -120
     },
     {
       "field_id": "other_treatments_details",
@@ -663,8 +663,8 @@
       "type": "text_box",
       "page": 1,
       "coordinates": {
-        "x": 745.0,
-        "y": 439.3
+        "x": 206.2,
+        "y": 443.3
       },
       "font_size": 10,
       "max_width": -173
@@ -675,8 +675,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 179.5,
-        "y": 452.7
+        "x": 178.5,
+        "y": 456.9
       },
       "font_size": 9,
       "max_width": 10
@@ -687,8 +687,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 218.5,
-        "y": 452.7
+        "x": 219.8,
+        "y": 458.7
       },
       "font_size": 9,
       "max_width": 10
@@ -699,8 +699,8 @@
       "type": "date_field",
       "page": 1,
       "coordinates": {
-        "x": 727.6,
-        "y": 452.7
+        "x": 406.2,
+        "y": 458.7
       },
       "font_size": 9,
       "max_width": -156
@@ -711,8 +711,8 @@
       "type": "text_box",
       "page": 1,
       "coordinates": {
-        "x": 562.1,
-        "y": 469.4
+        "x": 159.4,
+        "y": 473.7
       },
       "font_size": 8,
       "max_width": 10
@@ -723,8 +723,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 338.9,
-        "y": 484.1
+        "x": 337.6,
+        "y": 485.1
       },
       "font_size": 8,
       "max_width": 10
@@ -735,8 +735,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 366.1,
-        "y": 484.1
+        "x": 367.6,
+        "y": 487.4
       },
       "font_size": 8,
       "max_width": 10
@@ -747,8 +747,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 196.4,
-        "y": 484.1
+        "x": 198,
+        "y": 501.5
       },
       "font_size": 8,
       "max_width": 10
@@ -759,32 +759,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 227.3,
-        "y": 484.1
-      },
-      "font_size": 8,
-      "max_width": 10
-    },
-    {
-      "field_id": "reported_to_police_yes",
-      "label": "Yes",
-      "type": "checkbox",
-      "page": 1,
-      "coordinates": {
-        "x": 331.8,
-        "y": 484.1
-      },
-      "font_size": 8,
-      "max_width": 10
-    },
-    {
-      "field_id": "reported_to_police_no",
-      "label": "No",
-      "type": "checkbox",
-      "page": 1,
-      "coordinates": {
-        "x": 362.1,
-        "y": 484.1
+        "x": 227.1,
+        "y": 501.9
       },
       "font_size": 8,
       "max_width": 10
@@ -795,11 +771,59 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 556.2,
-        "y": 498.8
+        "x": 450.8,
+        "y": 503.3
       },
       "font_size": 8,
       "max_width": 16
+    },
+    {
+      "field_id": "reported_to_police_yes",
+      "label": "Yes",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 330.8,
+        "y": 503.7
+      },
+      "font_size": 8,
+      "max_width": 10
+    },
+    {
+      "field_id": "reported_to_police_no",
+      "label": "No",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 363,
+        "y": 503.7
+      },
+      "font_size": 8,
+      "max_width": 10
+    },
+    {
+      "field_id": "lmp_date",
+      "label": "LMP Date",
+      "type": "date_field",
+      "page": 1,
+      "coordinates": {
+        "x": 310.8,
+        "y": 515.6
+      },
+      "font_size": 8,
+      "max_width": 10
+    },
+    {
+      "field_id": "maternity_l",
+      "label": "Maternity L",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 223.5,
+        "y": 516.5
+      },
+      "font_size": 8,
+      "max_width": -172
     },
     {
       "field_id": "maternity_g",
@@ -807,8 +831,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 727.6,
-        "y": 533.2
+        "x": 168,
+        "y": 516.9
       },
       "font_size": 8,
       "max_width": -156
@@ -819,23 +843,11 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 727.6,
-        "y": 533.2
+        "x": 195.3,
+        "y": 516.9
       },
       "font_size": 8,
       "max_width": -156
-    },
-    {
-      "field_id": "maternity_l",
-      "label": "Maternity L",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 744.2,
-        "y": 506.5
-      },
-      "font_size": 8,
-      "max_width": -172
     },
     {
       "field_id": "maternity_a",
@@ -843,23 +855,11 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 727.6,
-        "y": 533.2
+        "x": 249.8,
+        "y": 516.9
       },
       "font_size": 8,
       "max_width": -156
-    },
-    {
-      "field_id": "lmp_date",
-      "label": "LMP Date",
-      "type": "date_field",
-      "page": 1,
-      "coordinates": {
-        "x": 562.4,
-        "y": 513.4
-      },
-      "font_size": 8,
-      "max_width": 10
     },
     {
       "field_id": "expected_date_of_delivery",
@@ -867,8 +867,8 @@
       "type": "date_field",
       "page": 1,
       "coordinates": {
-        "x": 744.2,
-        "y": 506.5
+        "x": 463.5,
+        "y": 516.9
       },
       "font_size": 8,
       "max_width": -172
@@ -879,8 +879,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 159.7,
-        "y": 528.0
+        "x": 161.2,
+        "y": 531
       },
       "font_size": 8,
       "max_width": 10
@@ -891,8 +891,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 189.3,
-        "y": 528.0
+        "x": 190.8,
+        "y": 533.3
       },
       "font_size": 8,
       "max_width": 10
@@ -903,20 +903,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 241.4,
-        "y": 577.0
-      },
-      "font_size": 8,
-      "max_width": 10
-    },
-    {
-      "field_id": "hypertension_no",
-      "label": "Hypertension No",
-      "type": "checkbox",
-      "page": 1,
-      "coordinates": {
-        "x": 271.4,
-        "y": 577.0
+        "x": 254.8,
+        "y": 581.3
       },
       "font_size": 8,
       "max_width": 10
@@ -927,11 +915,23 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 745.5,
-        "y": 573.6
+        "x": 360.3,
+        "y": 581.3
       },
       "font_size": 8,
       "max_width": -174
+    },
+    {
+      "field_id": "hypertension_no",
+      "label": "Hypertension No",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 307.1,
+        "y": 582.7
+      },
+      "font_size": 8,
+      "max_width": 10
     },
     {
       "field_id": "hyperlipidemia_yes",
@@ -939,8 +939,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 241.4,
-        "y": 592.0
+        "x": 255.3,
+        "y": 595.9
       },
       "font_size": 8,
       "max_width": 10
@@ -951,8 +951,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 271.4,
-        "y": 592.0
+        "x": 309.4,
+        "y": 596.3
       },
       "font_size": 8,
       "max_width": 10
@@ -963,8 +963,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 745.5,
-        "y": 573.6
+        "x": 357.1,
+        "y": 597.7
       },
       "font_size": 8,
       "max_width": -174
@@ -975,8 +975,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 241.4,
-        "y": 607.0
+        "x": 358,
+        "y": 608.1
       },
       "font_size": 8,
       "max_width": 10
@@ -987,8 +987,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 271.4,
-        "y": 607.0
+        "x": 260.8,
+        "y": 610.9
       },
       "font_size": 8,
       "max_width": 10
@@ -999,8 +999,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 745.5,
-        "y": 613.9
+        "x": 307.1,
+        "y": 610.9
       },
       "font_size": 8,
       "max_width": -174
@@ -1011,8 +1011,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 241.4,
-        "y": 622.0
+        "x": 306.2,
+        "y": 625.4
       },
       "font_size": 8,
       "max_width": 10
@@ -1023,8 +1023,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 271.4,
-        "y": 622.0
+        "x": 368.5,
+        "y": 625.4
       },
       "font_size": 8,
       "max_width": 10
@@ -1035,23 +1035,11 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 745.5,
-        "y": 613.9
+        "x": 257.6,
+        "y": 627.7
       },
       "font_size": 8,
       "max_width": -174
-    },
-    {
-      "field_id": "diabetes_yes",
-      "label": "Diabetes Yes",
-      "type": "checkbox",
-      "page": 1,
-      "coordinates": {
-        "x": 241.4,
-        "y": 637.0
-      },
-      "font_size": 8,
-      "max_width": 10
     },
     {
       "field_id": "diabetes_no",
@@ -1059,8 +1047,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 271.4,
-        "y": 637.0
+        "x": 307.1,
+        "y": 640.9
       },
       "font_size": 8,
       "max_width": 10
@@ -1071,20 +1059,20 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 743.4,
-        "y": 627.3
+        "x": 352.6,
+        "y": 640.9
       },
       "font_size": 8,
       "max_width": -171
     },
     {
-      "field_id": "cardiovascular_diseases_yes",
-      "label": "Cardiovascular Diseases Yes",
+      "field_id": "diabetes_yes",
+      "label": "Diabetes Yes",
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 241.4,
-        "y": 652.0
+        "x": 257.1,
+        "y": 642.2
       },
       "font_size": 8,
       "max_width": 10
@@ -1095,8 +1083,20 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 271.4,
-        "y": 652.0
+        "x": 359.4,
+        "y": 655.4
+      },
+      "font_size": 8,
+      "max_width": 10
+    },
+    {
+      "field_id": "cardiovascular_diseases_yes",
+      "label": "Cardiovascular Diseases Yes",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 256.2,
+        "y": 656.3
       },
       "font_size": 8,
       "max_width": 10
@@ -1107,8 +1107,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 745.5,
-        "y": 640.7
+        "x": 309.4,
+        "y": 657.7
       },
       "font_size": 8,
       "max_width": -174
@@ -1119,20 +1119,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 241.4,
-        "y": 667.0
-      },
-      "font_size": 8,
-      "max_width": 10
-    },
-    {
-      "field_id": "asthma_copd_bronchitis_no",
-      "label": "Asthma / COPD / Bronchitis No",
-      "type": "checkbox",
-      "page": 1,
-      "coordinates": {
-        "x": 271.4,
-        "y": 667.0
+        "x": 359.4,
+        "y": 669
       },
       "font_size": 8,
       "max_width": 10
@@ -1143,11 +1131,23 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 743.1,
-        "y": 667.0
+        "x": 310.8,
+        "y": 672.7
       },
       "font_size": 8,
       "max_width": -171
+    },
+    {
+      "field_id": "asthma_copd_bronchitis_no",
+      "label": "Asthma / COPD / Bronchitis No",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 257.1,
+        "y": 674.5
+      },
+      "font_size": 8,
+      "max_width": 10
     },
     {
       "field_id": "any_surgery_hospitalization_yes",
@@ -1155,20 +1155,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 241.4,
-        "y": 681.0
-      },
-      "font_size": 8,
-      "max_width": 10
-    },
-    {
-      "field_id": "any_surgery_hospitalization_no",
-      "label": "Any Surgery / Hospitalization No",
-      "type": "checkbox",
-      "page": 1,
-      "coordinates": {
-        "x": 271.4,
-        "y": 681.0
+        "x": 359.4,
+        "y": 684.9
       },
       "font_size": 8,
       "max_width": 10
@@ -1179,11 +1167,23 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 742.8,
-        "y": 681.0
+        "x": 308.5,
+        "y": 686.3
       },
       "font_size": 8,
       "max_width": -171
+    },
+    {
+      "field_id": "any_surgery_hospitalization_no",
+      "label": "Any Surgery / Hospitalization No",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 258.9,
+        "y": 688.1
+      },
+      "font_size": 8,
+      "max_width": 10
     },
     {
       "field_id": "any_other_disease_disability_yes",
@@ -1191,8 +1191,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 241.4,
-        "y": 694.4
+        "x": 357.1,
+        "y": 698.1
       },
       "font_size": 8,
       "max_width": 10
@@ -1203,8 +1203,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 271.4,
-        "y": 694.4
+        "x": 252.1,
+        "y": 701.8
       },
       "font_size": 8,
       "max_width": 10
@@ -1215,8 +1215,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 743.1,
-        "y": 694.4
+        "x": 308.5,
+        "y": 701.8
       },
       "font_size": 8,
       "max_width": -171
@@ -1227,8 +1227,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 241.4,
-        "y": 712.0
+        "x": 258.9,
+        "y": 716.3
       },
       "font_size": 8,
       "max_width": 10
@@ -1239,8 +1239,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 271.4,
-        "y": 712.0
+        "x": 308.9,
+        "y": 716.3
       },
       "font_size": 8,
       "max_width": 10
@@ -1251,8 +1251,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 489.4,
-        "y": 712.0
+        "x": 355.3,
+        "y": 716.3
       },
       "font_size": 8,
       "max_width": 50.6
@@ -1263,8 +1263,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 241.4,
-        "y": 724.6
+        "x": 304.8,
+        "y": 728.7
       },
       "font_size": 8,
       "max_width": 10
@@ -1275,8 +1275,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 271.4,
-        "y": 724.6
+        "x": 359.4,
+        "y": 729.2
       },
       "font_size": 8,
       "max_width": 10
@@ -1287,8 +1287,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 301.7,
-        "y": 724.6
+        "x": 253.5,
+        "y": 733.3
       },
       "font_size": 8,
       "max_width": 238.3
@@ -1299,8 +1299,8 @@
       "type": "checkbox",
       "page": 2,
       "coordinates": {
-        "x": 241.4,
-        "y": 55.5
+        "x": 256.2,
+        "y": 59.5
       },
       "font_size": 8,
       "max_width": 10
@@ -1311,23 +1311,11 @@
       "type": "checkbox",
       "page": 2,
       "coordinates": {
-        "x": 271.4,
-        "y": 55.5
+        "x": 307.1,
+        "y": 63.1
       },
       "font_size": 8,
       "max_width": 10
-    },
-    {
-      "field_id": "room_rent_nursing_diet_amount",
-      "label": "Room Rent per day + Nursing/Service charges + Diet Amount",
-      "type": "text_line",
-      "page": 2,
-      "coordinates": {
-        "x": 455.5,
-        "y": 99.7
-      },
-      "font_size": 8,
-      "max_width": 65.0
     },
     {
       "field_id": "investigations_diagnostics_amount",
@@ -1335,11 +1323,23 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 324.7,
-        "y": 94.7
+        "x": 498.9,
+        "y": 102.4
       },
       "font_size": 8,
-      "max_width": 95.0
+      "max_width": 95
+    },
+    {
+      "field_id": "room_rent_nursing_diet_amount",
+      "label": "Room Rent per day + Nursing/Service charges + Diet Amount",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 286.2,
+        "y": 104.2
+      },
+      "font_size": 8,
+      "max_width": 65
     },
     {
       "field_id": "icu_charges_amount",
@@ -1347,11 +1347,11 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 324.7,
-        "y": 94.7
+        "x": 499.8,
+        "y": 119.6
       },
       "font_size": 8,
-      "max_width": 185.0
+      "max_width": 185
     },
     {
       "field_id": "medicines_consumables_amount",
@@ -1359,11 +1359,11 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 324.7,
-        "y": 94.7
+        "x": 288,
+        "y": 122.4
       },
       "font_size": 8,
-      "max_width": 95.0
+      "max_width": 95
     },
     {
       "field_id": "doctor_consultant_visit_charges_amount",
@@ -1371,11 +1371,11 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 275.4,
-        "y": 123.8
+        "x": 280.3,
+        "y": 135.6
       },
       "font_size": 9,
-      "max_width": 105.0
+      "max_width": 105
     },
     {
       "field_id": "equipment_monitor_amount",
@@ -1383,11 +1383,11 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 275.4,
-        "y": 123.8
+        "x": 501.2,
+        "y": 135.6
       },
       "font_size": 9,
-      "max_width": 95.0
+      "max_width": 95
     },
     {
       "field_id": "surgeon_anesthetist_charges_amount",
@@ -1395,11 +1395,11 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 275.4,
-        "y": 123.8
+        "x": 283,
+        "y": 150.1
       },
       "font_size": 8,
-      "max_width": 105.0
+      "max_width": 105
     },
     {
       "field_id": "miscellaneous_amount",
@@ -1407,11 +1407,11 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 275.4,
-        "y": 123.8
+        "x": 498.9,
+        "y": 150.6
       },
       "font_size": 8,
-      "max_width": 95.0
+      "max_width": 95
     },
     {
       "field_id": "operation_theatre_charges_amount",
@@ -1419,11 +1419,11 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 275.4,
-        "y": 153.2
+        "x": 286.2,
+        "y": 163.3
       },
       "font_size": 9,
-      "max_width": 145.0
+      "max_width": 145
     },
     {
       "field_id": "implant_charges_amount",
@@ -1431,11 +1431,11 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 275.4,
-        "y": 153.2
+        "x": 498.9,
+        "y": 163.3
       },
       "font_size": 9,
-      "max_width": 95.0
+      "max_width": 95
     },
     {
       "field_id": "package_charges_amount",
@@ -1443,23 +1443,11 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 275.4,
-        "y": 153.2
+        "x": 497.6,
+        "y": 176.9
       },
       "font_size": 8,
-      "max_width": 215.0
-    },
-    {
-      "field_id": "total_estimated_expenses_amount",
-      "label": "Estimate of Expenses: Total Amount Rs.",
-      "type": "text_line",
-      "page": 2,
-      "coordinates": {
-        "x": 558.8,
-        "y": 192.7
-      },
-      "font_size": 9,
-      "max_width": 13
+      "max_width": 215
     },
     {
       "field_id": "class_of_accommodation",
@@ -1467,23 +1455,23 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 706.6,
-        "y": 184.1
+        "x": 470.8,
+        "y": 195.7
       },
       "font_size": 9,
       "max_width": -135
     },
     {
-      "field_id": "treating_doctor_name",
-      "label": "Name of the treating Doctor",
+      "field_id": "total_estimated_expenses_amount",
+      "label": "Estimate of Expenses: Total Amount Rs.",
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 691.6,
-        "y": 237.9
+        "x": 239.8,
+        "y": 197.1
       },
       "font_size": 9,
-      "max_width": -120
+      "max_width": 13
     },
     {
       "field_id": "treating_doctor_qualification",
@@ -1491,8 +1479,20 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 691.6,
-        "y": 237.9
+        "x": 438.9,
+        "y": 251.5
+      },
+      "font_size": 9,
+      "max_width": -120
+    },
+    {
+      "field_id": "treating_doctor_name",
+      "label": "Name of the treating Doctor",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 196.7,
+        "y": 253.3
       },
       "font_size": 9,
       "max_width": -120
@@ -1503,8 +1503,8 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 709.2,
-        "y": 264.1
+        "x": 225.3,
+        "y": 267.8
       },
       "font_size": 10,
       "max_width": -137
@@ -1515,8 +1515,8 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 709.2,
-        "y": 278.1
+        "x": 160.3,
+        "y": 283.3
       },
       "font_size": 10,
       "max_width": -137
@@ -1527,8 +1527,8 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 709.2,
-        "y": 278.1
+        "x": 459.4,
+        "y": 286
       },
       "font_size": 10,
       "max_width": -137
@@ -1539,8 +1539,8 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 691.6,
-        "y": 358.7
+        "x": 154.4,
+        "y": 361.6
       },
       "font_size": 10,
       "max_width": -120
@@ -1551,23 +1551,11 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 691.6,
-        "y": 358.7
+        "x": 431.7,
+        "y": 361.6
       },
       "font_size": 10,
       "max_width": -120
-    },
-    {
-      "field_id": "insured_email_id",
-      "label": "INSURED Email ID",
-      "type": "text_line",
-      "page": 2,
-      "coordinates": {
-        "x": 709.2,
-        "y": 372.2
-      },
-      "font_size": 10,
-      "max_width": -137
     },
     {
       "field_id": "insured_mobile_no",
@@ -1575,20 +1563,56 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 709.2,
-        "y": 372.2
+        "x": 414.8,
+        "y": 375.7
       },
       "font_size": 10,
       "max_width": -137
     },
     {
-      "field_id": "patient_insured_name_declaration",
-      "label": "Patient\u2019s /Insured\u2019s Name",
+      "field_id": "insured_email_id",
+      "label": "INSURED Email ID",
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 743.1,
+        "x": 149.8,
+        "y": 376.6
+      },
+      "font_size": 10,
+      "max_width": -137
+    },
+    {
+      "field_id": "patient_insured_contact_no_declaration",
+      "label": "Contact No",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 200.0,
         "y": 544.1
+      },
+      "font_size": 8,
+      "max_width": 120
+    },
+    {
+      "field_id": "patient_insured_signature_declaration",
+      "label": "Patient's / Insured's Signature",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 420.0,
+        "y": 544.1
+      },
+      "font_size": 8,
+      "max_width": 130
+    },
+    {
+      "field_id": "patient_insured_name_declaration",
+      "label": "Patient’s /Insured’s Name",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 171.2,
+        "y": 546.8
       },
       "font_size": 10,
       "max_width": -171
@@ -1599,23 +1623,59 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 743.1,
-        "y": 544.1
+        "x": 308.9,
+        "y": 547.7
       },
       "font_size": 10,
       "max_width": -171
     },
     {
       "field_id": "patient_insured_signature",
-      "label": "Patient\u2019s / Insured\u2019s Signature",
+      "label": "Patient’s / Insured’s Signature",
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 743.1,
-        "y": 544.1
+        "x": 488,
+        "y": 547.7
       },
       "font_size": 10,
       "max_width": -171
+    },
+    {
+      "field_id": "hospital_declaration_seal_bottom",
+      "label": "Hospital Seal",
+      "type": "text_box",
+      "page": 2,
+      "coordinates": {
+        "x": 81.0,
+        "y": 652.0
+      },
+      "font_size": 8,
+      "max_width": 120
+    },
+    {
+      "field_id": "hospital_declaration_doctor_signature_bottom",
+      "label": "Doctor's Signature",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 230.0,
+        "y": 652.0
+      },
+      "font_size": 8,
+      "max_width": 160
+    },
+    {
+      "field_id": "hospital_doctor_signature",
+      "label": "Doctor’s Signature",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 328.9,
+        "y": 655.7
+      },
+      "font_size": 8,
+      "max_width": -170
     },
     {
       "field_id": "hospital_seal",
@@ -1623,20 +1683,8 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 741.5,
-        "y": 652.0
-      },
-      "font_size": 8,
-      "max_width": -170
-    },
-    {
-      "field_id": "hospital_doctor_signature",
-      "label": "Doctor\u2019s Signature",
-      "type": "text_line",
-      "page": 2,
-      "coordinates": {
-        "x": 741.5,
-        "y": 652.0
+        "x": 133,
+        "y": 656.6
       },
       "font_size": 8,
       "max_width": -170

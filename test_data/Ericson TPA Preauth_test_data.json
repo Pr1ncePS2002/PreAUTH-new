@@ -6,8 +6,8 @@
   "gender_male": true,
   "gender_female": true,
   "gender_third_gender": true,
-  "age_years_duration": "[age_years_duration]",
-  "age_months_duration": "[age_months_duration]",
+  "age_years_duration": "45",
+  "age_months_duration": "06",
   "date_of_birth": "15/03/1980",
   "patient_contact_number": "9876543210",
   "attending_relative_contact_number": "9876543211",
@@ -88,5 +88,13 @@
   "patient_representative_time": "10:30",
   "hospital_declaration_date": "15/03/2025",
   "hospital_declaration_time": "11:00",
-  "surgery_name": "Laparoscopic Appendectomy"
+  "surgery_name": "Laparoscopic Appendectomy",
+  "hospital_seal": "Amrita Institute of Medical Sciences, Faridabad",
+  "patient_insured_name_and_sign": "Rajesh Kumar Sharma",
+  "patient_insured_name": "Rajesh Kumar Sharma",
+  "patient_insured_signature": "Rajesh Kumar Sharma",
+  "patient_declaration_time": "10:30",
+  "patient_declaration_date": "15/03/2025",
+  "hospital_declaration_seal": "Amrita Institute of Medical Sciences, Faridabad",
+  "hospital_declaration_doctor_signature": "Dr. Anand Krishnamurthy"
 }

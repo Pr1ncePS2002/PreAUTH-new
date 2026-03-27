@@ -77,7 +77,7 @@
   "days_in_icu": "1",
   "room_type": "Twin Sharing",
   "per_day_room_rent_nursing_service_charges_patient_diet": "3500",
-  "expected_cost_of_investigation_diagnostic": "[expected_cost_of_investigation_diagnostic]",
+  "expected_cost_of_investigation_diagnostic": "8000",
   "icu_charges": "5000",
   "ot_charges": "25000",
   "professional_fees_surgeon_anesthetist_consultation": "15000",

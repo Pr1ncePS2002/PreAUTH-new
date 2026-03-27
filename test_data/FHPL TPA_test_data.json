@@ -84,7 +84,7 @@
   "medicines_consumables_implants_cost": "10000",
   "other_hospital_expenses": "3000",
   "all_inclusive_package_charges": "0",
-  "sum_total_expected_hospitalization_cost": "[sum_total_expected_hospitalization_cost]",
+  "sum_total_expected_hospitalization_cost": "84500",
   "declaration_treating_doctor_name": "Dr. Anand Krishnamurthy",
   "declaration_treating_doctor_qualification": "MS (General Surgery)",
   "declaration_treating_doctor_registration_number": "KMC-12345/KA",
@@ -95,5 +95,18 @@
   "declaration_date": "15/03/2025",
   "declaration_time": "10:30",
   "hospital_declaration_date": "15/03/2025",
-  "hospital_declaration_time": "11:00"
+  "hospital_declaration_time": "11:00",
+  "hospital_email_id": "tpa@fbd.amrita.edu",
+  "hospital_rohini_id": "8900080528185",
+  "hospital_address": "Mata Amritanandamayi Marg, Sector-88, Faridabad",
+  "hospital_name": "Amrita Institute of Medical Sciences, Faridabad",
+  "hospital_seal": "Amrita Institute of Medical Sciences, Faridabad",
+  "patient_insured_name_and_sign": "Rajesh Kumar Sharma",
+  "patient_insured_name": "Rajesh Kumar Sharma",
+  "patient_email_id": "rajesh.sharma@email.com",
+  "patient_insured_signature": "Rajesh Kumar Sharma",
+  "patient_declaration_date": "15/03/2025",
+  "patient_declaration_time": "10:30",
+  "hospital_declaration_seal": "Amrita Institute of Medical Sciences, Faridabad",
+  "hospital_declaration_doctor_signature": "Dr. Anand Krishnamurthy"
 }

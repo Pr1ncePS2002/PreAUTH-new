@@ -134,5 +134,9 @@
   "patient_insured_contact_no": "9876543210",
   "patient_insured_signature": "Rajesh Kumar Sharma",
   "hospital_seal": "Amrita Institute of Medical Sciences & Research Centre, Faridabad",
-  "hospital_doctor_signature": "Dr. Anand Krishnamurthy"
+  "hospital_doctor_signature": "Dr. Anand Krishnamurthy",
+  "patient_insured_contact_no_declaration": "9876543210",
+  "patient_insured_signature_declaration": "Rajesh Kumar Sharma",
+  "hospital_declaration_seal_bottom": "Amrita Institute of Medical Sciences, Faridabad",
+  "hospital_declaration_doctor_signature_bottom": "Dr. Anand Krishnamurthy"
 }

@@ -143,5 +143,10 @@
   "income_source_others_specify": "Software Engineer",
   "proposer_is_pep_yes": true,
   "proposer_is_pep_no": true,
-  "pep_details": "N/A"
+  "pep_details": "N/A",
+  "proposer_name": "Rajesh Kumar Sharma",
+  "permanent_address": "123, MG Road, Faridabad - 121001",
+  "father_spouse_name": "Rajesh Kumar Sharma",
+  "mother_name": "Rajesh Kumar Sharma",
+  "proposer_signature": "Rajesh Kumar Sharma"
 }

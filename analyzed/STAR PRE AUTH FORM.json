@@ -783,18 +783,6 @@
       "max_width": 10
     },
     {
-      "field_id": "hospitalization_event_planned",
-      "label": "Is this emergency/planned hospitalization event Planned",
-      "type": "checkbox",
-      "page": 3,
-      "coordinates": {
-        "x": 505.0,
-        "y": 271.0
-      },
-      "font_size": 10,
-      "max_width": 10
-    },
-    {
       "field_id": "past_history_since_month_year",
       "label": "Mandatory Past History of any chronic illness if yes (Since month/year)",
       "type": "text_line",
@@ -805,6 +793,18 @@
       },
       "font_size": 10,
       "max_width": 100
+    },
+    {
+      "field_id": "hospitalization_event_planned",
+      "label": "Is this emergency/planned hospitalization event Planned",
+      "type": "checkbox",
+      "page": 3,
+      "coordinates": {
+        "x": 505.0,
+        "y": 271.0
+      },
+      "font_size": 10,
+      "max_width": 10
     },
     {
       "field_id": "past_history_diabetes",
@@ -819,18 +819,6 @@
       "max_width": 10
     },
     {
-      "field_id": "past_history_heart_disease",
-      "label": "Heart disease",
-      "type": "checkbox",
-      "page": 3,
-      "coordinates": {
-        "x": 135.0,
-        "y": 295.0
-      },
-      "font_size": 9,
-      "max_width": 10
-    },
-    {
       "field_id": "past_history_hypertension",
       "label": "Hypertion",
       "type": "checkbox",
@@ -838,6 +826,18 @@
       "coordinates": {
         "x": 135.0,
         "y": 289.5
+      },
+      "font_size": 9,
+      "max_width": 10
+    },
+    {
+      "field_id": "past_history_heart_disease",
+      "label": "Heart disease",
+      "type": "checkbox",
+      "page": 3,
+      "coordinates": {
+        "x": 135.0,
+        "y": 295.0
       },
       "font_size": 9,
       "max_width": 10
@@ -1251,6 +1251,18 @@
       "max_width": 50
     },
     {
+      "field_id": "hospital_declaration_list_details",
+      "label": "List",
+      "type": "text_box",
+      "page": 6,
+      "coordinates": {
+        "x": 145.7,
+        "y": 586.4
+      },
+      "font_size": 9,
+      "max_width": 410
+    },
+    {
       "field_id": "hospital_declaration_date",
       "label": "Date",
       "type": "date_field",
@@ -1275,16 +1287,16 @@
       "max_width": 50
     },
     {
-      "field_id": "hospital_declaration_list_details",
-      "label": "List",
-      "type": "text_box",
-      "page": 6,
+      "field_id": "proposer_name",
+      "label": "Proposer Name",
+      "type": "text_line",
+      "page": 7,
       "coordinates": {
-        "x": 145.7,
-        "y": 586.4
+        "x": 205.7,
+        "y": 201.6
       },
-      "font_size": 9,
-      "max_width": 410
+      "font_size": 8,
+      "max_width": 330
     },
     {
       "field_id": "proposer_first_name",
@@ -1321,6 +1333,18 @@
       },
       "font_size": 7,
       "max_width": 60
+    },
+    {
+      "field_id": "permanent_address",
+      "label": "Permanent Address",
+      "type": "text_line",
+      "page": 7,
+      "coordinates": {
+        "x": 205.7,
+        "y": 258.9
+      },
+      "font_size": 8,
+      "max_width": 330
     },
     {
       "field_id": "permanent_address_city_town_village",
@@ -1431,6 +1455,18 @@
       "max_width": 60
     },
     {
+      "field_id": "proof_id_address_any_govt_notified_document",
+      "label": "Any Govt. Notified Document",
+      "type": "checkbox",
+      "page": 7,
+      "coordinates": {
+        "x": 555.2,
+        "y": 412.0
+      },
+      "font_size": 10,
+      "max_width": 10
+    },
+    {
       "field_id": "gender_male",
       "label": "Gender Male",
       "type": "checkbox",
@@ -1491,18 +1527,6 @@
       "max_width": 10
     },
     {
-      "field_id": "proof_id_address_driving_license_exp_dt",
-      "label": "Driving License Exp Dt.",
-      "type": "date_field",
-      "page": 7,
-      "coordinates": {
-        "x": 558.1,
-        "y": 456.9
-      },
-      "font_size": 9,
-      "max_width": -3
-    },
-    {
       "field_id": "proof_id_address_aadhar_card",
       "label": "Aadhar Card",
       "type": "checkbox",
@@ -1527,18 +1551,6 @@
       "max_width": 10
     },
     {
-      "field_id": "proof_id_address_passport_exp_dt",
-      "label": "Passport Exp Dt.",
-      "type": "date_field",
-      "page": 7,
-      "coordinates": {
-        "x": 558.1,
-        "y": 456.9
-      },
-      "font_size": 9,
-      "max_width": -3
-    },
-    {
       "field_id": "proof_id_address_nrega",
       "label": "NREGA",
       "type": "checkbox",
@@ -1551,6 +1563,30 @@
       "max_width": 10
     },
     {
+      "field_id": "proof_id_address_driving_license_exp_dt",
+      "label": "Driving License Exp Dt.",
+      "type": "date_field",
+      "page": 7,
+      "coordinates": {
+        "x": 558.1,
+        "y": 456.9
+      },
+      "font_size": 9,
+      "max_width": -3
+    },
+    {
+      "field_id": "proof_id_address_passport_exp_dt",
+      "label": "Passport Exp Dt.",
+      "type": "date_field",
+      "page": 7,
+      "coordinates": {
+        "x": 558.1,
+        "y": 456.9
+      },
+      "font_size": 9,
+      "max_width": -3
+    },
+    {
       "field_id": "proof_id_address_job_card",
       "label": "Job Card",
       "type": "checkbox",
@@ -1560,18 +1596,6 @@
         "y": 470.0
       },
       "font_size": 9,
-      "max_width": 10
-    },
-    {
-      "field_id": "proof_id_address_any_govt_notified_document",
-      "label": "Any Govt. Notified Document",
-      "type": "checkbox",
-      "page": 7,
-      "coordinates": {
-        "x": 555.2,
-        "y": 412.0
-      },
-      "font_size": 10,
       "max_width": 10
     },
     {
@@ -1635,6 +1659,18 @@
       "max_width": 60
     },
     {
+      "field_id": "father_spouse_name",
+      "label": "Father / Spouse Name",
+      "type": "text_line",
+      "page": 7,
+      "coordinates": {
+        "x": 205.7,
+        "y": 516.1
+      },
+      "font_size": 8,
+      "max_width": 330
+    },
+    {
       "field_id": "mother_first_name",
       "label": "Mother First Name",
       "type": "text_line",
@@ -1669,6 +1705,18 @@
       },
       "font_size": 7,
       "max_width": 60
+    },
+    {
+      "field_id": "mother_name",
+      "label": "Mother Name",
+      "type": "text_line",
+      "page": 7,
+      "coordinates": {
+        "x": 205.7,
+        "y": 544.9
+      },
+      "font_size": 8,
+      "max_width": 330
     },
     {
       "field_id": "income_source_salary",
@@ -1753,6 +1801,18 @@
       },
       "font_size": 9,
       "max_width": 393
+    },
+    {
+      "field_id": "proposer_signature",
+      "label": "Signature / Thumb impression of the Proposer",
+      "type": "text_line",
+      "page": 7,
+      "coordinates": {
+        "x": 405.0,
+        "y": 795.4
+      },
+      "font_size": 8,
+      "max_width": 170
     }
   ]
 }

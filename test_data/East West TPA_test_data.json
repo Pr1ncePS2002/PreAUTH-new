@@ -7,7 +7,7 @@
   "patient_gender_female": true,
   "patient_gender_third_gender": true,
   "patient_age_years": "45",
-  "patient_age_month": "[patient_age_month]",
+  "patient_age_month": "06",
   "patient_date_of_birth": "15/03/1980",
   "patient_contact_number": "9876543210",
   "attending_relative_contact_number": "9876543211",
@@ -72,7 +72,7 @@
   "chronic_illness_asthma_copd_bronchitis": true,
   "chronic_illness_cancer": true,
   "chronic_illness_alcohol_drug_abuse": true,
-  "chronic_illness_hiv_std_related_ailment": "[chronic_illness_hiv_std_related_ailment]",
+  "chronic_illness_hiv_std_related_ailment": "N/A",
   "chronic_illness_other_ailment_details": "Hypertension - controlled on medication",
   "expected_days_stay_in_hospital": "5",
   "days_in_icu": "1",
@@ -100,5 +100,9 @@
   "hospital_declaration_seal_box": "Amrita Institute of Medical Sciences & Research Centre, Faridabad",
   "hospital_declaration_doctors_signature_box": "Dr. Anand Krishnamurthy",
   "hospital_declaration_date": "15/03/2025",
-  "hospital_declaration_time": "11:00"
+  "hospital_declaration_time": "11:00",
+  "hospital_name": "Amrita Institute of Medical Sciences, Faridabad",
+  "hospital_address": "Mata Amritanandamayi Marg, Sector-88, Faridabad",
+  "hospital_rohini_id": "8900080528185",
+  "hospital_email_id": "tpa@fbd.amrita.edu"
 }

@@ -1,6 +1,6 @@
 {
   "tpa_insurance_company_name": "Medi Assist TPA Pvt. Ltd.",
-  "tpa_toll_free_phone_no": "[tpa_toll_free_phone_no]",
+  "tpa_toll_free_phone_no": "1800-425-9449",
   "tpa_toll_free_fax": "080-41432000",
   "patient_first_name": "Rajesh",
   "patient_middle_name": "Kumar",
@@ -25,7 +25,7 @@
   "family_physician_name": "Dr. Suresh Mehta",
   "family_physician_contact_number": "9845001234",
   "insured_patient_current_address": "42, MG Road, Koramangala, Bengaluru - 560034",
-  "insured_person_occupation": "[insured_person_occupation]",
+  "insured_person_occupation": "Software Engineer",
   "treating_doctor_name": "Dr. Anand Krishnamurthy",
   "treating_doctor_contact_number": "9900112233",
   "nature_of_illness_complaints": "Acute Appendicitis with severe right lower abdominal pain, nausea and fever",
@@ -111,5 +111,15 @@
   "hospital_seal_area_declaration": "Amrita Institute of Medical Sciences & Research Centre, Faridabad",
   "doctors_signature_declaration": "Dr. Anand Krishnamurthy",
   "hospital_declaration_date": "15/03/2025",
-  "hospital_declaration_time": "11:00"
+  "hospital_declaration_time": "11:00",
+  "hospital_name": "Amrita Institute of Medical Sciences, Faridabad",
+  "hospital_address": "Mata Amritanandamayi Marg, Sector-88, Faridabad",
+  "hospital_rohini_id": "8900080528185",
+  "hospital_email_id": "tpa@fbd.amrita.edu",
+  "patient_contact_number_declaration": "9876543210",
+  "patient_email_id_declaration": "rajesh.sharma@email.com",
+  "patient_declaration_date": "15/03/2025",
+  "patient_declaration_time": "10:30",
+  "hospital_declaration_seal": "Amrita Institute of Medical Sciences, Faridabad",
+  "hospital_declaration_doctor_signature": "Dr. Anand Krishnamurthy"
 }

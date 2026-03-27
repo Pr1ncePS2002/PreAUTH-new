@@ -191,7 +191,7 @@
     },
     {
       "field_id": "monthly_income_upto_20000",
-      "label": "Upto \u20b9 20,000",
+      "label": "Upto ₹ 20,000",
       "type": "checkbox",
       "page": 1,
       "coordinates": {
@@ -203,7 +203,7 @@
     },
     {
       "field_id": "monthly_income_20001_50000",
-      "label": "\u20b9 20,001 to \u20b9 50,000",
+      "label": "₹ 20,001 to ₹ 50,000",
       "type": "checkbox",
       "page": 1,
       "coordinates": {
@@ -215,7 +215,7 @@
     },
     {
       "field_id": "monthly_income_50001_100000",
-      "label": "\u20b9 50,001 to \u20b9 1,00,000",
+      "label": "₹ 50,001 to ₹ 1,00,000",
       "type": "checkbox",
       "page": 1,
       "coordinates": {
@@ -227,7 +227,7 @@
     },
     {
       "field_id": "monthly_income_100000_above",
-      "label": "\u20b9 1,00,000 and above",
+      "label": "₹ 1,00,000 and above",
       "type": "checkbox",
       "page": 1,
       "coordinates": {
@@ -550,18 +550,6 @@
       "max_width": 90
     },
     {
-      "field_id": "hospital_employee_name",
-      "label": "Hospital Employee Name",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 67.5,
-        "y": 462.4
-      },
-      "font_size": 9,
-      "max_width": 250
-    },
-    {
       "field_id": "treating_doctor_name",
       "label": "Name: Dr.",
       "type": "text_line",
@@ -572,6 +560,18 @@
       },
       "font_size": 9,
       "max_width": 90
+    },
+    {
+      "field_id": "hospital_employee_name",
+      "label": "Hospital Employee Name",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 67.5,
+        "y": 462.4
+      },
+      "font_size": 9,
+      "max_width": 250
     },
     {
       "field_id": "hospital_employee_contact_no",
@@ -646,6 +646,30 @@
       "max_width": 90
     },
     {
+      "field_id": "hospital_contact_email_id",
+      "label": "E-mail Id",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 120.0,
+        "y": 500.1
+      },
+      "font_size": 8,
+      "max_width": 200
+    },
+    {
+      "field_id": "hospital_contact_mobile_no",
+      "label": "Mobile No.",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 400.0,
+        "y": 500.1
+      },
+      "font_size": 8,
+      "max_width": 150
+    },
+    {
       "field_id": "presenting_complaint",
       "label": "Presenting Complaint",
       "type": "text_line",
@@ -694,6 +718,30 @@
       "max_width": 270
     },
     {
+      "field_id": "pmh_htn_n",
+      "label": "HTN - No",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 440.0,
+        "y": 561.2
+      },
+      "font_size": 9,
+      "max_width": 8
+    },
+    {
+      "field_id": "pmh_htn_duration_details",
+      "label": "HTN - Duration/Details",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 460.0,
+        "y": 561.2
+      },
+      "font_size": 9,
+      "max_width": 70
+    },
+    {
       "field_id": "relevant_clinical_findings",
       "label": "Relevant Clinical findings",
       "type": "text_line",
@@ -740,90 +788,6 @@
       },
       "font_size": 9,
       "max_width": 8
-    },
-    {
-      "field_id": "pmh_htn_n",
-      "label": "HTN - No",
-      "type": "checkbox",
-      "page": 1,
-      "coordinates": {
-        "x": 440.0,
-        "y": 561.2
-      },
-      "font_size": 9,
-      "max_width": 8
-    },
-    {
-      "field_id": "pmh_htn_duration_details",
-      "label": "HTN - Duration/Details",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 460.0,
-        "y": 561.2
-      },
-      "font_size": 9,
-      "max_width": 70
-    },
-    {
-      "field_id": "treatment_plan_medical",
-      "label": "Medical",
-      "type": "checkbox",
-      "page": 1,
-      "coordinates": {
-        "x": 240.0,
-        "y": 620.4
-      },
-      "font_size": 9,
-      "max_width": 8
-    },
-    {
-      "field_id": "treatment_plan_surgical",
-      "label": "Surgical",
-      "type": "checkbox",
-      "page": 1,
-      "coordinates": {
-        "x": 300.0,
-        "y": 620.4
-      },
-      "font_size": 9,
-      "max_width": 8
-    },
-    {
-      "field_id": "pmh_ihd_cad_y",
-      "label": "IHD/CAD - Yes",
-      "type": "checkbox",
-      "page": 1,
-      "coordinates": {
-        "x": 420.0,
-        "y": 620.4
-      },
-      "font_size": 9,
-      "max_width": 8
-    },
-    {
-      "field_id": "pmh_ihd_cad_n",
-      "label": "IHD/CAD - No",
-      "type": "checkbox",
-      "page": 1,
-      "coordinates": {
-        "x": 440.0,
-        "y": 620.4
-      },
-      "font_size": 9,
-      "max_width": 8
-    },
-    {
-      "field_id": "pmh_ihd_cad_duration_details",
-      "label": "IHD/CAD - Duration/Details",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 451.5,
-        "y": 620.4
-      },
-      "font_size": 9,
-      "max_width": 70
     },
     {
       "field_id": "pmh_diabetes_y",
@@ -898,6 +862,78 @@
       "max_width": 70
     },
     {
+      "field_id": "treatment_plan_medical",
+      "label": "Medical",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 240.0,
+        "y": 620.4
+      },
+      "font_size": 9,
+      "max_width": 8
+    },
+    {
+      "field_id": "treatment_plan_surgical",
+      "label": "Surgical",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 300.0,
+        "y": 620.4
+      },
+      "font_size": 9,
+      "max_width": 8
+    },
+    {
+      "field_id": "pmh_ihd_cad_y",
+      "label": "IHD/CAD - Yes",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 420.0,
+        "y": 620.4
+      },
+      "font_size": 9,
+      "max_width": 8
+    },
+    {
+      "field_id": "pmh_ihd_cad_n",
+      "label": "IHD/CAD - No",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 440.0,
+        "y": 620.4
+      },
+      "font_size": 9,
+      "max_width": 8
+    },
+    {
+      "field_id": "pmh_ihd_cad_duration_details",
+      "label": "IHD/CAD - Duration/Details",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 451.5,
+        "y": 620.4
+      },
+      "font_size": 9,
+      "max_width": 70
+    },
+    {
+      "field_id": "pmh_paralysis_cva_epilepsy_n",
+      "label": "Paralysis/CVA/Epilepsy - No",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 440.0,
+        "y": 641.7
+      },
+      "font_size": 9,
+      "max_width": 8
+    },
+    {
       "field_id": "obstetric_history_g",
       "label": "Obstetric History G",
       "type": "text_line",
@@ -953,18 +989,6 @@
       "coordinates": {
         "x": 420.0,
         "y": 656.8
-      },
-      "font_size": 9,
-      "max_width": 8
-    },
-    {
-      "field_id": "pmh_paralysis_cva_epilepsy_n",
-      "label": "Paralysis/CVA/Epilepsy - No",
-      "type": "checkbox",
-      "page": 1,
-      "coordinates": {
-        "x": 440.0,
-        "y": 641.7
       },
       "font_size": 9,
       "max_width": 8
@@ -1666,6 +1690,18 @@
       "max_width": 120
     },
     {
+      "field_id": "claimant_date_place",
+      "label": "Date & Place",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 100.0,
+        "y": 263.8
+      },
+      "font_size": 8,
+      "max_width": 200
+    },
+    {
       "field_id": "claimant_place",
       "label": "Place (Claimant)",
       "type": "text_line",
@@ -1700,6 +1736,18 @@
       },
       "font_size": 9,
       "max_width": 2
+    },
+    {
+      "field_id": "declaration_date_claimant_signature",
+      "label": "Date (Signature of Claimant)",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 110.0,
+        "y": 396.6
+      },
+      "font_size": 8,
+      "max_width": 400
     }
   ]
 }

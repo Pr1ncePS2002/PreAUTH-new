@@ -29,7 +29,7 @@
   "date_of_first_consultation": "12/03/2025",
   "past_history_of_present_ailment": "No significant past history. Mild hypertension since 2020.",
   "provisional_diagnosis": "Acute Appendicitis",
-  "provisional_diagnosis_icd_10_code": "[provisional_diagnosis_icd_10_code]",
+  "provisional_diagnosis_icd_10_code": "K35.80",
   "proposed_treatment_medical_management": true,
   "proposed_treatment_surgical_management": true,
   "proposed_treatment_intensive_care": true,

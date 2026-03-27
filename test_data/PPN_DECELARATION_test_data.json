@@ -18,5 +18,7 @@
   "ppn_insurance_company": "Bajaj Allianz General Insurance",
   "ppn_additional_facility": "Laparoscopic Appendectomy - Surgical Package",
   "ppn_cost_amount": "84500",
-  "ppn_cost_words": "Eighty Four Thousand Five Hundred Rupees Only"
+  "ppn_cost_words": "Eighty Four Thousand Five Hundred Rupees Only",
+  "patient_attendant_signature": "Rajesh Kumar Sharma",
+  "hospital_representative_name_seal": "Rajesh Kumar Sharma"
 }

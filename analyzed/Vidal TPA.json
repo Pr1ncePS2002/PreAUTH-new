@@ -1104,8 +1104,32 @@
       "max_width": 67
     },
     {
+      "field_id": "hospital_seal",
+      "label": "Hospital Seal",
+      "type": "text_box",
+      "page": 3,
+      "coordinates": {
+        "x": 62.0,
+        "y": 740.7
+      },
+      "font_size": 8,
+      "max_width": 120
+    },
+    {
+      "field_id": "patient_insured_name_and_sign",
+      "label": "Patient/Insured Name and Sign",
+      "type": "text_line",
+      "page": 3,
+      "coordinates": {
+        "x": 361.0,
+        "y": 741.7
+      },
+      "font_size": 8,
+      "max_width": 180
+    },
+    {
       "field_id": "patient_representative_name",
-      "label": "Patient\u2019s / Insured\u2019s Name:",
+      "label": "Patient’s / Insured’s Name:",
       "type": "text_line",
       "page": 4,
       "coordinates": {
@@ -1114,6 +1138,18 @@
       },
       "font_size": 9,
       "max_width": 372.1
+    },
+    {
+      "field_id": "patient_insured_name",
+      "label": "Patient's / Insured's Name",
+      "type": "text_line",
+      "page": 4,
+      "coordinates": {
+        "x": 145.0,
+        "y": 305.7
+      },
+      "font_size": 8,
+      "max_width": 200
     },
     {
       "field_id": "patient_representative_contact_number",
@@ -1140,8 +1176,32 @@
       "max_width": 180.0
     },
     {
+      "field_id": "patient_contact_number",
+      "label": "Contact Number",
+      "type": "text_line",
+      "page": 4,
+      "coordinates": {
+        "x": 120.0,
+        "y": 322.7
+      },
+      "font_size": 8,
+      "max_width": 130
+    },
+    {
+      "field_id": "patient_email_id",
+      "label": "email-Id",
+      "type": "text_line",
+      "page": 4,
+      "coordinates": {
+        "x": 335.0,
+        "y": 323.7
+      },
+      "font_size": 8,
+      "max_width": 140
+    },
+    {
       "field_id": "patient_representative_signature",
-      "label": "Patient\u2019s / Insured\u2019s Signature:",
+      "label": "Patient’s / Insured’s Signature:",
       "type": "text_line",
       "page": 4,
       "coordinates": {
@@ -1150,6 +1210,18 @@
       },
       "font_size": 9,
       "max_width": 363
+    },
+    {
+      "field_id": "patient_insured_signature",
+      "label": "Patient's / Insured's Signature",
+      "type": "text_line",
+      "page": 4,
+      "coordinates": {
+        "x": 160.0,
+        "y": 340.7
+      },
+      "font_size": 8,
+      "max_width": 200
     },
     {
       "field_id": "patient_representative_date",
@@ -1176,8 +1248,32 @@
       "max_width": 150.0
     },
     {
+      "field_id": "patient_declaration_date",
+      "label": "Date",
+      "type": "date_field",
+      "page": 4,
+      "coordinates": {
+        "x": 55.0,
+        "y": 364.7
+      },
+      "font_size": 8,
+      "max_width": 80
+    },
+    {
+      "field_id": "patient_declaration_time",
+      "label": "Time",
+      "type": "text_line",
+      "page": 4,
+      "coordinates": {
+        "x": 130.0,
+        "y": 364.7
+      },
+      "font_size": 8,
+      "max_width": 80
+    },
+    {
       "field_id": "hospital_declaration_doctor_signature",
-      "label": "Doctor\u2019s Signature",
+      "label": "Doctor’s Signature",
       "type": "text_box",
       "page": 4,
       "coordinates": {
@@ -1186,6 +1282,30 @@
       },
       "font_size": 9,
       "max_width": 95
+    },
+    {
+      "field_id": "hospital_declaration_seal",
+      "label": "Hospital Seal",
+      "type": "text_box",
+      "page": 4,
+      "coordinates": {
+        "x": 42.9,
+        "y": 720.9
+      },
+      "font_size": 8,
+      "max_width": 120
+    },
+    {
+      "field_id": "hospital_declaration_doctor_signature",
+      "label": "Doctor's Signature",
+      "type": "text_line",
+      "page": 4,
+      "coordinates": {
+        "x": 360.1,
+        "y": 721.9
+      },
+      "font_size": 8,
+      "max_width": 160
     },
     {
       "field_id": "hospital_declaration_date",
@@ -1210,6 +1330,30 @@
       },
       "font_size": 9,
       "max_width": 150.0
+    },
+    {
+      "field_id": "hospital_declaration_date",
+      "label": "Date",
+      "type": "date_field",
+      "page": 4,
+      "coordinates": {
+        "x": 59.9,
+        "y": 741.4
+      },
+      "font_size": 8,
+      "max_width": 80
+    },
+    {
+      "field_id": "hospital_declaration_time",
+      "label": "Time",
+      "type": "text_line",
+      "page": 4,
+      "coordinates": {
+        "x": 130.0,
+        "y": 741.4
+      },
+      "font_size": 8,
+      "max_width": 80
     }
   ]
 }

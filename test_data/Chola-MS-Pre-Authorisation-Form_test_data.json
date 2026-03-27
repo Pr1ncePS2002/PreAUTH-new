@@ -68,7 +68,7 @@
   "professional_fees_surgeon_anesthetist_consultation": "15000",
   "medicines_consumables_implants_other_expenses": "10000",
   "all_inclusive_package_charges": "0",
-  "sum_total_expected_cost": "[sum_total_expected_cost]",
+  "sum_total_expected_cost": "84500",
   "chronic_illness_diabetes_checkbox": true,
   "chronic_illness_diabetes_since": "N/A",
   "chronic_illness_heart_disease_checkbox": true,
@@ -100,5 +100,9 @@
   "patient_representative_contact_number": "9876543210",
   "patient_representative_signature": "Rajesh Kumar Sharma",
   "hospital_declaration_hospital_seal": "Amrita Institute of Medical Sciences & Research Centre, Faridabad",
-  "hospital_declaration_doctor_signature": "Dr. Anand Krishnamurthy"
+  "hospital_declaration_doctor_signature": "Dr. Anand Krishnamurthy",
+  "patient_insured_name_declaration": "Rajesh Kumar Sharma",
+  "patient_contact_number_declaration": "9876543210",
+  "patient_insured_signature_declaration": "Rajesh Kumar Sharma",
+  "hospital_declaration_seal": "Amrita Institute of Medical Sciences, Faridabad"
 }

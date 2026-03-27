@@ -1296,6 +1296,30 @@
       "max_width": -27
     },
     {
+      "field_id": "patient_contact_number_declaration",
+      "label": "Contact Number",
+      "type": "text_line",
+      "page": 3,
+      "coordinates": {
+        "x": 145.0,
+        "y": 398.2
+      },
+      "font_size": 8,
+      "max_width": 130
+    },
+    {
+      "field_id": "patient_email_id_declaration",
+      "label": "Email ID",
+      "type": "text_line",
+      "page": 3,
+      "coordinates": {
+        "x": 380.0,
+        "y": 398.2
+      },
+      "font_size": 8,
+      "max_width": 150
+    },
+    {
       "field_id": "patient_insured_signature_declaration",
       "label": "Patient's/Insured's Signature",
       "type": "text_line",
@@ -1332,6 +1356,30 @@
       "max_width": 38
     },
     {
+      "field_id": "patient_declaration_date",
+      "label": "Date",
+      "type": "date_field",
+      "page": 3,
+      "coordinates": {
+        "x": 360.0,
+        "y": 421.3
+      },
+      "font_size": 8,
+      "max_width": 80
+    },
+    {
+      "field_id": "patient_declaration_time",
+      "label": "Time",
+      "type": "text_line",
+      "page": 3,
+      "coordinates": {
+        "x": 450.0,
+        "y": 421.3
+      },
+      "font_size": 8,
+      "max_width": 80
+    },
+    {
       "field_id": "hospital_seal_area_declaration",
       "label": "Hospital Seal",
       "type": "text_box",
@@ -1354,6 +1402,30 @@
       },
       "font_size": 9,
       "max_width": 22
+    },
+    {
+      "field_id": "hospital_declaration_seal",
+      "label": "Hospital Seal",
+      "type": "text_box",
+      "page": 3,
+      "coordinates": {
+        "x": 80.2,
+        "y": 656.1
+      },
+      "font_size": 8,
+      "max_width": 160
+    },
+    {
+      "field_id": "hospital_declaration_doctor_signature",
+      "label": "Doctor's Signature",
+      "type": "text_line",
+      "page": 3,
+      "coordinates": {
+        "x": 360.0,
+        "y": 656.1
+      },
+      "font_size": 8,
+      "max_width": 160
     },
     {
       "field_id": "hospital_declaration_date",

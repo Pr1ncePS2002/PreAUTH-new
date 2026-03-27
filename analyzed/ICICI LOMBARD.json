@@ -346,6 +346,18 @@
       "max_width": -51
     },
     {
+      "field_id": "hospital_fax_no",
+      "label": "e) Fax No.:",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 623.0,
+        "y": 329.0
+      },
+      "font_size": 8,
+      "max_width": -51
+    },
+    {
       "field_id": "hospital_nt_code",
       "label": "c) NT Code:",
       "type": "text_line",
@@ -365,18 +377,6 @@
       "coordinates": {
         "x": 623.0,
         "y": 342.1
-      },
-      "font_size": 8,
-      "max_width": -51
-    },
-    {
-      "field_id": "hospital_fax_no",
-      "label": "e) Fax No.:",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 623.0,
-        "y": 329.0
       },
       "font_size": 8,
       "max_width": -51
@@ -610,18 +610,6 @@
       "max_width": 10
     },
     {
-      "field_id": "accident_date_of_injury",
-      "label": "b) Date of injury:",
-      "type": "date_field",
-      "page": 1,
-      "coordinates": {
-        "x": 621.0,
-        "y": 565.0
-      },
-      "font_size": 9,
-      "max_width": -49
-    },
-    {
       "field_id": "accident_reported_to_police_yes",
       "label": "Y",
       "type": "checkbox",
@@ -644,6 +632,18 @@
       },
       "font_size": 9,
       "max_width": 10
+    },
+    {
+      "field_id": "accident_date_of_injury",
+      "label": "b) Date of injury:",
+      "type": "date_field",
+      "page": 1,
+      "coordinates": {
+        "x": 621.0,
+        "y": 565.0
+      },
+      "font_size": 9,
+      "max_width": -49
     },
     {
       "field_id": "accident_fir_no",
@@ -790,6 +790,30 @@
       "max_width": -51
     },
     {
+      "field_id": "past_history_diabetes_since",
+      "label": "Diabetes (Month/year)",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 623.0,
+        "y": 639.1
+      },
+      "font_size": 9,
+      "max_width": -51
+    },
+    {
+      "field_id": "past_history_hypertension_since",
+      "label": "Hypertension (Month/year)",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 623.0,
+        "y": 639.1
+      },
+      "font_size": 10,
+      "max_width": -51
+    },
+    {
       "field_id": "hospitalization_event_emergency",
       "label": "Emergency",
       "type": "checkbox",
@@ -808,6 +832,18 @@
       "page": 1,
       "coordinates": {
         "x": 485.0,
+        "y": 648.6
+      },
+      "font_size": 9,
+      "max_width": 10
+    },
+    {
+      "field_id": "past_history_diabetes",
+      "label": "Diabetes",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 405.0,
         "y": 648.6
       },
       "font_size": 9,
@@ -838,126 +874,6 @@
       "max_width": -11
     },
     {
-      "field_id": "per_day_room_rent_charges",
-      "label": "f) Per Day Room Rent+Nursing & Service Charges+Patient's Diet:",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 583.1,
-        "y": 684.6
-      },
-      "font_size": 10,
-      "max_width": -11
-    },
-    {
-      "field_id": "cost_investigation_diagnostics",
-      "label": "g) Expected cost for investigation + diagnostics:",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 300.0,
-        "y": 700.5
-      },
-      "font_size": 10,
-      "max_width": 80
-    },
-    {
-      "field_id": "icu_charges",
-      "label": "h) ICU Charges:",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 300.0,
-        "y": 717.5
-      },
-      "font_size": 10,
-      "max_width": 80
-    },
-    {
-      "field_id": "ot_charges",
-      "label": "i) OT Charges:",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 300.0,
-        "y": 733.4
-      },
-      "font_size": 10,
-      "max_width": 80
-    },
-    {
-      "field_id": "professional_fees_surgeon_anesthetist_consultation",
-      "label": "consultation Charge:",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 300.0,
-        "y": 761.4
-      },
-      "font_size": 10,
-      "max_width": 80
-    },
-    {
-      "field_id": "medicines_consumables_implants_other_expenses",
-      "label": "Please specify). Other hospital expenses if any:",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 300.0,
-        "y": 788.1
-      },
-      "font_size": 10,
-      "max_width": 80
-    },
-    {
-      "field_id": "all_inclusive_package_charges",
-      "label": "I) All inclusive package charges if any applicable:",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 300.0,
-        "y": 807.2
-      },
-      "font_size": 10,
-      "max_width": 80
-    },
-    {
-      "field_id": "total_expected_cost_hospitalization",
-      "label": "Sum total expected cost of hospitalization:",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 397.5,
-        "y": 825.5
-      },
-      "font_size": 10,
-      "max_width": 132.5
-    },
-    {
-      "field_id": "past_history_diabetes",
-      "label": "Diabetes",
-      "type": "checkbox",
-      "page": 1,
-      "coordinates": {
-        "x": 405.0,
-        "y": 648.6
-      },
-      "font_size": 9,
-      "max_width": 10
-    },
-    {
-      "field_id": "past_history_diabetes_since",
-      "label": "Diabetes (Month/year)",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 623.0,
-        "y": 639.1
-      },
-      "font_size": 9,
-      "max_width": -51
-    },
-    {
       "field_id": "past_history_heart_disease",
       "label": "Heart Disease",
       "type": "checkbox",
@@ -982,6 +898,18 @@
       "max_width": -11
     },
     {
+      "field_id": "per_day_room_rent_charges",
+      "label": "f) Per Day Room Rent+Nursing & Service Charges+Patient's Diet:",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 583.1,
+        "y": 684.6
+      },
+      "font_size": 10,
+      "max_width": -11
+    },
+    {
       "field_id": "past_history_hypertension",
       "label": "Hypertension",
       "type": "checkbox",
@@ -994,16 +922,16 @@
       "max_width": 10
     },
     {
-      "field_id": "past_history_hypertension_since",
-      "label": "Hypertension (Month/year)",
+      "field_id": "cost_investigation_diagnostics",
+      "label": "g) Expected cost for investigation + diagnostics:",
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 623.0,
-        "y": 639.1
+        "x": 300.0,
+        "y": 700.5
       },
       "font_size": 10,
-      "max_width": -51
+      "max_width": 80
     },
     {
       "field_id": "past_history_hyperlipidemias",
@@ -1030,6 +958,18 @@
       "max_width": -11
     },
     {
+      "field_id": "icu_charges",
+      "label": "h) ICU Charges:",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 300.0,
+        "y": 717.5
+      },
+      "font_size": 10,
+      "max_width": 80
+    },
+    {
       "field_id": "past_history_osteoarthritis",
       "label": "Osteoarthritis",
       "type": "checkbox",
@@ -1052,6 +992,18 @@
       },
       "font_size": 10,
       "max_width": -11
+    },
+    {
+      "field_id": "ot_charges",
+      "label": "i) OT Charges:",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 300.0,
+        "y": 733.4
+      },
+      "font_size": 10,
+      "max_width": 80
     },
     {
       "field_id": "past_history_asthma_copd_bronchitis",
@@ -1102,6 +1054,18 @@
       "max_width": -11
     },
     {
+      "field_id": "professional_fees_surgeon_anesthetist_consultation",
+      "label": "consultation Charge:",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 300.0,
+        "y": 761.4
+      },
+      "font_size": 10,
+      "max_width": 80
+    },
+    {
       "field_id": "past_history_alcohol_drug_abuse",
       "label": "Alcohol or drug abuse",
       "type": "checkbox",
@@ -1124,6 +1088,18 @@
       },
       "font_size": 10,
       "max_width": -11
+    },
+    {
+      "field_id": "medicines_consumables_implants_other_expenses",
+      "label": "Please specify). Other hospital expenses if any:",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 300.0,
+        "y": 788.1
+      },
+      "font_size": 10,
+      "max_width": 80
     },
     {
       "field_id": "past_history_hiv_std_ailments",
@@ -1150,6 +1126,18 @@
       "max_width": -11
     },
     {
+      "field_id": "all_inclusive_package_charges",
+      "label": "I) All inclusive package charges if any applicable:",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 300.0,
+        "y": 807.2
+      },
+      "font_size": 10,
+      "max_width": 80
+    },
+    {
       "field_id": "past_history_other_ailments",
       "label": "Other ailments:",
       "type": "text_line",
@@ -1160,6 +1148,18 @@
       },
       "font_size": 10,
       "max_width": -32
+    },
+    {
+      "field_id": "total_expected_cost_hospitalization",
+      "label": "Sum total expected cost of hospitalization:",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 397.5,
+        "y": 825.5
+      },
+      "font_size": 10,
+      "max_width": 132.5
     },
     {
       "field_id": "declaration_treating_doctor_name",
@@ -1222,6 +1222,42 @@
       "max_width": -25
     },
     {
+      "field_id": "treating_doctor_signature",
+      "label": "Signature of treating doctor",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 18.0,
+        "y": 924.4
+      },
+      "font_size": 8,
+      "max_width": 160
+    },
+    {
+      "field_id": "hospital_seal",
+      "label": "Hospital Seal",
+      "type": "text_box",
+      "page": 1,
+      "coordinates": {
+        "x": 200.0,
+        "y": 924.4
+      },
+      "font_size": 8,
+      "max_width": 120
+    },
+    {
+      "field_id": "patient_insured_name_signature",
+      "label": "Patient / Insured Name & Signature",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 400.0,
+        "y": 924.4
+      },
+      "font_size": 8,
+      "max_width": 180
+    },
+    {
       "field_id": "declaration_patient_insured_name",
       "label": "a) Patient's / Insured's Name:",
       "type": "text_line",
@@ -1234,6 +1270,18 @@
       "max_width": -26
     },
     {
+      "field_id": "patient_insured_name_declaration",
+      "label": "Patient's / Insured's Name",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 200.0,
+        "y": 303.4
+      },
+      "font_size": 8,
+      "max_width": 350
+    },
+    {
       "field_id": "declaration_patient_insured_address",
       "label": "b) Address:",
       "type": "text_line",
@@ -1244,6 +1292,18 @@
       },
       "font_size": 10,
       "max_width": -27
+    },
+    {
+      "field_id": "patient_address_declaration",
+      "label": "Address",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 110.0,
+        "y": 321.4
+      },
+      "font_size": 8,
+      "max_width": 450
     },
     {
       "field_id": "declaration_patient_insured_contact_number",
@@ -1270,6 +1330,30 @@
       "max_width": 92
     },
     {
+      "field_id": "patient_contact_number_declaration",
+      "label": "Contact Number",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 120.0,
+        "y": 339.4
+      },
+      "font_size": 8,
+      "max_width": 130
+    },
+    {
+      "field_id": "patient_insured_signature_declaration",
+      "label": "Patient's / Insured's Signature",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 350.0,
+        "y": 339.4
+      },
+      "font_size": 8,
+      "max_width": 200
+    },
+    {
       "field_id": "declaration_doctor_signature",
       "label": "Doctor's Signature",
       "type": "text_line",
@@ -1280,6 +1364,30 @@
       },
       "font_size": 10,
       "max_width": 92
+    },
+    {
+      "field_id": "hospital_declaration_seal",
+      "label": "Hospital Seal",
+      "type": "text_box",
+      "page": 2,
+      "coordinates": {
+        "x": 18.4,
+        "y": 632.7
+      },
+      "font_size": 8,
+      "max_width": 130
+    },
+    {
+      "field_id": "hospital_declaration_doctor_signature",
+      "label": "Doctor's Signature",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 250.0,
+        "y": 632.7
+      },
+      "font_size": 8,
+      "max_width": 160
     }
   ]
 }

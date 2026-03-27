@@ -62,6 +62,17 @@
       "max_width": 345
     },
     {
+      "field_id": "gender_third_gender",
+      "label": "Third Gender",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 433,
+        "y": 382.4
+      },
+      "font_size": 9
+    },
+    {
       "field_id": "gender_male",
       "label": "Male",
       "type": "checkbox",
@@ -80,17 +91,6 @@
       "coordinates": {
         "x": 337,
         "y": 387.4
-      },
-      "font_size": 9
-    },
-    {
-      "field_id": "gender_third_gender",
-      "label": "Third Gender",
-      "type": "checkbox",
-      "page": 1,
-      "coordinates": {
-        "x": 433,
-        "y": 382.4
       },
       "font_size": 9
     },
@@ -237,17 +237,6 @@
       "max_width": 350
     },
     {
-      "field_id": "family_physician_yes",
-      "label": "Yes",
-      "type": "checkbox",
-      "page": 1,
-      "coordinates": {
-        "x": 315,
-        "y": 625.1
-      },
-      "font_size": 9
-    },
-    {
       "field_id": "family_physician_no",
       "label": "No",
       "type": "checkbox",
@@ -255,6 +244,17 @@
       "coordinates": {
         "x": 535,
         "y": 623.1
+      },
+      "font_size": 9
+    },
+    {
+      "field_id": "family_physician_yes",
+      "label": "Yes",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 315,
+        "y": 625.1
       },
       "font_size": 9
     },
@@ -470,6 +470,18 @@
       "max_width": 280
     },
     {
+      "field_id": "surgery_name",
+      "label": "If surgical, name of surgery",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 200,
+        "y": 455.0
+      },
+      "font_size": 9,
+      "max_width": 330
+    },
+    {
       "field_id": "surgical_icd10_pcs_code",
       "label": "ICD 10 PCS code",
       "type": "text_line",
@@ -596,17 +608,6 @@
       "font_size": 9
     },
     {
-      "field_id": "accident_test_conducted_yes",
-      "label": "Yes",
-      "type": "checkbox",
-      "page": 2,
-      "coordinates": {
-        "x": 419,
-        "y": 633.4
-      },
-      "font_size": 9
-    },
-    {
       "field_id": "accident_test_conducted_no",
       "label": "No",
       "type": "checkbox",
@@ -614,6 +615,17 @@
       "coordinates": {
         "x": 473,
         "y": 624.7
+      },
+      "font_size": 9
+    },
+    {
+      "field_id": "accident_test_conducted_yes",
+      "label": "Yes",
+      "type": "checkbox",
+      "page": 2,
+      "coordinates": {
+        "x": 419,
+        "y": 633.4
       },
       "font_size": 9
     },
@@ -976,6 +988,42 @@
       "max_width": 270
     },
     {
+      "field_id": "hospital_seal",
+      "label": "Hospital Seal",
+      "type": "text_box",
+      "page": 4,
+      "coordinates": {
+        "x": 72.0,
+        "y": 311.1
+      },
+      "font_size": 8,
+      "max_width": 80
+    },
+    {
+      "field_id": "patient_insured_name_and_sign",
+      "label": "Patient/Insured Name and Sign",
+      "type": "text_line",
+      "page": 4,
+      "coordinates": {
+        "x": 353.5,
+        "y": 311.5
+      },
+      "font_size": 8,
+      "max_width": 180
+    },
+    {
+      "field_id": "patient_insured_name",
+      "label": "Patient's / Insured's Name",
+      "type": "text_line",
+      "page": 5,
+      "coordinates": {
+        "x": 210.0,
+        "y": 426.3
+      },
+      "font_size": 8,
+      "max_width": 200
+    },
+    {
       "field_id": "patient_representative_name",
       "label": "Patient's / Insured's Name:",
       "type": "text_line",
@@ -1012,6 +1060,42 @@
       "max_width": 120
     },
     {
+      "field_id": "patient_insured_signature",
+      "label": "Patient's / Insured's Signature",
+      "type": "text_line",
+      "page": 5,
+      "coordinates": {
+        "x": 200.0,
+        "y": 472.1
+      },
+      "font_size": 8,
+      "max_width": 180
+    },
+    {
+      "field_id": "patient_declaration_time",
+      "label": "Time",
+      "type": "text_line",
+      "page": 5,
+      "coordinates": {
+        "x": 265.7,
+        "y": 494.7
+      },
+      "font_size": 8,
+      "max_width": 80
+    },
+    {
+      "field_id": "patient_declaration_date",
+      "label": "Date",
+      "type": "date_field",
+      "page": 5,
+      "coordinates": {
+        "x": 89.0,
+        "y": 495.1
+      },
+      "font_size": 8,
+      "max_width": 80
+    },
+    {
       "field_id": "patient_representative_date",
       "label": "Date:",
       "type": "date_field",
@@ -1036,6 +1120,30 @@
       "max_width": 100
     },
     {
+      "field_id": "hospital_declaration_seal",
+      "label": "Hospital Seal",
+      "type": "text_box",
+      "page": 6,
+      "coordinates": {
+        "x": 72.0,
+        "y": 274.0
+      },
+      "font_size": 8,
+      "max_width": 80
+    },
+    {
+      "field_id": "hospital_declaration_doctor_signature",
+      "label": "Doctor's Signature",
+      "type": "text_line",
+      "page": 6,
+      "coordinates": {
+        "x": 451.1,
+        "y": 274.4
+      },
+      "font_size": 8,
+      "max_width": 120
+    },
+    {
       "field_id": "hospital_declaration_date",
       "label": "Date:",
       "type": "date_field",
@@ -1058,18 +1166,6 @@
       },
       "font_size": 9,
       "max_width": 50
-    },
-    {
-      "field_id": "surgery_name",
-      "label": "If surgical, name of surgery",
-      "type": "text_line",
-      "page": 2,
-      "coordinates": {
-        "x": 200,
-        "y": 455.0
-      },
-      "font_size": 9,
-      "max_width": 330
     }
   ]
 }

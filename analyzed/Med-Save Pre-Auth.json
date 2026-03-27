@@ -1141,6 +1141,30 @@
       "max_width": 170
     },
     {
+      "field_id": "hospital_seal",
+      "label": "Hospital Seal",
+      "type": "text_box",
+      "page": 3,
+      "coordinates": {
+        "x": 75.9,
+        "y": 747.1
+      },
+      "font_size": 8,
+      "max_width": 120
+    },
+    {
+      "field_id": "patient_insured_name_and_sign",
+      "label": "Patient/Insured Name and Sign",
+      "type": "text_line",
+      "page": 3,
+      "coordinates": {
+        "x": 260.0,
+        "y": 747.1
+      },
+      "font_size": 8,
+      "max_width": 180
+    },
+    {
       "field_id": "page4_patient_insured_name",
       "label": "Patient's / Insured's Name",
       "type": "text_line",
@@ -1151,6 +1175,18 @@
       },
       "font_size": 9,
       "max_width": 213.6
+    },
+    {
+      "field_id": "patient_insured_name_declaration",
+      "label": "Patient's / Insured's Name",
+      "type": "text_line",
+      "page": 4,
+      "coordinates": {
+        "x": 220.0,
+        "y": 306.6
+      },
+      "font_size": 8,
+      "max_width": 180
     },
     {
       "field_id": "page4_patient_contact_number",
@@ -1177,6 +1213,30 @@
       "max_width": 68
     },
     {
+      "field_id": "patient_contact_number_declaration",
+      "label": "Contact number",
+      "type": "text_line",
+      "page": 4,
+      "coordinates": {
+        "x": 175.0,
+        "y": 320.3
+      },
+      "font_size": 8,
+      "max_width": 120
+    },
+    {
+      "field_id": "patient_email_id_declaration",
+      "label": "e-mail Id",
+      "type": "text_line",
+      "page": 4,
+      "coordinates": {
+        "x": 340.0,
+        "y": 320.3
+      },
+      "font_size": 8,
+      "max_width": 140
+    },
+    {
       "field_id": "page4_patient_insured_signature",
       "label": "Patient's / Insured's Signature",
       "type": "text_line",
@@ -1187,6 +1247,18 @@
       },
       "font_size": 9,
       "max_width": 196.4
+    },
+    {
+      "field_id": "patient_insured_signature_declaration",
+      "label": "Patient's / Insured's Signature",
+      "type": "text_line",
+      "page": 4,
+      "coordinates": {
+        "x": 230.0,
+        "y": 333.5
+      },
+      "font_size": 8,
+      "max_width": 180
     },
     {
       "field_id": "page4_declaration_date",
@@ -1213,6 +1285,54 @@
       "max_width": 100
     },
     {
+      "field_id": "patient_declaration_date",
+      "label": "Date",
+      "type": "date_field",
+      "page": 4,
+      "coordinates": {
+        "x": 110.0,
+        "y": 347.4
+      },
+      "font_size": 8,
+      "max_width": 100
+    },
+    {
+      "field_id": "patient_declaration_time",
+      "label": "Time",
+      "type": "text_line",
+      "page": 4,
+      "coordinates": {
+        "x": 310.0,
+        "y": 347.4
+      },
+      "font_size": 8,
+      "max_width": 80
+    },
+    {
+      "field_id": "hospital_declaration_seal",
+      "label": "Hospital Seal",
+      "type": "text_box",
+      "page": 4,
+      "coordinates": {
+        "x": 68.9,
+        "y": 739.2
+      },
+      "font_size": 8,
+      "max_width": 120
+    },
+    {
+      "field_id": "hospital_declaration_doctor_signature",
+      "label": "Doctor's Signature",
+      "type": "text_line",
+      "page": 4,
+      "coordinates": {
+        "x": 280.0,
+        "y": 739.2
+      },
+      "font_size": 8,
+      "max_width": 160
+    },
+    {
       "field_id": "page4_hospital_seal_box",
       "label": "Hospital Seal",
       "type": "text_box",
@@ -1235,6 +1355,30 @@
       },
       "font_size": 9,
       "max_width": 95
+    },
+    {
+      "field_id": "hospital_declaration_date",
+      "label": "Date",
+      "type": "date_field",
+      "page": 4,
+      "coordinates": {
+        "x": 110.0,
+        "y": 779.4
+      },
+      "font_size": 8,
+      "max_width": 100
+    },
+    {
+      "field_id": "hospital_declaration_time",
+      "label": "Time",
+      "type": "text_line",
+      "page": 4,
+      "coordinates": {
+        "x": 280.0,
+        "y": 779.4
+      },
+      "font_size": 8,
+      "max_width": 80
     }
   ]
 }

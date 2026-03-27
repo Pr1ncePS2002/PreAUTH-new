@@ -13,6 +13,42 @@
   "analysis_model": "gemini-2.5-flash",
   "fields": [
     {
+      "field_id": "hospital_name",
+      "label": "Name of Hospital",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 190.0,
+        "y": 188.4
+      },
+      "font_size": 8,
+      "max_width": 350
+    },
+    {
+      "field_id": "hospital_rohini_id",
+      "label": "Rohini Id",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 175.0,
+        "y": 222.9
+      },
+      "font_size": 8,
+      "max_width": 350
+    },
+    {
+      "field_id": "hospital_email_id",
+      "label": "Email Id",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 175.0,
+        "y": 240.1
+      },
+      "font_size": 8,
+      "max_width": 350
+    },
+    {
       "field_id": "patient_name",
       "label": "Name of The Patient",
       "type": "text_line",
@@ -1072,7 +1108,7 @@
     },
     {
       "field_id": "patient_declaration_name",
-      "label": "Patient\u2019s / Insured\u2019s Name",
+      "label": "Patient’s / Insured’s Name",
       "type": "text_line",
       "page": 5,
       "coordinates": {
@@ -1108,7 +1144,7 @@
     },
     {
       "field_id": "patient_declaration_signature",
-      "label": "Patient\u2019s / Insured\u2019s Signature",
+      "label": "Patient’s / Insured’s Signature",
       "type": "text_line",
       "page": 5,
       "coordinates": {
@@ -1156,7 +1192,7 @@
     },
     {
       "field_id": "doctor_signature_declaration_box",
-      "label": "Doctor\u2019s Signature",
+      "label": "Doctor’s Signature",
       "type": "text_box",
       "page": 5,
       "coordinates": {

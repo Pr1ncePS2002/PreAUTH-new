@@ -104,5 +104,14 @@
   "declaration_patient_insured_address": "42, MG Road, Koramangala, Bengaluru - 560034",
   "declaration_patient_insured_contact_number": "9876543210",
   "declaration_patient_insured_signature": "Rajesh Kumar Sharma",
-  "declaration_doctor_signature": "Dr. Anand Krishnamurthy"
+  "declaration_doctor_signature": "Dr. Anand Krishnamurthy",
+  "treating_doctor_signature": "Dr. Anand Krishnamurthy",
+  "hospital_seal": "Amrita Institute of Medical Sciences, Faridabad",
+  "patient_insured_name_signature": "Rajesh Kumar Sharma",
+  "patient_insured_name_declaration": "Rajesh Kumar Sharma",
+  "patient_address_declaration": "123, MG Road, Faridabad - 121001",
+  "patient_contact_number_declaration": "9876543210",
+  "patient_insured_signature_declaration": "Rajesh Kumar Sharma",
+  "hospital_declaration_seal": "Amrita Institute of Medical Sciences, Faridabad",
+  "hospital_declaration_doctor_signature": "Dr. Anand Krishnamurthy"
 }

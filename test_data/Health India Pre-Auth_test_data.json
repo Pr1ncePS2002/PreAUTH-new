@@ -25,7 +25,7 @@
   "treating_doctor_contact_number": "9900112233",
   "nature_of_illness_complaint": "Acute Appendicitis with severe right lower abdominal pain, nausea and fever",
   "relevant_critical_findings": "RLQ tenderness, Rebound tenderness positive, WBC 14,500, USG shows inflamed appendix 9mm",
-  "duration_of_present_ailment": "[duration_of_present_ailment]",
+  "duration_of_present_ailment": "3",
   "date_of_first_consultation": "12/03/2025",
   "past_history_of_present_ailment": "No significant past history. Mild hypertension since 2020.",
   "provisional_diagnosis": "Acute Appendicitis",
@@ -91,5 +91,7 @@
   "patient_representative_date": "15/03/2025",
   "patient_representative_time": "10:30",
   "hospital_declaration_date": "15/03/2025",
-  "hospital_declaration_time": "11:00"
+  "hospital_declaration_time": "11:00",
+  "hospital_seal": "Amrita Institute of Medical Sciences, Faridabad",
+  "patient_insured_name_and_sign": "Rajesh Kumar Sharma"
 }

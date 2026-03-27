@@ -58,28 +58,28 @@
       "max_width": 375
     },
     {
-      "field_id": "patient_gender_male",
-      "label": "Male",
-      "type": "checkbox",
+      "field_id": "patient_contact_number",
+      "label": "d) Contact Number",
+      "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 185.0,
-        "y": 223.0
+        "x": 467.8,
+        "y": 218.8
       },
       "font_size": 7,
-      "max_width": 10
+      "max_width": 86
     },
     {
-      "field_id": "patient_gender_female",
-      "label": "Female",
-      "type": "checkbox",
+      "field_id": "attending_relative_contact_number",
+      "label": "Contact Number of attending Relative",
+      "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 225.0,
-        "y": 223.0
+        "x": 467.8,
+        "y": 218.8
       },
       "font_size": 7,
-      "max_width": 10
+      "max_width": 70
     },
     {
       "field_id": "patient_age_years",
@@ -106,28 +106,28 @@
       "max_width": 20
     },
     {
-      "field_id": "patient_contact_number",
-      "label": "d) Contact Number",
-      "type": "text_line",
+      "field_id": "patient_gender_male",
+      "label": "Male",
+      "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 467.8,
-        "y": 218.8
+        "x": 185.0,
+        "y": 223.0
       },
       "font_size": 7,
-      "max_width": 86
+      "max_width": 10
     },
     {
-      "field_id": "attending_relative_contact_number",
-      "label": "Contact Number of attending Relative",
-      "type": "text_line",
+      "field_id": "patient_gender_female",
+      "label": "Female",
+      "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 467.8,
-        "y": 218.8
+        "x": 225.0,
+        "y": 223.0
       },
       "font_size": 7,
-      "max_width": 70
+      "max_width": 10
     },
     {
       "field_id": "insured_card_id_number",
@@ -358,6 +358,18 @@
       "max_width": 260
     },
     {
+      "field_id": "icd_10_code",
+      "label": "I) ICD 10 Code:",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 415.0,
+        "y": 500.4
+      },
+      "font_size": 9,
+      "max_width": 115
+    },
+    {
       "field_id": "proposed_treatment_medical_management",
       "label": "Medical Management",
       "type": "checkbox",
@@ -394,18 +406,6 @@
       "max_width": 10
     },
     {
-      "field_id": "icd_10_code",
-      "label": "I) ICD 10 Code:",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 415.0,
-        "y": 500.4
-      },
-      "font_size": 9,
-      "max_width": 115
-    },
-    {
       "field_id": "investigation_checkbox",
       "label": "Investigation",
       "type": "checkbox",
@@ -430,18 +430,6 @@
       "max_width": 10
     },
     {
-      "field_id": "investigation_medical_management_details",
-      "label": "h) If Investigation & / or Medical Management provide details",
-      "type": "text_box",
-      "page": 1,
-      "coordinates": {
-        "x": 25.2,
-        "y": 540.0
-      },
-      "font_size": 9,
-      "max_width": 260
-    },
-    {
       "field_id": "route_drug_administration",
       "label": "i) Route of drug administration:",
       "type": "text_line",
@@ -452,6 +440,18 @@
       },
       "font_size": 9,
       "max_width": 50
+    },
+    {
+      "field_id": "investigation_medical_management_details",
+      "label": "h) If Investigation & / or Medical Management provide details",
+      "type": "text_box",
+      "page": 1,
+      "coordinates": {
+        "x": 25.2,
+        "y": 540.0
+      },
+      "font_size": 9,
+      "max_width": 260
     },
     {
       "field_id": "surgical_name_of_surgery",
@@ -502,6 +502,30 @@
       "max_width": 260
     },
     {
+      "field_id": "date_of_injury",
+      "label": "III) Date of injury:",
+      "type": "date_field",
+      "page": 1,
+      "coordinates": {
+        "x": 400.0,
+        "y": 640.4
+      },
+      "font_size": 9,
+      "max_width": 70
+    },
+    {
+      "field_id": "fir_no",
+      "label": "FIR No",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 540.2,
+        "y": 640.4
+      },
+      "font_size": 9,
+      "max_width": 40
+    },
+    {
       "field_id": "rta_yes",
       "label": "II) Is it RTA: Yes",
       "type": "checkbox",
@@ -526,18 +550,6 @@
       "max_width": 10
     },
     {
-      "field_id": "date_of_injury",
-      "label": "III) Date of injury:",
-      "type": "date_field",
-      "page": 1,
-      "coordinates": {
-        "x": 400.0,
-        "y": 640.4
-      },
-      "font_size": 9,
-      "max_width": 70
-    },
-    {
       "field_id": "reported_to_police_yes",
       "label": "iv) Reported to Police: Yes",
       "type": "checkbox",
@@ -560,18 +572,6 @@
       },
       "font_size": 9,
       "max_width": 10
-    },
-    {
-      "field_id": "fir_no",
-      "label": "FIR No",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 540.2,
-        "y": 640.4
-      },
-      "font_size": 9,
-      "max_width": 40
     },
     {
       "field_id": "substance_abuse_yes",
@@ -622,6 +622,18 @@
       "max_width": 10
     },
     {
+      "field_id": "lmp_date",
+      "label": "LMP",
+      "type": "date_field",
+      "page": 1,
+      "coordinates": {
+        "x": 320.0,
+        "y": 680.4
+      },
+      "font_size": 9,
+      "max_width": 70
+    },
+    {
       "field_id": "maternity_g",
       "label": "I) In case of Maternity: G",
       "type": "checkbox",
@@ -670,18 +682,6 @@
       "max_width": 10
     },
     {
-      "field_id": "lmp_date",
-      "label": "LMP",
-      "type": "date_field",
-      "page": 1,
-      "coordinates": {
-        "x": 320.0,
-        "y": 680.4
-      },
-      "font_size": 9,
-      "max_width": 70
-    },
-    {
       "field_id": "admission_date",
       "label": "a) Date of admission:",
       "type": "date_field",
@@ -706,6 +706,42 @@
       "max_width": 40
     },
     {
+      "field_id": "chronic_illness_diabetes_since",
+      "label": "If yes, since (month/year)",
+      "type": "date_field",
+      "page": 1,
+      "coordinates": {
+        "x": 510.0,
+        "y": 714.4
+      },
+      "font_size": 9,
+      "max_width": 70
+    },
+    {
+      "field_id": "chronic_illness_diabetes_checkbox",
+      "label": "Diabetes",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 495.0,
+        "y": 715.0
+      },
+      "font_size": 9,
+      "max_width": 10
+    },
+    {
+      "field_id": "chronic_illness_heart_disease_since",
+      "label": "If yes, since (month/year)",
+      "type": "date_field",
+      "page": 1,
+      "coordinates": {
+        "x": 510.0,
+        "y": 728.4
+      },
+      "font_size": 9,
+      "max_width": 70
+    },
+    {
       "field_id": "hospitalization_event_emergency",
       "label": "c) Is this an emergency / a planned hospitalization event?: Emergency",
       "type": "checkbox",
@@ -724,6 +760,18 @@
       "page": 1,
       "coordinates": {
         "x": 385.0,
+        "y": 729.0
+      },
+      "font_size": 9,
+      "max_width": 10
+    },
+    {
+      "field_id": "chronic_illness_heart_disease_checkbox",
+      "label": "Heart Disease",
+      "type": "checkbox",
+      "page": 1,
+      "coordinates": {
+        "x": 495.0,
         "y": 729.0
       },
       "font_size": 9,
@@ -754,145 +802,13 @@
       "max_width": 160
     },
     {
-      "field_id": "per_day_room_rent_nursing_diet",
-      "label": "f) Per Day Room Rent + Nursing & Service Charges + Patient's Diet: Rs.",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 415.0,
-        "y": 756.4
-      },
-      "font_size": 9,
-      "max_width": 120
-    },
-    {
-      "field_id": "expected_cost_investigation_diagnostics",
-      "label": "g) Expected cost for investigation + diagnostics.: Rs.",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 375.0,
-        "y": 770.4
-      },
-      "font_size": 9,
-      "max_width": 160
-    },
-    {
-      "field_id": "icu_charges",
-      "label": "h) ICU Charges: Rs.",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 165.0,
-        "y": 784.4
-      },
-      "font_size": 9,
-      "max_width": 370
-    },
-    {
-      "field_id": "ot_charges",
-      "label": "i) OT Charges: Rs.",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 155.0,
-        "y": 798.4
-      },
-      "font_size": 9,
-      "max_width": 380
-    },
-    {
-      "field_id": "professional_fees_surgeon_anesthetist_consultation",
-      "label": "j) Professional fees Surgeon + Anesthetist Fees + consultation Charges: Rs.",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 415.0,
-        "y": 812.4
-      },
-      "font_size": 9,
-      "max_width": 120
-    },
-    {
-      "field_id": "medicines_consumables_implants_other_expenses",
-      "label": "k) Medicines + Consumables + Cost of Implants (if applicable please specify). Other hospital expenses if any: Rs.",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 415.0,
-        "y": 826.4
-      },
-      "font_size": 9,
-      "max_width": 120
-    },
-    {
-      "field_id": "all_inclusive_package_charges",
-      "label": "l) All inclusive package charges if any applicable Rs.",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 365.0,
-        "y": 854.4
-      },
-      "font_size": 9,
-      "max_width": 170
-    },
-    {
-      "field_id": "sum_total_expected_cost",
-      "label": "m) Sum Total expected cost of hospitalization Rs.",
-      "type": "text_line",
-      "page": 1,
-      "coordinates": {
-        "x": 365.0,
-        "y": 868.4
-      },
-      "font_size": 9,
-      "max_width": 170
-    },
-    {
-      "field_id": "chronic_illness_diabetes_checkbox",
-      "label": "Diabetes",
-      "type": "checkbox",
-      "page": 1,
-      "coordinates": {
-        "x": 495.0,
-        "y": 715.0
-      },
-      "font_size": 9,
-      "max_width": 10
-    },
-    {
-      "field_id": "chronic_illness_diabetes_since",
+      "field_id": "chronic_illness_hypertension_since",
       "label": "If yes, since (month/year)",
       "type": "date_field",
       "page": 1,
       "coordinates": {
         "x": 510.0,
-        "y": 714.4
-      },
-      "font_size": 9,
-      "max_width": 70
-    },
-    {
-      "field_id": "chronic_illness_heart_disease_checkbox",
-      "label": "Heart Disease",
-      "type": "checkbox",
-      "page": 1,
-      "coordinates": {
-        "x": 495.0,
-        "y": 729.0
-      },
-      "font_size": 9,
-      "max_width": 10
-    },
-    {
-      "field_id": "chronic_illness_heart_disease_since",
-      "label": "If yes, since (month/year)",
-      "type": "date_field",
-      "page": 1,
-      "coordinates": {
-        "x": 510.0,
-        "y": 728.4
+        "y": 742.4
       },
       "font_size": 9,
       "max_width": 70
@@ -910,13 +826,25 @@
       "max_width": 10
     },
     {
-      "field_id": "chronic_illness_hypertension_since",
+      "field_id": "per_day_room_rent_nursing_diet",
+      "label": "f) Per Day Room Rent + Nursing & Service Charges + Patient's Diet: Rs.",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 415.0,
+        "y": 756.4
+      },
+      "font_size": 9,
+      "max_width": 120
+    },
+    {
+      "field_id": "chronic_illness_hyperlipidemias_since",
       "label": "If yes, since (month/year)",
       "type": "date_field",
       "page": 1,
       "coordinates": {
         "x": 510.0,
-        "y": 742.4
+        "y": 756.4
       },
       "font_size": 9,
       "max_width": 70
@@ -934,13 +862,25 @@
       "max_width": 10
     },
     {
-      "field_id": "chronic_illness_hyperlipidemias_since",
+      "field_id": "expected_cost_investigation_diagnostics",
+      "label": "g) Expected cost for investigation + diagnostics.: Rs.",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 375.0,
+        "y": 770.4
+      },
+      "font_size": 9,
+      "max_width": 160
+    },
+    {
+      "field_id": "chronic_illness_osteoarthritis_since",
       "label": "If yes, since (month/year)",
       "type": "date_field",
       "page": 1,
       "coordinates": {
         "x": 510.0,
-        "y": 756.4
+        "y": 770.4
       },
       "font_size": 9,
       "max_width": 70
@@ -958,13 +898,25 @@
       "max_width": 10
     },
     {
-      "field_id": "chronic_illness_osteoarthritis_since",
+      "field_id": "icu_charges",
+      "label": "h) ICU Charges: Rs.",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 165.0,
+        "y": 784.4
+      },
+      "font_size": 9,
+      "max_width": 370
+    },
+    {
+      "field_id": "chronic_illness_asthma_copd_bronchitis_since",
       "label": "If yes, since (month/year)",
       "type": "date_field",
       "page": 1,
       "coordinates": {
         "x": 510.0,
-        "y": 770.4
+        "y": 784.4
       },
       "font_size": 9,
       "max_width": 70
@@ -982,13 +934,25 @@
       "max_width": 10
     },
     {
-      "field_id": "chronic_illness_asthma_copd_bronchitis_since",
+      "field_id": "ot_charges",
+      "label": "i) OT Charges: Rs.",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 155.0,
+        "y": 798.4
+      },
+      "font_size": 9,
+      "max_width": 380
+    },
+    {
+      "field_id": "chronic_illness_cancer_since",
       "label": "If yes, since (month/year)",
       "type": "date_field",
       "page": 1,
       "coordinates": {
         "x": 510.0,
-        "y": 784.4
+        "y": 798.4
       },
       "font_size": 9,
       "max_width": 70
@@ -1006,13 +970,25 @@
       "max_width": 10
     },
     {
-      "field_id": "chronic_illness_cancer_since",
+      "field_id": "professional_fees_surgeon_anesthetist_consultation",
+      "label": "j) Professional fees Surgeon + Anesthetist Fees + consultation Charges: Rs.",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 415.0,
+        "y": 812.4
+      },
+      "font_size": 9,
+      "max_width": 120
+    },
+    {
+      "field_id": "chronic_illness_alcohol_drug_abuse_since",
       "label": "If yes, since (month/year)",
       "type": "date_field",
       "page": 1,
       "coordinates": {
         "x": 510.0,
-        "y": 798.4
+        "y": 812.4
       },
       "font_size": 9,
       "max_width": 70
@@ -1030,13 +1006,25 @@
       "max_width": 10
     },
     {
-      "field_id": "chronic_illness_alcohol_drug_abuse_since",
+      "field_id": "medicines_consumables_implants_other_expenses",
+      "label": "k) Medicines + Consumables + Cost of Implants (if applicable please specify). Other hospital expenses if any: Rs.",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 415.0,
+        "y": 826.4
+      },
+      "font_size": 9,
+      "max_width": 120
+    },
+    {
+      "field_id": "chronic_illness_hiv_std_related_ailments_since",
       "label": "If yes, since (month/year)",
       "type": "date_field",
       "page": 1,
       "coordinates": {
         "x": 510.0,
-        "y": 812.4
+        "y": 826.4
       },
       "font_size": 9,
       "max_width": 70
@@ -1054,13 +1042,13 @@
       "max_width": 10
     },
     {
-      "field_id": "chronic_illness_hiv_std_related_ailments_since",
+      "field_id": "chronic_illness_any_other_ailment_since",
       "label": "If yes, since (month/year)",
       "type": "date_field",
       "page": 1,
       "coordinates": {
         "x": 510.0,
-        "y": 826.4
+        "y": 840.4
       },
       "font_size": 9,
       "max_width": 70
@@ -1090,16 +1078,28 @@
       "max_width": 180
     },
     {
-      "field_id": "chronic_illness_any_other_ailment_since",
-      "label": "If yes, since (month/year)",
-      "type": "date_field",
+      "field_id": "all_inclusive_package_charges",
+      "label": "l) All inclusive package charges if any applicable Rs.",
+      "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 510.0,
-        "y": 840.4
+        "x": 365.0,
+        "y": 854.4
       },
       "font_size": 9,
-      "max_width": 70
+      "max_width": 170
+    },
+    {
+      "field_id": "sum_total_expected_cost",
+      "label": "m) Sum Total expected cost of hospitalization Rs.",
+      "type": "text_line",
+      "page": 1,
+      "coordinates": {
+        "x": 365.0,
+        "y": 868.4
+      },
+      "font_size": 9,
+      "max_width": 170
     },
     {
       "field_id": "declaration_treating_doctor_name",
@@ -1175,7 +1175,7 @@
     },
     {
       "field_id": "patient_representative_name",
-      "label": "a) Patient\u2019s / Insured\u2019s Name:",
+      "label": "a) Patient’s / Insured’s Name:",
       "type": "text_line",
       "page": 2,
       "coordinates": {
@@ -1184,6 +1184,18 @@
       },
       "font_size": 7,
       "max_width": 360
+    },
+    {
+      "field_id": "patient_insured_name_declaration",
+      "label": "Patient's / Insured's Name",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 200.0,
+        "y": 396.7
+      },
+      "font_size": 8,
+      "max_width": 200
     },
     {
       "field_id": "patient_representative_contact_number",
@@ -1199,7 +1211,7 @@
     },
     {
       "field_id": "patient_representative_signature",
-      "label": "d) Patient\u2019s / Insured\u2019s Signature:",
+      "label": "d) Patient’s / Insured’s Signature:",
       "type": "text_line",
       "page": 2,
       "coordinates": {
@@ -1208,6 +1220,30 @@
       },
       "font_size": 7,
       "max_width": 150
+    },
+    {
+      "field_id": "patient_contact_number_declaration",
+      "label": "Contact number",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 175.0,
+        "y": 447.2
+      },
+      "font_size": 8,
+      "max_width": 120
+    },
+    {
+      "field_id": "patient_insured_signature_declaration",
+      "label": "Patient's / Insured's Signature",
+      "type": "text_line",
+      "page": 2,
+      "coordinates": {
+        "x": 390.0,
+        "y": 447.2
+      },
+      "font_size": 8,
+      "max_width": 160
     },
     {
       "field_id": "hospital_declaration_hospital_seal",
@@ -1232,6 +1268,18 @@
       },
       "font_size": 7,
       "max_width": 150
+    },
+    {
+      "field_id": "hospital_declaration_seal",
+      "label": "Hospital Seal",
+      "type": "text_box",
+      "page": 2,
+      "coordinates": {
+        "x": 76.3,
+        "y": 684.7
+      },
+      "font_size": 8,
+      "max_width": 130
     }
   ]
 }

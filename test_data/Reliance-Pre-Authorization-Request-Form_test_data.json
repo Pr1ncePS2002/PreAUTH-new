@@ -139,5 +139,9 @@
   "hospital_stamp": "Amrita Institute of Medical Sciences & Research Centre, Faridabad",
   "claimant_place": "Bengaluru",
   "claimant_date": "15/03/2025",
-  "claimant_signature": "Rajesh Kumar Sharma"
+  "claimant_signature": "Rajesh Kumar Sharma",
+  "hospital_contact_email_id": "rajesh.sharma@email.com",
+  "hospital_contact_mobile_no": "9876543210",
+  "claimant_date_place": "15/03/2025",
+  "declaration_date_claimant_signature": "15/03/2025"
 }

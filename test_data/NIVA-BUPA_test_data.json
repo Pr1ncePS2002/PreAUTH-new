@@ -4,8 +4,8 @@
   "gender_male": true,
   "gender_female": true,
   "gender_third": true,
-  "patient_age_year": "[patient_age_year]",
-  "patient_age_month": "[patient_age_month]",
+  "patient_age_year": "45",
+  "patient_age_month": "06",
   "patient_date_of_birth": "15/03/1980",
   "patient_contact_number": "9876543210",
   "attending_relative_contact_name": "Priya Sharma - 9876543211",
@@ -104,5 +104,13 @@
   "patient_representative_date": "15/03/2025",
   "patient_representative_time": "10:30",
   "hospital_declaration_date": "15/03/2025",
-  "hospital_declaration_time": "11:00"
+  "hospital_declaration_time": "11:00",
+  "patient_insured_name_declaration": "Rajesh Kumar Sharma",
+  "patient_contact_number_declaration": "9876543210",
+  "patient_email_id_declaration": "rajesh.sharma@email.com",
+  "patient_insured_signature_declaration": "Rajesh Kumar Sharma",
+  "patient_declaration_date": "15/03/2025",
+  "patient_declaration_time": "10:30",
+  "hospital_declaration_seal": "Amrita Institute of Medical Sciences, Faridabad",
+  "hospital_declaration_doctor_signature": "Dr. Anand Krishnamurthy"
 }

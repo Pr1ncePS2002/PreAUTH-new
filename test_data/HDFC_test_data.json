@@ -38,7 +38,7 @@
   "treatment_intensive_care": true,
   "treatment_investigation": true,
   "treatment_non_allopathic": true,
-  "investigational_medical_management_details": "[investigational_medical_management_details]",
+  "investigational_medical_management_details": "CBC, LFT, RFT, USG Abdomen, Chest X-Ray, ECG, IV antibiotics",
   "route_of_drug_administration": "IV - Intravenous",
   "surgical_name_of_surgery": "Laparoscopic Appendectomy",
   "surgical_icd10_pcs_code": "0DTJ4ZZ",
@@ -106,5 +106,18 @@
   "patient_insured_date_declaration": "15/03/2025",
   "patient_insured_time_declaration": "10:30",
   "hospital_date_declaration": "15/03/2025",
-  "hospital_time_declaration": "11:00"
+  "hospital_time_declaration": "11:00",
+  "treating_doctor_name": "Dr. Anand Krishnamurthy",
+  "hospital_seal": "Amrita Institute of Medical Sciences, Faridabad",
+  "patient_insured_name_signature": "Rajesh Kumar Sharma",
+  "patient_insured_name": "Rajesh Kumar Sharma",
+  "patient_contact_no": "9876543210",
+  "patient_email_id": "rajesh.sharma@email.com",
+  "patient_insured_signature": "Rajesh Kumar Sharma",
+  "patient_declaration_date": "15/03/2025",
+  "patient_declaration_time": "10:30",
+  "hospital_declaration_seal": "Amrita Institute of Medical Sciences, Faridabad",
+  "hospital_declaration_doctor_signature": "Dr. Anand Krishnamurthy",
+  "hospital_declaration_date": "15/03/2025",
+  "hospital_declaration_time": "10:30"
 }

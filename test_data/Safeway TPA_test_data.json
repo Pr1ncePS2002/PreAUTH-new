@@ -95,7 +95,10 @@
   "patient_declaration_signature": "Rajesh Kumar Sharma",
   "patient_declaration_date": "15/03/2025",
   "patient_declaration_time": "10:30",
-  "hospital_seal_declaration_box": "[hospital_seal_declaration_box]",
-  "doctor_signature_declaration_box": "[doctor_signature_declaration_box]",
-  "hospital_declaration_date_time": "15/03/2025 11:00"
+  "hospital_seal_declaration_box": "Amrita Institute of Medical Sciences & Research Centre, Faridabad",
+  "doctor_signature_declaration_box": "Dr. Anand Krishnamurthy",
+  "hospital_declaration_date_time": "15/03/2025 11:00",
+  "hospital_name": "Amrita Institute of Medical Sciences, Faridabad",
+  "hospital_rohini_id": "8900080528185",
+  "hospital_email_id": "tpa@fbd.amrita.edu"
 }
