@@ -15,8 +15,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 119.0,
-        "y": 95.6
+        "x": 119.4,
+        "y": 101.9
       },
       "font_size": 6,
       "max_width": 435.6
@@ -27,8 +27,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 94.3,
-        "y": 110.3
+        "x": 114.4,
+        "y": 115.6
       },
       "font_size": 6,
       "max_width": 10
@@ -39,8 +39,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 149.3,
-        "y": 110.3
+        "x": 148.6,
+        "y": 116.1
       },
       "font_size": 6,
       "max_width": 10
@@ -51,8 +51,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 458.2,
-        "y": 110.3
+        "x": 262.8,
+        "y": 115.6
       },
       "font_size": 6,
       "max_width": 20
@@ -63,8 +63,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 458.2,
-        "y": 110.3
+        "x": 324.9,
+        "y": 118.1
       },
       "font_size": 6,
       "max_width": 30
@@ -75,8 +75,8 @@
       "type": "date_field",
       "page": 1,
       "coordinates": {
-        "x": 460.8,
-        "y": 110.3
+        "x": 456.1,
+        "y": 115.2
       },
       "font_size": 6,
       "max_width": 70
@@ -87,8 +87,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 446.1,
-        "y": 125.7
+        "x": 121.1,
+        "y": 132.3
       },
       "font_size": 6,
       "max_width": 109
@@ -99,8 +99,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 446.1,
-        "y": 125.7
+        "x": 446.9,
+        "y": 131.5
       },
       "font_size": 6,
       "max_width": 101.6
@@ -111,8 +111,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 119.0,
-        "y": 142.6
+        "x": 119,
+        "y": 147.7
       },
       "font_size": 6,
       "max_width": 423.7
@@ -123,8 +123,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 482.6,
-        "y": 157.2
+        "x": 116.5,
+        "y": 162.7
       },
       "font_size": 6,
       "max_width": 73
@@ -135,8 +135,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 482.6,
-        "y": 157.2
+        "x": 482.4,
+        "y": 164
       },
       "font_size": 6,
       "max_width": 59.1
@@ -147,8 +147,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 343.3,
-        "y": 175.3
+        "x": 246.5,
+        "y": 181.5
       },
       "font_size": 6,
       "max_width": 10
@@ -159,8 +159,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 374.3,
-        "y": 175.3
+        "x": 269.4,
+        "y": 180.2
       },
       "font_size": 6,
       "max_width": 10
@@ -171,8 +171,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 495.3,
-        "y": 175.3
+        "x": 343.2,
+        "y": 181.5
       },
       "font_size": 6,
       "max_width": 44.7
@@ -183,8 +183,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 79.7,
-        "y": 187.7
+        "x": 116.5,
+        "y": 196.9
       },
       "font_size": 6,
       "max_width": 460.3
@@ -195,8 +195,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 292.3,
-        "y": 211.4
+        "x": 137.4,
+        "y": 216.2
       },
       "font_size": 6,
       "max_width": 10
@@ -207,8 +207,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 323.3,
-        "y": 211.4
+        "x": 161.1,
+        "y": 216.2
       },
       "font_size": 6,
       "max_width": 10
@@ -219,8 +219,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 485.3,
-        "y": 211.4
+        "x": 295.7,
+        "y": 216.2
       },
       "font_size": 6,
       "max_width": 54.7
@@ -231,8 +231,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 150.3,
-        "y": 227.4
+        "x": 116.5,
+        "y": 232.9
       },
       "font_size": 6,
       "max_width": 99.7
@@ -243,8 +243,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 455.9,
-        "y": 240.1
+        "x": 458.2,
+        "y": 258.4
       },
       "font_size": 6,
       "max_width": 84.1
@@ -255,8 +255,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 458.2,
-        "y": 252.6
+        "x": 118.6,
+        "y": 258.8
       },
       "font_size": 6,
       "max_width": 97
@@ -267,8 +267,8 @@
       "type": "text_box",
       "page": 1,
       "coordinates": {
-        "x": 407.4,
-        "y": 274.0
+        "x": 396.1,
+        "y": 279.7
       },
       "font_size": 6,
       "max_width": 132.6
@@ -279,8 +279,8 @@
       "type": "text_box",
       "page": 1,
       "coordinates": {
-        "x": 150.3,
-        "y": 282.2
+        "x": 114.9,
+        "y": 279.7
       },
       "font_size": 6,
       "max_width": 149.7
@@ -291,8 +291,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 399.5,
-        "y": 307.4
+        "x": 124.4,
+        "y": 310.9
       },
       "font_size": 6,
       "max_width": 50
@@ -303,8 +303,8 @@
       "type": "date_field",
       "page": 1,
       "coordinates": {
-        "x": 401.2,
-        "y": 307.4
+        "x": 271.1,
+        "y": 312.2
       },
       "font_size": 6,
       "max_width": 70
@@ -315,8 +315,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 399.8,
-        "y": 307.4
+        "x": 396.9,
+        "y": 308.8
       },
       "font_size": 6,
       "max_width": 140.2
@@ -327,8 +327,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 398.9,
-        "y": 326.1
+        "x": 115.3,
+        "y": 330.1
       },
       "font_size": 6,
       "max_width": 156
@@ -339,8 +339,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 400.2,
-        "y": 338.8
+        "x": 395.3,
+        "y": 342.6
       },
       "font_size": 6,
       "max_width": 139.8
@@ -351,8 +351,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 129.3,
-        "y": 353.9
+        "x": 114.4,
+        "y": 360.1
       },
       "font_size": 6,
       "max_width": 10
@@ -363,8 +363,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 229.3,
-        "y": 353.9
+        "x": 194.9,
+        "y": 359.7
       },
       "font_size": 6,
       "max_width": 10
@@ -375,8 +375,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 334.3,
-        "y": 353.9
+        "x": 279.9,
+        "y": 359.3
       },
       "font_size": 6,
       "max_width": 10
@@ -387,8 +387,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 414.3,
-        "y": 353.9
+        "x": 352.8,
+        "y": 360.9
       },
       "font_size": 6,
       "max_width": 10
@@ -399,8 +399,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 490.6,
-        "y": 353.9
+        "x": 419,
+        "y": 360.1
       },
       "font_size": 6,
       "max_width": 10
@@ -411,8 +411,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 404.9,
-        "y": 371.7
+        "x": 393.6,
+        "y": 376.6
       },
       "font_size": 6,
       "max_width": 135.1
@@ -423,8 +423,8 @@
       "type": "text_box",
       "page": 1,
       "coordinates": {
-        "x": 150.3,
-        "y": 389.1
+        "x": 114.4,
+        "y": 379.5
       },
       "font_size": 6,
       "max_width": 149.7
@@ -435,8 +435,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 398.9,
-        "y": 395.4
+        "x": 394.4,
+        "y": 404.5
       },
       "font_size": 6,
       "max_width": 141.9
@@ -447,8 +447,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 399.5,
-        "y": 404.0
+        "x": 115.7,
+        "y": 404.5
       },
       "font_size": 6,
       "max_width": 156
@@ -459,8 +459,8 @@
       "type": "text_box",
       "page": 1,
       "coordinates": {
-        "x": 399.5,
-        "y": 425.0
+        "x": 114.4,
+        "y": 431.3
       },
       "font_size": 6,
       "max_width": 156
@@ -471,8 +471,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 401.9,
-        "y": 425.0
+        "x": 394.9,
+        "y": 430.9
       },
       "font_size": 6,
       "max_width": 138.1
@@ -483,8 +483,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 154.3,
-        "y": 457.5
+        "x": 149.9,
+        "y": 463.3
       },
       "font_size": 5,
       "max_width": 10
@@ -495,8 +495,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 184.3,
-        "y": 457.5
+        "x": 171.5,
+        "y": 462.9
       },
       "font_size": 5,
       "max_width": 10
@@ -507,8 +507,8 @@
       "type": "date_field",
       "page": 1,
       "coordinates": {
-        "x": 540.8,
-        "y": 457.5
+        "x": 259,
+        "y": 462.9
       },
       "font_size": 5,
       "max_width": 14
@@ -519,8 +519,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 434.3,
-        "y": 457.5
+        "x": 440.3,
+        "y": 463.3
       },
       "font_size": 5,
       "max_width": 10
@@ -531,8 +531,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 464.3,
-        "y": 457.5
+        "x": 466.1,
+        "y": 463.3
       },
       "font_size": 5,
       "max_width": 10
@@ -543,8 +543,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 540.8,
-        "y": 457.5
+        "x": 536.1,
+        "y": 462
       },
       "font_size": 5,
       "max_width": 14
@@ -555,8 +555,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 344.3,
-        "y": 473.0
+        "x": 270.3,
+        "y": 478.7
       },
       "font_size": 5,
       "max_width": 10
@@ -567,8 +567,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 374.3,
-        "y": 473.0
+        "x": 293.2,
+        "y": 479.1
       },
       "font_size": 5,
       "max_width": 10
@@ -579,8 +579,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 484.3,
-        "y": 473.0
+        "x": 440.3,
+        "y": 478.7
       },
       "font_size": 5,
       "max_width": 10
@@ -591,8 +591,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 514.3,
-        "y": 473.0
+        "x": 466.5,
+        "y": 479.5
       },
       "font_size": 5,
       "max_width": 10
@@ -603,8 +603,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 356.9,
-        "y": 487.1
+        "x": 114,
+        "y": 492.5
       },
       "font_size": 6,
       "max_width": 20
@@ -615,8 +615,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 356.9,
-        "y": 487.1
+        "x": 149,
+        "y": 491.2
       },
       "font_size": 6,
       "max_width": 20
@@ -627,8 +627,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 356.9,
-        "y": 487.1
+        "x": 183.6,
+        "y": 491.6
       },
       "font_size": 6,
       "max_width": 20
@@ -639,8 +639,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 356.9,
-        "y": 487.1
+        "x": 218.6,
+        "y": 492.5
       },
       "font_size": 6,
       "max_width": 20
@@ -651,8 +651,8 @@
       "type": "date_field",
       "page": 1,
       "coordinates": {
-        "x": 361.4,
-        "y": 487.1
+        "x": 354,
+        "y": 492
       },
       "font_size": 6,
       "max_width": 70
@@ -663,8 +663,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 569.6,
-        "y": 507.9
+        "x": 258.2,
+        "y": 530.1
       },
       "font_size": 6,
       "max_width": -14
@@ -675,8 +675,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 404.3,
-        "y": 516.4
+        "x": 364.4,
+        "y": 530.9
       },
       "font_size": 6,
       "max_width": 10
@@ -687,8 +687,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 516.9,
-        "y": 516.4
+        "x": 513.6,
+        "y": 529.7
       },
       "font_size": 6,
       "max_width": 38
@@ -699,8 +699,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 418.4,
-        "y": 516.4
+        "x": 364.4,
+        "y": 549.7
       },
       "font_size": 6,
       "max_width": 10
@@ -711,8 +711,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 516.9,
-        "y": 516.4
+        "x": 511.5,
+        "y": 550.1
       },
       "font_size": 6,
       "max_width": 38
@@ -723,8 +723,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 417.4,
-        "y": 516.4
+        "x": 363.6,
+        "y": 567.6
       },
       "font_size": 6,
       "max_width": 10
@@ -735,8 +735,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 516.9,
-        "y": 516.4
+        "x": 511.9,
+        "y": 567.6
       },
       "font_size": 6,
       "max_width": 38
@@ -747,8 +747,8 @@
       "type": "date_field",
       "page": 1,
       "coordinates": {
-        "x": 517.5,
-        "y": 524.5
+        "x": 114,
+        "y": 530.9
       },
       "font_size": 6,
       "max_width": 38
@@ -759,8 +759,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 284.3,
-        "y": 543.3
+        "x": 219,
+        "y": 546.8
       },
       "font_size": 6,
       "max_width": 10
@@ -771,8 +771,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 344.3,
-        "y": 543.3
+        "x": 269.9,
+        "y": 548.8
       },
       "font_size": 6,
       "max_width": 10
@@ -783,8 +783,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 517.5,
-        "y": 562.5
+        "x": 147.8,
+        "y": 567.2
       },
       "font_size": 6,
       "max_width": 25
@@ -795,8 +795,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 517.5,
-        "y": 562.5
+        "x": 249,
+        "y": 568.4
       },
       "font_size": 6,
       "max_width": 38
@@ -807,8 +807,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 517.5,
-        "y": 580.9
+        "x": 248.6,
+        "y": 586.8
       },
       "font_size": 6,
       "max_width": 38
@@ -819,8 +819,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 423.2,
-        "y": 580.9
+        "x": 364,
+        "y": 586.8
       },
       "font_size": 6,
       "max_width": 10
@@ -831,8 +831,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 480.0,
-        "y": 580.9
+        "x": 512.4,
+        "y": 586.8
       },
       "font_size": 6,
       "max_width": 60
@@ -843,8 +843,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 517.5,
-        "y": 600.5
+        "x": 251.9,
+        "y": 602.2
       },
       "font_size": 6,
       "max_width": 38
@@ -855,8 +855,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 418.9,
-        "y": 600.5
+        "x": 363.6,
+        "y": 605.5
       },
       "font_size": 6,
       "max_width": 10
@@ -867,8 +867,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 480.0,
-        "y": 600.5
+        "x": 511.5,
+        "y": 605.1
       },
       "font_size": 6,
       "max_width": 60
@@ -879,8 +879,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 474.5,
-        "y": 618.1
+        "x": 253.2,
+        "y": 623
       },
       "font_size": 6,
       "max_width": 81
@@ -891,8 +891,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 458.5,
-        "y": 618.1
+        "x": 362.8,
+        "y": 623.4
       },
       "font_size": 6,
       "max_width": 10
@@ -903,8 +903,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 474.5,
-        "y": 618.1
+        "x": 512.4,
+        "y": 623.4
       },
       "font_size": 6,
       "max_width": 60
@@ -915,8 +915,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 414.3,
-        "y": 636.1
+        "x": 250.7,
+        "y": 642.3
       },
       "font_size": 6,
       "max_width": 94.7
@@ -927,8 +927,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 398.3,
-        "y": 636.1
+        "x": 363.6,
+        "y": 642.3
       },
       "font_size": 6,
       "max_width": 10
@@ -939,8 +939,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 480.0,
-        "y": 636.1
+        "x": 513.6,
+        "y": 643.1
       },
       "font_size": 6,
       "max_width": 60
@@ -951,8 +951,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 442.6,
-        "y": 656.4
+        "x": 364.4,
+        "y": 660.2
       },
       "font_size": 6,
       "max_width": 10
@@ -963,8 +963,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 517.5,
-        "y": 656.4
+        "x": 513.2,
+        "y": 661.9
       },
       "font_size": 6,
       "max_width": 38
@@ -976,7 +976,7 @@
       "page": 1,
       "coordinates": {
         "x": 255.3,
-        "y": 661.8
+        "y": 662.7
       },
       "font_size": 6,
       "max_width": 94.7
@@ -987,8 +987,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 474.7,
-        "y": 674.1
+        "x": 364.4,
+        "y": 680.2
       },
       "font_size": 6,
       "max_width": 10
@@ -999,8 +999,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 517.5,
-        "y": 674.1
+        "x": 516.9,
+        "y": 678.6
       },
       "font_size": 6,
       "max_width": 38
@@ -1011,8 +1011,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 255.3,
-        "y": 682.4
+        "x": 256.1,
+        "y": 679.8
       },
       "font_size": 6,
       "max_width": 94.7
@@ -1023,8 +1023,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 516.9,
-        "y": 689.2
+        "x": 376.5,
+        "y": 705.2
       },
       "font_size": 6,
       "max_width": 38
@@ -1035,8 +1035,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 480.0,
-        "y": 698.2
+        "x": 516.5,
+        "y": 695.2
       },
       "font_size": 6,
       "max_width": 60
@@ -1047,8 +1047,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 255.3,
-        "y": 700.6
+        "x": 256.5,
+        "y": 707.7
       },
       "font_size": 6,
       "max_width": 94.7
@@ -1059,8 +1059,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 255.3,
-        "y": 717.9
+        "x": 248.6,
+        "y": 724.4
       },
       "font_size": 6,
       "max_width": 94.7
@@ -1071,8 +1071,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 470.9,
-        "y": 755.0
+        "x": 129.9,
+        "y": 760.5
       },
       "font_size": 6,
       "max_width": 84
@@ -1083,8 +1083,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 470.9,
-        "y": 755.0
+        "x": 470.7,
+        "y": 760.5
       },
       "font_size": 6,
       "max_width": 72.6
@@ -1095,8 +1095,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 130.7,
-        "y": 771.9
+        "x": 126.9,
+        "y": 776.8
       },
       "font_size": 6,
       "max_width": 421.8
@@ -1107,11 +1107,11 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 79.0,
-        "y": 788.4
+        "x": 126.5,
+        "y": 794.7
       },
       "font_size": 6,
-      "max_width": 461.0
+      "max_width": 461
     },
     {
       "field_id": "declaration_registration_no_state_code",
@@ -1119,8 +1119,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 130.7,
-        "y": 802.5
+        "x": 127.8,
+        "y": 807.6
       },
       "font_size": 6,
       "max_width": 409.4
@@ -1131,8 +1131,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 563.5,
-        "y": 815.6
+        "x": 294.4,
+        "y": 792.6
       },
       "font_size": 6,
       "max_width": -8
@@ -1143,8 +1143,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 563.5,
-        "y": 815.6
+        "x": 442.8,
+        "y": 799.3
       },
       "font_size": 6,
       "max_width": -8
@@ -1155,8 +1155,8 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 147.4,
-        "y": 276.8
+        "x": 140.3,
+        "y": 283.6
       },
       "font_size": 7,
       "max_width": 392.6
@@ -1167,8 +1167,8 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 130.0,
-        "y": 276.8
+        "x": 139.4,
+        "y": 272.3
       },
       "font_size": 8,
       "max_width": 250
@@ -1179,8 +1179,8 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 368.7,
-        "y": 300.6
+        "x": 124.4,
+        "y": 306.1
       },
       "font_size": 7,
       "max_width": 114.7
@@ -1191,8 +1191,8 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 371.7,
-        "y": 300.6
+        "x": 366.1,
+        "y": 307.3
       },
       "font_size": 7,
       "max_width": 168.3
@@ -1203,8 +1203,8 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 130.0,
-        "y": 300.6
+        "x": 124.9,
+        "y": 297
       },
       "font_size": 8,
       "max_width": 130
@@ -1215,8 +1215,8 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 360.0,
-        "y": 300.6
+        "x": 365.7,
+        "y": 297
       },
       "font_size": 8,
       "max_width": 180
@@ -1227,8 +1227,8 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 422.8,
-        "y": 502.3
+        "x": 114.4,
+        "y": 518.1
       },
       "font_size": 7,
       "max_width": 132
@@ -1239,8 +1239,8 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 422.8,
-        "y": 502.3
+        "x": 419.9,
+        "y": 519.4
       },
       "font_size": 7,
       "max_width": 132
@@ -1251,8 +1251,8 @@
       "type": "text_box",
       "page": 2,
       "coordinates": {
-        "x": 27.6,
-        "y": 502.3
+        "x": 112.8,
+        "y": 504.4
       },
       "font_size": 8,
       "max_width": 130
@@ -1263,8 +1263,8 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 250.0,
-        "y": 502.3
+        "x": 420.3,
+        "y": 509
       },
       "font_size": 8,
       "max_width": 160
