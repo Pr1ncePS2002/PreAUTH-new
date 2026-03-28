@@ -451,62 +451,57 @@
     {
       "field_id": "page2_treatment_medical_management",
       "label": "Medical Management",
-      "type": "text_line",
+      "type": "checkbox",
       "page": 2,
       "coordinates": {
         "x": 311.8,
         "y": 231.5
       },
-      "font_size": 9,
-      "max_width": 10
+      "font_size": 9
     },
     {
       "field_id": "page2_treatment_surgical_management",
       "label": "Surgical Management",
-      "type": "text_line",
+      "type": "checkbox",
       "page": 2,
       "coordinates": {
         "x": 311.8,
         "y": 251.2
       },
-      "font_size": 9,
-      "max_width": 10
+      "font_size": 9
     },
     {
       "field_id": "page2_treatment_intensive_care",
       "label": "Intensive care",
-      "type": "text_line",
+      "type": "checkbox",
       "page": 2,
       "coordinates": {
         "x": 311.8,
         "y": 270.6
       },
-      "font_size": 9,
-      "max_width": 10
+      "font_size": 9
     },
     {
       "field_id": "page2_treatment_investigation",
       "label": "Investigation",
-      "type": "text_line",
+      "type": "checkbox",
       "page": 2,
       "coordinates": {
         "x": 311.8,
         "y": 290.1
       },
-      "font_size": 9,
-      "max_width": 10
+      "font_size": 9
     },
     {
       "field_id": "page2_treatment_non_allopathic",
       "label": "Non-allopathic treatment",
-      "type": "text_line",
+      "type": "checkbox",
       "page": 2,
       "coordinates": {
         "x": 311.8,
         "y": 309.3
       },
-      "font_size": 9,
-      "max_width": 10
+      "font_size": 9
     },
     {
       "field_id": "page2_investigation_medical_management_details",
