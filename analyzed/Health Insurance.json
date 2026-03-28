@@ -17,8 +17,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 223.5,
-        "y": 141.9
+        "x": 214.8,
+        "y": 145.2
       },
       "font_size": 10,
       "max_width": 316.5
@@ -29,8 +29,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 163.8,
-        "y": 217.6
+        "x": 148.8,
+        "y": 221.7
       },
       "font_size": 10,
       "max_width": 376.2
@@ -41,8 +41,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 570.7,
-        "y": 242.9
+        "x": 126.3,
+        "y": 247.2
       },
       "font_size": 10,
       "max_width": -15
@@ -53,8 +53,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 568.6,
-        "y": 268.1
+        "x": 227.8,
+        "y": 268.2
       },
       "font_size": 10,
       "max_width": -13
@@ -65,8 +65,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 569.0,
-        "y": 293.3
+        "x": 260.3,
+        "y": 295.7
       },
       "font_size": 10,
       "max_width": -14
@@ -77,8 +77,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 195.7,
-        "y": 344.4
+        "x": 165.3,
+        "y": 346.5
       },
       "font_size": 10,
       "max_width": 344.3
@@ -89,8 +89,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 249.0,
-        "y": 370.2
+        "x": 147.8,
+        "y": 374.5
       },
       "font_size": 10
     },
@@ -100,8 +100,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 339.0,
-        "y": 370.2
+        "x": 221.3,
+        "y": 374.5
       },
       "font_size": 10
     },
@@ -111,8 +111,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 429.0,
-        "y": 365.0
+        "x": 309.8,
+        "y": 374.5
       },
       "font_size": 10
     },
@@ -122,11 +122,11 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 398.5,
-        "y": 396.4
+        "x": 110.3,
+        "y": 398.5
       },
       "font_size": 10,
-      "max_width": 155.0
+      "max_width": 155
     },
     {
       "field_id": "page1_patient_dob",
@@ -134,8 +134,8 @@
       "type": "date_field",
       "page": 1,
       "coordinates": {
-        "x": 155.0,
-        "y": 421.6
+        "x": 131.3,
+        "y": 425.5
       },
       "font_size": 10,
       "max_width": 218.1
@@ -146,8 +146,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 554.0,
-        "y": 446.8
+        "x": 147.8,
+        "y": 447.2
       },
       "font_size": 10,
       "max_width": 1
@@ -158,11 +158,11 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 265.0,
-        "y": 472.2
+        "x": 240.3,
+        "y": 475.2
       },
       "font_size": 10,
-      "max_width": 275.0
+      "max_width": 275
     },
     {
       "field_id": "page1_insured_card_id_number",
@@ -170,11 +170,11 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 215.0,
-        "y": 497.4
+        "x": 183.8,
+        "y": 499.2
       },
       "font_size": 10,
-      "max_width": 325.0
+      "max_width": 325
     },
     {
       "field_id": "page1_policy_number_corporate_name",
@@ -182,11 +182,11 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 265.0,
-        "y": 522.7
+        "x": 229.8,
+        "y": 525.2
       },
       "font_size": 10,
-      "max_width": 275.0
+      "max_width": 275
     },
     {
       "field_id": "page1_employee_id",
@@ -194,8 +194,8 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 567.8,
-        "y": 547.9
+        "x": 128.8,
+        "y": 549.2
       },
       "font_size": 10,
       "max_width": -12
@@ -206,8 +206,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 475.0,
-        "y": 573.2
+        "x": 344.8,
+        "y": 578.9
       },
       "font_size": 10
     },
@@ -217,8 +217,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 515.0,
-        "y": 573.2
+        "x": 418.8,
+        "y": 578.9
       },
       "font_size": 10
     },
@@ -228,11 +228,11 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 175.0,
-        "y": 599.8
+        "x": 154.8,
+        "y": 602.4
       },
       "font_size": 10,
-      "max_width": 365.0
+      "max_width": 365
     },
     {
       "field_id": "page1_other_mediclaim_details",
@@ -240,11 +240,11 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 155.0,
-        "y": 625.2
+        "x": 136.3,
+        "y": 628.4
       },
       "font_size": 10,
-      "max_width": 385.0
+      "max_width": 385
     },
     {
       "field_id": "page1_family_physician_yes",
@@ -252,8 +252,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 475.0,
-        "y": 650.8
+        "x": 291.3,
+        "y": 656.4
       },
       "font_size": 10
     },
@@ -263,8 +263,8 @@
       "type": "checkbox",
       "page": 1,
       "coordinates": {
-        "x": 515.0,
-        "y": 650.8
+        "x": 377.8,
+        "y": 656.4
       },
       "font_size": 10
     },
@@ -274,11 +274,11 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 245.0,
-        "y": 677.1
+        "x": 209.3,
+        "y": 680.4
       },
       "font_size": 10,
-      "max_width": 295.0
+      "max_width": 295
     },
     {
       "field_id": "page1_family_physician_contact_number",
@@ -286,11 +286,11 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 215.0,
-        "y": 702.4
+        "x": 180.8,
+        "y": 703.9
       },
       "font_size": 10,
-      "max_width": 325.0
+      "max_width": 325
     },
     {
       "field_id": "page1_insured_patient_current_address",
@@ -298,11 +298,11 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 265.0,
-        "y": 727.6
+        "x": 229.8,
+        "y": 730.4
       },
       "font_size": 10,
-      "max_width": 275.0
+      "max_width": 275
     },
     {
       "field_id": "page1_insured_patient_occupation",
@@ -310,11 +310,11 @@
       "type": "text_line",
       "page": 1,
       "coordinates": {
-        "x": 245.0,
-        "y": 752.8
+        "x": 214.3,
+        "y": 754.4
       },
       "font_size": 10,
-      "max_width": 295.0
+      "max_width": 295
     },
     {
       "field_id": "page2_treating_doctor_name",
@@ -322,11 +322,11 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 245.0,
-        "y": 62.6
+        "x": 197.3,
+        "y": 66
       },
       "font_size": 11,
-      "max_width": 295.0
+      "max_width": 295
     },
     {
       "field_id": "page2_treating_doctor_contact_number",
@@ -334,11 +334,11 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 165.0,
-        "y": 84.9
+        "x": 142.8,
+        "y": 86.5
       },
       "font_size": 10,
-      "max_width": 375.0
+      "max_width": 375
     },
     {
       "field_id": "page2_illness_complaint_line1",
@@ -346,11 +346,11 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 365.0,
-        "y": 105.3
+        "x": 304.3,
+        "y": 108
       },
       "font_size": 10,
-      "max_width": 175.0
+      "max_width": 175
     },
     {
       "field_id": "page2_illness_complaint_line2",
@@ -358,11 +358,11 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 36.0,
-        "y": 136.3
+        "x": 44.3,
+        "y": 122.5
       },
       "font_size": 10,
-      "max_width": 504.0
+      "max_width": 504
     },
     {
       "field_id": "page2_illness_complaint_line3",
@@ -370,11 +370,11 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 36.0,
-        "y": 167.4
+        "x": 43.3,
+        "y": 138
       },
       "font_size": 10,
-      "max_width": 504.0
+      "max_width": 504
     },
     {
       "field_id": "page2_relevant_critical_findings_line1",
@@ -382,8 +382,8 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 142.6,
-        "y": 190.3
+        "x": 88.3,
+        "y": 191.5
       },
       "font_size": 10,
       "max_width": 397.4
@@ -394,11 +394,11 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 36.0,
-        "y": 213.3
+        "x": 40.3,
+        "y": 216.5
       },
       "font_size": 10,
-      "max_width": 504.0
+      "max_width": 504
     },
     {
       "field_id": "page2_relevant_critical_findings_line3",
@@ -406,8 +406,8 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 36.0,
-        "y": 236.4
+        "x": 41.8,
+        "y": 240
       },
       "font_size": 10,
       "max_width": 462.7
@@ -418,11 +418,11 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 265.0,
-        "y": 267.3
+        "x": 224.8,
+        "y": 269.7
       },
       "font_size": 10,
-      "max_width": 50.0
+      "max_width": 50
     },
     {
       "field_id": "page2_first_consultation_date",
@@ -430,8 +430,8 @@
       "type": "date_field",
       "page": 2,
       "coordinates": {
-        "x": 235.0,
-        "y": 287.7
+        "x": 208.8,
+        "y": 290.2
       },
       "font_size": 10,
       "max_width": 323.7
@@ -442,11 +442,11 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 335.0,
-        "y": 307.6
+        "x": 247.3,
+        "y": 310.7
       },
       "font_size": 10,
-      "max_width": 205.0
+      "max_width": 205
     },
     {
       "field_id": "page2_provisional_diagnosis",
@@ -454,11 +454,11 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 205.0,
-        "y": 328.6
+        "x": 162.8,
+        "y": 332.7
       },
       "font_size": 10,
-      "max_width": 335.0
+      "max_width": 335
     },
     {
       "field_id": "page2_icd10_code",
@@ -466,71 +466,71 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 165.0,
-        "y": 348.5
+        "x": 134.3,
+        "y": 352.2
       },
       "font_size": 10,
-      "max_width": 375.0
+      "max_width": 375
     },
     {
       "field_id": "page2_treatment_medical_management",
       "label": "Medical Management",
-      "type": "text_line",
+      "type": "checkbox",
       "page": 2,
       "coordinates": {
-        "x": 215.0,
-        "y": 389.3
+        "x": 226.8,
+        "y": 396
       },
       "font_size": 10,
-      "max_width": 50.0
+      "max_width": 50
     },
     {
       "field_id": "page2_treatment_surgical_management",
       "label": "Surgical Management",
-      "type": "text_line",
+      "type": "checkbox",
       "page": 2,
       "coordinates": {
-        "x": 215.0,
-        "y": 409.7
+        "x": 223.8,
+        "y": 416
       },
       "font_size": 10,
-      "max_width": 50.0
+      "max_width": 50
     },
     {
       "field_id": "page2_treatment_intensive_care",
       "label": "Intensive care",
-      "type": "text_line",
+      "type": "checkbox",
       "page": 2,
       "coordinates": {
-        "x": 215.0,
-        "y": 430.1
+        "x": 226.8,
+        "y": 435.5
       },
       "font_size": 10,
-      "max_width": 50.0
+      "max_width": 50
     },
     {
       "field_id": "page2_treatment_investigation",
       "label": "Investigation",
-      "type": "text_line",
+      "type": "checkbox",
       "page": 2,
       "coordinates": {
-        "x": 289.2,
-        "y": 450.5
+        "x": 226.3,
+        "y": 457.5
       },
       "font_size": 10,
-      "max_width": 50.0
+      "max_width": 50
     },
     {
       "field_id": "page2_treatment_non_allopathic",
       "label": "Non-allopathic treatment",
-      "type": "text_line",
+      "type": "checkbox",
       "page": 2,
       "coordinates": {
-        "x": 215.0,
-        "y": 470.9
+        "x": 225.8,
+        "y": 477
       },
       "font_size": 10,
-      "max_width": 50.0
+      "max_width": 50
     },
     {
       "field_id": "page2_route_of_drug_administration",
@@ -538,11 +538,11 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 285.0,
-        "y": 511.7
+        "x": 229.8,
+        "y": 514.9
       },
       "font_size": 10,
-      "max_width": 255.0
+      "max_width": 255
     },
     {
       "field_id": "page2_surgical_name_of_surgery",
@@ -550,11 +550,11 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 245.0,
-        "y": 532.6
+        "x": 188.3,
+        "y": 535.9
       },
       "font_size": 10,
-      "max_width": 295.0
+      "max_width": 295
     },
     {
       "field_id": "page2_icd10_pcs_code",
@@ -562,11 +562,11 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 205.0,
-        "y": 553.0
+        "x": 185.3,
+        "y": 555.9
       },
       "font_size": 10,
-      "max_width": 335.0
+      "max_width": 335
     },
     {
       "field_id": "page2_other_treatment_details",
@@ -574,11 +574,11 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 295.0,
-        "y": 573.4
+        "x": 217.3,
+        "y": 577.4
       },
       "font_size": 10,
-      "max_width": 245.0
+      "max_width": 245
     },
     {
       "field_id": "page2_how_injury_occurred",
@@ -586,11 +586,11 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 205.0,
-        "y": 593.8
+        "x": 161.3,
+        "y": 595.9
       },
       "font_size": 10,
-      "max_width": 335.0
+      "max_width": 335
     },
     {
       "field_id": "page2_accident_is_rta_yes",
@@ -598,8 +598,8 @@
       "type": "checkbox",
       "page": 2,
       "coordinates": {
-        "x": 335.0,
-        "y": 634.1
+        "x": 252.3,
+        "y": 639.5
       },
       "font_size": 9
     },
@@ -609,8 +609,8 @@
       "type": "checkbox",
       "page": 2,
       "coordinates": {
-        "x": 375.0,
-        "y": 634.1
+        "x": 352.3,
+        "y": 639
       },
       "font_size": 9
     },
@@ -620,8 +620,8 @@
       "type": "date_field",
       "page": 2,
       "coordinates": {
-        "x": 215.0,
-        "y": 654.6
+        "x": 194.3,
+        "y": 658.5
       },
       "font_size": 10,
       "max_width": 255.3
@@ -632,8 +632,8 @@
       "type": "checkbox",
       "page": 2,
       "coordinates": {
-        "x": 335.0,
-        "y": 675.0
+        "x": 255.3,
+        "y": 681.2
       },
       "font_size": 9
     },
@@ -643,8 +643,8 @@
       "type": "checkbox",
       "page": 2,
       "coordinates": {
-        "x": 375.0,
-        "y": 675.0
+        "x": 353.3,
+        "y": 680.7
       },
       "font_size": 9
     },
@@ -654,8 +654,8 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 520.3,
-        "y": 695.6
+        "x": 152.3,
+        "y": 698.2
       },
       "font_size": 9,
       "max_width": 35
@@ -666,11 +666,11 @@
       "type": "text_line",
       "page": 2,
       "coordinates": {
-        "x": 415.0,
-        "y": 695.6
+        "x": 346.3,
+        "y": 697.2
       },
       "font_size": 9,
-      "max_width": 125.0
+      "max_width": 125
     },
     {
       "field_id": "page2_accident_substance_abuse_yes",
@@ -678,8 +678,8 @@
       "type": "checkbox",
       "page": 2,
       "coordinates": {
-        "x": 445.0,
-        "y": 716.4
+        "x": 409.8,
+        "y": 722.2
       },
       "font_size": 9
     },
@@ -689,8 +689,8 @@
       "type": "checkbox",
       "page": 2,
       "coordinates": {
-        "x": 485.0,
-        "y": 716.4
+        "x": 481.8,
+        "y": 722.2
       },
       "font_size": 9
     },
@@ -700,8 +700,8 @@
       "type": "checkbox",
       "page": 2,
       "coordinates": {
-        "x": 445.0,
-        "y": 716.4
+        "x": 410.8,
+        "y": 744.7
       },
       "font_size": 9
     },
@@ -711,8 +711,8 @@
       "type": "checkbox",
       "page": 2,
       "coordinates": {
-        "x": 485.0,
-        "y": 716.4
+        "x": 481.3,
+        "y": 744.2
       },
       "font_size": 9
     },
@@ -722,8 +722,8 @@
       "type": "checkbox",
       "page": 2,
       "coordinates": {
-        "x": 335.0,
-        "y": 754.0
+        "x": 286.3,
+        "y": 765.7
       },
       "font_size": 9
     },
@@ -733,8 +733,8 @@
       "type": "checkbox",
       "page": 2,
       "coordinates": {
-        "x": 375.0,
-        "y": 754.0
+        "x": 352.3,
+        "y": 764.2
       },
       "font_size": 9
     },
@@ -744,8 +744,8 @@
       "type": "checkbox",
       "page": 2,
       "coordinates": {
-        "x": 415.0,
-        "y": 754.0
+        "x": 408.8,
+        "y": 765.2
       },
       "font_size": 9
     },
@@ -755,8 +755,8 @@
       "type": "checkbox",
       "page": 2,
       "coordinates": {
-        "x": 455.0,
-        "y": 754.0
+        "x": 477.8,
+        "y": 765.2
       },
       "font_size": 9
     },
@@ -766,8 +766,8 @@
       "type": "date_field",
       "page": 2,
       "coordinates": {
-        "x": 265.0,
-        "y": 779.4
+        "x": 228.3,
+        "y": 783.2
       },
       "font_size": 9,
       "max_width": 251.5
@@ -778,8 +778,8 @@
       "type": "date_field",
       "page": 3,
       "coordinates": {
-        "x": 185.0,
-        "y": 59.6
+        "x": 150.8,
+        "y": 62.5
       },
       "font_size": 10,
       "max_width": 279.8
@@ -790,8 +790,8 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 185.0,
-        "y": 80.0
+        "x": 152.3,
+        "y": 82.5
       },
       "font_size": 10,
       "max_width": 249.8
@@ -802,8 +802,8 @@
       "type": "checkbox",
       "page": 3,
       "coordinates": {
-        "x": 475.0,
-        "y": 101.4
+        "x": 405.3,
+        "y": 107
       },
       "font_size": 11
     },
@@ -813,8 +813,8 @@
       "type": "checkbox",
       "page": 3,
       "coordinates": {
-        "x": 515.0,
-        "y": 101.4
+        "x": 468.3,
+        "y": 107
       },
       "font_size": 11
     },
@@ -824,8 +824,8 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 496.7,
-        "y": 144.3
+        "x": 119.3,
+        "y": 151
       },
       "font_size": 10,
       "max_width": 59
@@ -836,8 +836,8 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 495.0,
-        "y": 161.6
+        "x": 135.3,
+        "y": 166.5
       },
       "font_size": 10,
       "max_width": 60
@@ -848,8 +848,8 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 497.1,
-        "y": 178.7
+        "x": 136.8,
+        "y": 185
       },
       "font_size": 10,
       "max_width": 58
@@ -860,8 +860,8 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 498.8,
-        "y": 196.0
+        "x": 152.3,
+        "y": 202.5
       },
       "font_size": 10,
       "max_width": 56
@@ -872,8 +872,8 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 501.6,
-        "y": 213.3
+        "x": 144.8,
+        "y": 221
       },
       "font_size": 10,
       "max_width": 54
@@ -884,8 +884,8 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 503.7,
-        "y": 230.6
+        "x": 194.3,
+        "y": 235
       },
       "font_size": 10,
       "max_width": 52
@@ -896,8 +896,8 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 501.0,
-        "y": 247.7
+        "x": 124.3,
+        "y": 254.5
       },
       "font_size": 10,
       "max_width": 54
@@ -908,8 +908,8 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 502.7,
-        "y": 265.0
+        "x": 174.8,
+        "y": 270.5
       },
       "font_size": 10,
       "max_width": 53
@@ -920,11 +920,11 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 295.0,
-        "y": 282.2
+        "x": 227.3,
+        "y": 288.5
       },
       "font_size": 10,
-      "max_width": 245.0
+      "max_width": 245
     },
     {
       "field_id": "page3_past_history_other_ailment_details",
@@ -932,11 +932,11 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 285.0,
-        "y": 299.4
+        "x": 202.3,
+        "y": 305.5
       },
       "font_size": 10,
-      "max_width": 255.0
+      "max_width": 255
     },
     {
       "field_id": "page3_expected_days_in_hospital",
@@ -944,11 +944,11 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 365.0,
-        "y": 324.7
+        "x": 294.8,
+        "y": 326.5
       },
       "font_size": 11,
-      "max_width": 50.0
+      "max_width": 50
     },
     {
       "field_id": "page3_days_in_icu",
@@ -956,11 +956,11 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 155.0,
-        "y": 346.3
+        "x": 132.3,
+        "y": 350.5
       },
       "font_size": 10,
-      "max_width": 50.0
+      "max_width": 50
     },
     {
       "field_id": "page3_room_type",
@@ -968,11 +968,11 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 155.0,
-        "y": 368.5
+        "x": 131.3,
+        "y": 370
       },
       "font_size": 10,
-      "max_width": 385.0
+      "max_width": 385
     },
     {
       "field_id": "page3_per_day_room_rent_charges_diet",
@@ -980,11 +980,11 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 465.0,
-        "y": 389.0
+        "x": 356.8,
+        "y": 392.5
       },
       "font_size": 10,
-      "max_width": 75.0
+      "max_width": 75
     },
     {
       "field_id": "page3_expected_cost_investigation_diagnostic",
@@ -992,11 +992,11 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 395.0,
-        "y": 409.4
+        "x": 285.8,
+        "y": 411
       },
       "font_size": 10,
-      "max_width": 145.0
+      "max_width": 145
     },
     {
       "field_id": "page3_icu_charges",
@@ -1004,11 +1004,11 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 165.0,
-        "y": 429.8
+        "x": 139.8,
+        "y": 432.5
       },
       "font_size": 10,
-      "max_width": 375.0
+      "max_width": 375
     },
     {
       "field_id": "page3_ot_charges",
@@ -1016,11 +1016,11 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 165.0,
-        "y": 450.2
+        "x": 137.8,
+        "y": 452.5
       },
       "font_size": 9,
-      "max_width": 375.0
+      "max_width": 375
     },
     {
       "field_id": "page3_professional_fees_surgeon_anesthetist_consultation",
@@ -1028,11 +1028,11 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 465.0,
-        "y": 470.6
+        "x": 392.8,
+        "y": 474.5
       },
       "font_size": 10,
-      "max_width": 75.0
+      "max_width": 75
     },
     {
       "field_id": "page3_medicines_consumables_implants_line1",
@@ -1040,11 +1040,11 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 480.0,
-        "y": 491.0
+        "x": 409.8,
+        "y": 494
       },
       "font_size": 10,
-      "max_width": 60.0
+      "max_width": 60
     },
     {
       "field_id": "page3_medicines_consumables_implants_line2",
@@ -1052,11 +1052,11 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 36.0,
-        "y": 511.4
+        "x": 38.3,
+        "y": 513.9
       },
       "font_size": 10,
-      "max_width": 504.0
+      "max_width": 504
     },
     {
       "field_id": "page3_other_hospital_expenses",
@@ -1064,11 +1064,11 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 285.0,
-        "y": 531.8
+        "x": 199.8,
+        "y": 535.4
       },
       "font_size": 10,
-      "max_width": 255.0
+      "max_width": 255
     },
     {
       "field_id": "page3_all_inclusive_package_charges",
@@ -1076,11 +1076,11 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 395.0,
-        "y": 552.2
+        "x": 289.8,
+        "y": 555.9
       },
       "font_size": 10,
-      "max_width": 145.0
+      "max_width": 145
     },
     {
       "field_id": "page3_sum_total_expected_cost_hospitalization",
@@ -1088,11 +1088,11 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 375.0,
-        "y": 572.6
+        "x": 265.3,
+        "y": 575.4
       },
       "font_size": 10,
-      "max_width": 165.0
+      "max_width": 165
     },
     {
       "field_id": "page3_declaration_treating_doctor_name",
@@ -1100,11 +1100,11 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 245.0,
-        "y": 645.7
+        "x": 204.8,
+        "y": 649.2
       },
       "font_size": 10,
-      "max_width": 295.0
+      "max_width": 295
     },
     {
       "field_id": "page3_declaration_treating_doctor_qualification",
@@ -1112,8 +1112,8 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 570.1,
-        "y": 666.1
+        "x": 132.8,
+        "y": 669.2
       },
       "font_size": 10,
       "max_width": -15
@@ -1124,11 +1124,11 @@
       "type": "text_line",
       "page": 3,
       "coordinates": {
-        "x": 315.0,
-        "y": 686.5
+        "x": 236.8,
+        "y": 687.2
       },
       "font_size": 10,
-      "max_width": 225.0
+      "max_width": 225
     },
     {
       "field_id": "page4_patient_insured_name",
@@ -1136,8 +1136,8 @@
       "type": "text_line",
       "page": 4,
       "coordinates": {
-        "x": 444.0,
-        "y": 341.1
+        "x": 76.3,
+        "y": 345.5
       },
       "font_size": 10,
       "max_width": 111
@@ -1148,8 +1148,8 @@
       "type": "text_line",
       "page": 4,
       "coordinates": {
-        "x": 569.5,
-        "y": 360.7
+        "x": 164.8,
+        "y": 362.5
       },
       "font_size": 10,
       "max_width": -14
@@ -1160,11 +1160,11 @@
       "type": "text_line",
       "page": 4,
       "coordinates": {
-        "x": 415.0,
-        "y": 360.7
+        "x": 421.8,
+        "y": 364.5
       },
       "font_size": 10,
-      "max_width": 125.0
+      "max_width": 125
     },
     {
       "field_id": "page4_patient_insured_signature",
@@ -1172,8 +1172,8 @@
       "type": "text_line",
       "page": 4,
       "coordinates": {
-        "x": 448.4,
-        "y": 391.6
+        "x": 93.8,
+        "y": 395
       },
       "font_size": 10,
       "max_width": 107
@@ -1184,8 +1184,8 @@
       "type": "date_field",
       "page": 4,
       "coordinates": {
-        "x": 558.9,
-        "y": 411.1
+        "x": 85.8,
+        "y": 414.5
       },
       "font_size": 10,
       "max_width": -4
@@ -1196,8 +1196,8 @@
       "type": "text_line",
       "page": 4,
       "coordinates": {
-        "x": 558.9,
-        "y": 411.1
+        "x": 309.8,
+        "y": 413
       },
       "font_size": 10,
       "max_width": -4
@@ -1208,11 +1208,11 @@
       "type": "date_field",
       "page": 4,
       "coordinates": {
-        "x": 217.9,
-        "y": 790.4
+        "x": 73.8,
+        "y": 796.7
       },
       "font_size": 11,
-      "max_width": 85.0
+      "max_width": 85
     },
     {
       "field_id": "page4_hospital_declaration_time",
@@ -1220,11 +1220,11 @@
       "type": "text_line",
       "page": 4,
       "coordinates": {
-        "x": 217.9,
-        "y": 790.4
+        "x": 211.3,
+        "y": 794.7
       },
       "font_size": 11,
-      "max_width": 135.0
+      "max_width": 135
     }
   ]
 }

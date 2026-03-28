@@ -1011,10 +1011,10 @@
       "field_id": "hospital_seal",
       "label": "Hospital Seal",
       "type": "text_box",
-      "page": 4,
+      "page": 3,
       "coordinates": {
         "x": 31.0,
-        "y": 656.0
+        "y": 648.0
       },
       "font_size": 9,
       "max_width": 150
@@ -1023,7 +1023,7 @@
       "field_id": "hospital_doctor_signature",
       "label": "Doctor's Signature",
       "type": "text_line",
-      "page": 4,
+      "page": 3,
       "coordinates": {
         "x": 441.0,
         "y": 653.0

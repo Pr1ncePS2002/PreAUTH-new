@@ -186,6 +186,70 @@ FORMS = [
         "test_data": "test_data/Aditya Birla_test_data.json",
         "output": "output/Aditya Birla_filled.pdf",
     },
+    {
+        "name": "Reliance Pre-Authorization Request Form",
+        "template": "templates/Reliance-Pre-Authorization-Request-Form.pdf",
+        "schema": "analyzed/Reliance-Pre-Authorization-Request-Form.json",
+        "test_data": "test_data/Reliance-Pre-Authorization-Request-Form_test_data.json",
+        "output": "output/Reliance-Pre-Authorization-Request-Form_filled.pdf",
+    },
+    {
+        "name": "Safeway TPA",
+        "template": "templates/Safeway TPA.pdf",
+        "schema": "analyzed/Safeway TPA.json",
+        "test_data": "test_data/Safeway TPA_test_data.json",
+        "output": "output/Safeway TPA_filled.pdf",
+    },
+    {
+        "name": "SBI PRE AUTH",
+        "template": "templates/SBI PRE AUTH.pdf",
+        "schema": "analyzed/SBI PRE AUTH.json",
+        "test_data": "test_data/SBI PRE AUTH_test_data.json",
+        "output": "output/SBI PRE AUTH_filled.pdf",
+    },
+    {
+        "name": "STAR PRE AUTH FORM",
+        "template": "templates/STAR PRE AUTH FORM.pdf",
+        "schema": "analyzed/STAR PRE AUTH FORM.json",
+        "test_data": "test_data/STAR PRE AUTH FORM_test_data.json",
+        "output": "output/STAR PRE AUTH FORM_filled.pdf",
+    },
+    {
+        "name": "TAGIC PREAUTH REQUEST FORM_V2",
+        "template": "templates/TAGIC PREAUTH REQUEST FORM_V2.pdf",
+        "schema": "analyzed/TAGIC PREAUTH REQUEST FORM_V2.json",
+        "test_data": "test_data/TAGIC PREAUTH REQUEST FORM_V2_test_data.json",
+        "output": "output/TAGIC PREAUTH REQUEST FORM_V2_filled.pdf",
+    },
+    {
+        "name": "UNIVERSAL SOMPOO PREAUTH FORM",
+        "template": "templates/UNIVERSAL SOMPOO  PREAUTH FORM.pdf",
+        "schema": "analyzed/UNIVERSAL SOMPOO  PREAUTH FORM.json",
+        "test_data": "test_data/UNIVERSAL SOMPOO  PREAUTH FORM_test_data.json",
+        "output": "output/UNIVERSAL SOMPOO  PREAUTH FORM_filled.pdf",
+    },
+    {
+        "name": "Vidal TPA",
+        "template": "templates/Vidal TPA.pdf",
+        "schema": "analyzed/Vidal TPA.json",
+        "test_data": "test_data/Vidal TPA_test_data.json",
+        "output": "output/Vidal TPA_filled.pdf",
+    },
+    {
+        "name": "MD-India-Pre-Auth",
+        "template": "templates/MD-India-Pre-Auth.pdf",
+        "schema": "analyzed/MD-India-Pre-Auth.json",
+        "test_data": "test_data/MD-India-Pre-Auth_test_data.json",
+        "output": "output/MD-India-Pre-Auth_filled.pdf",
+    },
+    {
+        "name": "STAR HEALTH OLD CLAIM FORM",
+        "template": "templates/STAR HEALTH  OLD CLAIM FORM.pdf",
+        "schema": "analyzed/STAR HEALTH  OLD CLAIM FORM.json",
+        "test_data": "test_data/STAR HEALTH  OLD CLAIM FORM_test_data.json",
+        "output": "output/STAR HEALTH  OLD CLAIM FORM_filled.pdf",
+    },
+
 ]
 
 
