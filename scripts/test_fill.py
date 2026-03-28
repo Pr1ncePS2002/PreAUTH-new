@@ -223,10 +223,10 @@ FORMS = [
     },
     {
         "name": "UNIVERSAL SOMPOO PREAUTH FORM",
-        "template": "templates/UNIVERSAL SOMPOO  PREAUTH FORM.pdf",
-        "schema": "analyzed/UNIVERSAL SOMPOO  PREAUTH FORM.json",
-        "test_data": "test_data/UNIVERSAL SOMPOO  PREAUTH FORM_test_data.json",
-        "output": "output/UNIVERSAL SOMPOO  PREAUTH FORM_filled.pdf",
+        "template": "templates/UNIVERSAL_SOMPOO_PREAUTH_FORM.pdf",
+        "schema": "analyzed/UNIVERSAL_SOMPOO_PREAUTH_FORM.json",
+        "test_data": "test_data/UNIVERSAL_SOMPOO_PREAUTH_FORM_test_data.json",
+        "output": "output/UNIVERSAL_SOMPOO_PREAUTH_FORM_filled.pdf",
     },
     {
         "name": "Vidal TPA",
