@@ -1342,30 +1342,6 @@
       },
       "font_size": 8,
       "max_width": 160
-    },
-    {
-      "field_id": "hospital_declaration_date",
-      "label": "Date",
-      "type": "date_field",
-      "page": 4,
-      "coordinates": {
-        "x": 92.1,
-        "y": 784.9
-      },
-      "font_size": 8,
-      "max_width": 100
-    },
-    {
-      "field_id": "hospital_declaration_time",
-      "label": "Time",
-      "type": "text_line",
-      "page": 4,
-      "coordinates": {
-        "x": 400.8,
-        "y": 784.9
-      },
-      "font_size": 8,
-      "max_width": 80
     }
   ]
 }
