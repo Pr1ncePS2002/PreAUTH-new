@@ -32,6 +32,8 @@ import threading
 import base64
 import io
 import secrets
+import cv2
+import numpy as np
 import time
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -348,6 +350,20 @@ class MappingConfirmRequest(BaseModel):
 class SubmitRequest(BaseModel):
     form_id: str
     notes: Optional[str] = None
+
+class ScanUploadRequest(BaseModel):
+    """JSON payload sent by the mobile crop screen."""
+    session_token: str
+    document_type: str = "generic"
+    uploaded_from: str = "mobile"
+    image_b64: str           # base64-encoded JPEG
+    corners: list            # [[x1,y1],[x2,y2],[x3,y3],[x4,y4]] in natural image coords
+    filename: str = "capture.jpg"
+
+class RotateRequest(BaseModel):
+    """Rotate a saved upload image in-place (for desktop pre-OCR correction)."""
+    file_id: str
+    angle: int               # 90, 180, or 270 degrees clockwise
 
 
 # ---------------------------------------------------------------------------
@@ -1478,6 +1494,64 @@ def _is_upload_session_valid(session_token: str) -> bool:
     return datetime.utcnow().isoformat() < us["expires_at"]
 
 
+def _four_point_perspective_crop(image_bytes: bytes, corners: list) -> bytes:
+    """
+    Apply a perspective transform to isolate the document region marked by 4 corners.
+
+    corners: list of 4 [x, y] points in natural (full-resolution) image coordinates.
+    The points need not be pre-ordered — TL/TR/BR/BL are determined automatically.
+    Returns: JPEG bytes of the colour-corrected crop (no B&W thresholding).
+    """
+    nparr = np.frombuffer(image_bytes, np.uint8)
+    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    if img is None:
+        raise ValueError("Failed to decode image")
+
+    pts = np.array(corners, dtype="float32")
+    s = pts.sum(axis=1)
+    diff = np.diff(pts, axis=1)
+
+    rect = np.zeros((4, 2), dtype="float32")
+    rect[0] = pts[np.argmin(s)]    # top-left  (smallest x+y)
+    rect[2] = pts[np.argmax(s)]    # bot-right (largest  x+y)
+    rect[1] = pts[np.argmin(diff)] # top-right (smallest x-y)
+    rect[3] = pts[np.argmax(diff)] # bot-left  (largest  x-y)
+
+    tl, tr, br, bl = rect
+    maxWidth  = max(int(np.linalg.norm(br - bl)), int(np.linalg.norm(tr - tl)))
+    maxHeight = max(int(np.linalg.norm(tr - br)), int(np.linalg.norm(tl - bl)))
+
+    if maxWidth < 10 or maxHeight < 10:
+        raise ValueError("Degenerate corner selection — resulting crop is too small")
+
+    dst = np.array([
+        [0, 0],
+        [maxWidth - 1, 0],
+        [maxWidth - 1, maxHeight - 1],
+        [0, maxHeight - 1],
+    ], dtype="float32")
+
+    M = cv2.getPerspectiveTransform(rect, dst)
+    warped = cv2.warpPerspective(img, M, (maxWidth, maxHeight))
+
+    _, buf = cv2.imencode(".jpg", warped, [cv2.IMWRITE_JPEG_QUALITY, 92])
+    return bytes(buf)
+
+
+def _rotate_image_file(image_bytes: bytes, angle: int) -> bytes:
+    """Rotate image clockwise by 90, 180, or 270 degrees."""
+    nparr = np.frombuffer(image_bytes, np.uint8)
+    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    if img is None:
+        raise ValueError("Failed to decode image")
+    codes = {90: cv2.ROTATE_90_CLOCKWISE, 180: cv2.ROTATE_180, 270: cv2.ROTATE_90_COUNTERCLOCKWISE}
+    if angle not in codes:
+        raise ValueError(f"Invalid angle {angle} — must be 90, 180, or 270")
+    rotated = cv2.rotate(img, codes[angle])
+    _, buf = cv2.imencode(".jpg", rotated, [cv2.IMWRITE_JPEG_QUALITY, 92])
+    return bytes(buf)
+
+
 @app.post("/mobile/create-session")
 def create_upload_session(
     request: Request,
@@ -1628,6 +1702,126 @@ async def mobile_upload_documents(
         "total_files": len(us["files"]),
         "documents": uploaded,
     })
+
+
+@app.post("/mobile/scan-upload")
+async def mobile_scan_upload(req: ScanUploadRequest):
+    """
+    Accept a base64-encoded image + 4 corner coordinates from the mobile crop screen.
+    Applies a perspective crop (colour, no B&W thresholding), saves the corrected JPEG,
+    appends it to the upload session, and broadcasts the updated file list to the desktop.
+
+    PDFs are NOT sent here — they continue to use /mobile/upload (FormData) unchanged.
+    """
+    us = _upload_sessions.get(req.session_token)
+    if not us:
+        err("Invalid session token", 404)
+    if not _is_upload_session_valid(req.session_token):
+        err("Session expired. Please rescan QR code.", 410)
+    if len(req.corners) != 4:
+        err("corners must be a list of exactly 4 [x, y] pairs", 400)
+
+    try:
+        image_bytes = base64.b64decode(req.image_b64)
+    except Exception:
+        err("Invalid base64 image data", 400)
+
+    if len(image_bytes) > MAX_UPLOAD_SIZE:
+        err(f"Image too large (max {MAX_UPLOAD_SIZE // (1024 * 1024)} MB)", 413)
+
+    try:
+        cropped_bytes = _four_point_perspective_crop(image_bytes, req.corners)
+    except Exception as e:
+        logger.error("Perspective crop failed: %s", e)
+        err(f"Crop failed: {str(e)}", 500)
+
+    file_id = str(uuid.uuid4())[:8]
+    base_name = Path(req.filename).stem
+    safe_name = f"mob_{file_id}_{base_name}_crop.jpg"
+    save_path = UPLOADS_DIR / safe_name
+
+    with open(save_path, "wb") as f:
+        f.write(cropped_bytes)
+
+    info = {
+        "file_id": file_id,
+        "filename": f"{base_name}_crop.jpg",
+        "saved_as": safe_name,
+        "path": str(save_path),
+        "size": len(cropped_bytes),
+        "document_type": req.document_type,
+        "uploaded_from": req.uploaded_from,
+        "content_type": "image/jpeg",
+        "uploaded_at": datetime.utcnow().isoformat(),
+        "is_cropped": True,
+    }
+    us["files"].append(info)
+
+    await _ws_broadcast(req.session_token, {
+        "type": "documents_uploaded",
+        "files": [
+            {
+                "file_id": u["file_id"],
+                "filename": u["saved_as"],
+                "original_name": u["filename"],
+                "size_bytes": u["size"],
+                "document_type": u["document_type"],
+                "uploaded_from": u["uploaded_from"],
+                "uploaded_at": u["uploaded_at"],
+            }
+            for u in us["files"]
+        ],
+    })
+
+    logger.info(
+        "Scan upload (perspective-cropped): %s -> %s (type=%s, %d bytes)",
+        req.filename, save_path, req.document_type, len(cropped_bytes),
+    )
+
+    return ok({
+        "file_id": file_id,
+        "filename": info["filename"],
+        "saved_as": safe_name,
+        "size": len(cropped_bytes),
+        "document_type": req.document_type,
+    })
+
+
+@app.post("/uploads/rotate")
+def rotate_upload(req: RotateRequest):
+    """
+    Rotate an already-saved upload image in-place (90 / 180 / 270° clockwise).
+    Desktop staff use this to straighten a scan before sending it to OCR.
+    No session token required — the file_id is the access key.
+    """
+    if req.angle not in (90, 180, 270):
+        err("angle must be 90, 180, or 270", 400)
+
+    # Locate the file by scanning UPLOADS_DIR for *_{file_id}_* filename pattern
+    matches = list(UPLOADS_DIR.glob(f"*_{req.file_id}_*"))
+    if not matches:
+        err(f"File {req.file_id} not found", 404)
+    save_path = matches[0]
+
+    if save_path.suffix.lower() not in {".jpg", ".jpeg", ".png"}:
+        err("Only JPEG/PNG images can be rotated", 400)
+
+    try:
+        rotated_bytes = _rotate_image_file(save_path.read_bytes(), req.angle)
+        save_path.write_bytes(rotated_bytes)
+    except Exception as e:
+        logger.error("Rotation failed for file_id=%s: %s", req.file_id, e)
+        err(f"Rotation failed: {str(e)}", 500)
+
+    # Keep size in sync for any upload session that references this file
+    new_size = len(rotated_bytes)
+    for us in _upload_sessions.values():
+        for finfo in us.get("files", []):
+            if finfo.get("file_id") == req.file_id:
+                finfo["size"] = new_size
+
+    logger.info("Rotated %s by %d°", save_path.name, req.angle)
+    return ok({"file_id": req.file_id, "angle": req.angle, "size": new_size})
 
 
 @app.get("/mobile/uploads/{session_token}")
