@@ -1725,6 +1725,7 @@ let uploadSessionExpiry = null;
 let qrTimerInterval = null;
 let ws = null;
 let wsReconnectTimer = null;
+let wsPingTimer = null;
 let mobileFilesByType = {};  // { policy_card: [{file_id, filename, ...}], ... }
 
 // Generate QR when MRD is entered (blur, Enter, Tab, or button click)
@@ -1826,6 +1827,10 @@ function connectWebSocket() {
 
   ws.onopen = () => {
     updateWSStatus(true);
+    // Send a ping every 25 s to keep the connection alive through NAT/hotspot timeouts
+    wsPingTimer = setInterval(() => {
+      if (ws && ws.readyState === WebSocket.OPEN) ws.send('ping');
+    }, 25000);
   };
 
   ws.onmessage = (event) => {
@@ -1848,6 +1853,7 @@ function connectWebSocket() {
 
   ws.onclose = () => {
     updateWSStatus(false);
+    if (wsPingTimer) { clearInterval(wsPingTimer); wsPingTimer = null; }
     // Auto-reconnect if session still valid
     if (uploadSessionExpiry && Date.now() < uploadSessionExpiry) {
       wsReconnectTimer = setTimeout(connectWebSocket, 3000);
@@ -1858,6 +1864,7 @@ function connectWebSocket() {
 }
 
 function disconnectWebSocket() {
+  if (wsPingTimer) { clearInterval(wsPingTimer); wsPingTimer = null; }
   if (wsReconnectTimer) { clearTimeout(wsReconnectTimer); wsReconnectTimer = null; }
   if (ws) { try { ws.close(); } catch(e){} ws = null; }
 }
