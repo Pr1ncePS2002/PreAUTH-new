@@ -124,8 +124,14 @@ Important current drift:
 - Modal supports:
   - camera capture
   - gallery/PDF upload
-- Client-side image compression before upload.
-- Upload endpoint: `/mobile/upload`.
+- Images route through the crop screen (corner selection) before upload; PDFs bypass to modal queue directly.
+- Crop screen features:
+  - 4-handle perspective corner selection with magnifier loupe.
+  - **Rotate button** (90° CW per tap) to fix inverted/sideways captures before sending.
+  - Skip option to send without cropping.
+- Client-side image resize to max 3000px before crop screen; JPEG 0.88 quality.
+- Upload endpoint for cropped images: `POST /mobile/scan-upload` (base64 + corners JSON).
+- Upload endpoint for PDFs: `POST /mobile/upload` (multipart FormData).
 
 ---
 
@@ -274,7 +280,8 @@ Important current drift:
 
 - `POST /mobile/create-session`
 - `GET /mobile/session/{session_token}`
-- `POST /mobile/upload`
+- `POST /mobile/upload` (PDFs + non-crop images, multipart FormData)
+- `POST /mobile/scan-upload` (images from crop screen — base64 + 4 corner coords; applies server-side perspective warp before saving)
 - `GET /mobile/uploads/{session_token}`
 - `WS /ws/upload/{upload_token}`
 - `GET /mobile-upload` (serves mobile page)

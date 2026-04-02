@@ -1,8 +1,14 @@
 # FLAWS AND IMPLEMENTATION PLAN — TPA Pre-Authorization System
 
-**Generated:** 2026-03-12  
+**Generated:** 2026-03-12 | **Last updated:** 2026-04-02  
 **Scope:** Production flaws audit, edge-case analysis, mobile phone-scan implementation plan, quick wins, timeline  
-**Codebase Snapshot:** app.py (~1410 lines), frontend/index.html (~1470 lines), 6 service modules, 3 analyzed schemas
+**Codebase Snapshot:** app.py (~1410 lines), frontend/index.html (~1470 lines), frontend/mobile-upload.html (crop + rotate), 6 service modules, 3 analyzed schemas
+
+**Recently implemented (as of 2026-04-02):**
+- Mobile crop screen with 4-handle perspective corner selection + magnifier loupe (complete)
+- Crop screen image rotation button (90° CW, fixes inverted captures) (complete)
+- `POST /mobile/scan-upload` endpoint for base64 + corners delivery (complete)
+- QR session flow with WebSocket live-sync to desktop (complete)
 
 ---
 
@@ -591,7 +597,8 @@ function validateBeforeGenerate() {
 | **Trigger** | iPhone/Android camera encodes rotation in EXIF tag 0x0112 instead of rotating pixels. Backend receives a visually-rotated image. |
 | **Current behaviour** | Gemini processes the image as-is. If rotated 90°, OCR reads columns as rows, producing garbled key-value pairs. |
 | **Required behaviour** | Image arrives at Gemini with correct pixel orientation regardless of EXIF metadata. |
-| **Implementation note** | Client-side: read EXIF with Canvas API, draw with correct transform before upload. Server-side safety net: `Pillow.ImageOps.exif_transpose()` on every uploaded image. See Section 3.2, steps M-005 and M-009. |
+| **Partially addressed** | The crop screen now has a **Rotate button** (90° CW per tap) so staff can manually fix obviously inverted/sideways photos before sending. This handles visible orientation errors but does NOT auto-correct EXIF-silent rotation (where the photo appears correct on the phone screen but arrives rotated at the server). |
+| **Remaining fix needed** | Client-side: use `createImageBitmap()` (auto-applies EXIF on Chrome 80+/Safari 13.4+) when drawing to the pre-crop canvas. Server-side safety net: `Pillow.ImageOps.exif_transpose()` after save. See Section 3.2, steps M-005 and M-009. |
 
 ---
 
@@ -793,6 +800,35 @@ def is_gipsa_case(insurance_name: str) -> bool:
 | **Current behaviour** | PDF is generated successfully but may fail when uploaded to TPA portals (many cap at 5–10 MB) or emailed (25 MB limit). |
 | **Required behaviour** | After merge, check file size. If > 5 MB, compress images in the PDF. Warn staff if final size > 10 MB. |
 | **Implementation note** | Use `PIL.Image.open().resize()` to cap attachment images at 1200px longest edge before conversion to PDF. After merge, check `Path(output_path).stat().st_size`. |
+
+---
+
+#### EC-021 — Crop Corner Coordinates Not Validated Against Image Bounds
+| | |
+|---|---|
+| **Trigger** | A browser bug or malicious client sends corner coordinates outside the natural image dimensions (e.g., `x=-50` or `x > image_width`). |
+| **Current behaviour** | `POST /mobile/scan-upload` calls `_four_point_perspective_crop(image_bytes, corners)`. If corners are out-of-bounds, OpenCV `getPerspectiveTransform` / `warpPerspective` may produce a black or garbage output image without raising an exception. |
+| **Required behaviour** | Clamp each corner coordinate to `[0, image_width]` / `[0, image_height]` before passing to the perspective transform. Return HTTP 422 if all 4 corners collapse to a degenerate quadrilateral (zero area). |
+| **Implementation note** | In `_four_point_perspective_crop` in `app.py`, after decoding the image to get `h, w`, clamp: `x = max(0, min(x, w)); y = max(0, min(y, h))`. Then check that the area of the quadrilateral is > 0. |
+
+---
+
+#### EC-022 — Perspective Crop Falls Back to Full Image Without Warning
+| | |
+|---|---|
+| **Trigger** | Staff taps "Send to Desktop" without adjusting the corner handles — all 4 corners are at the default inset positions (8% margin). |
+| **Current behaviour** | The full-frame image (minus 8% margin) is sent. If the document is not perfectly filling the frame, OCR may receive significant background area. No indication to staff that the crop was not adjusted. |
+| **Required behaviour** | If the crop quadrilateral covers more than 85% of the image area AND the default corner positions were never moved, show a subtle prompt: "Crop not adjusted — drag corners to document edges for better OCR." (Non-blocking: staff can still send.) |
+| **Implementation note** | Track whether any handle was dragged via a `cropHandlesMoved` boolean flag set in `onCropDown`. If false when `sendCroppedImage()` is called and quad area > 85% of image, show the hint. |
+
+---
+
+#### EC-023 — Crop Screen Rotation State Not Preserved Across Queue Items
+| | |
+|---|---|
+| **Trigger** | Staff selects 3 images. Image 1 is sideways — they tap Rotate once. They send image 1. Images 2 and 3 load with fresh default orientation (correct behaviour). However, if the user accidentally taps "Skip" on image 1 after rotating and then re-encounters it somehow, the rotation is lost. |
+| **Current behaviour** | `rotateCropImage()` updates `currentCropImageB64` in-place and re-renders the crop screen. The rotation is permanent for the current crop item — once rotated, the base64 is replaced. This is correct behaviour. |
+| **Status** | No bug — documenting for clarity. The rotate button permanently mutates `currentCropImageB64`, so rotation is preserved until the item is sent or skipped. |
 
 ---
 
