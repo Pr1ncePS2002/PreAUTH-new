@@ -2,7 +2,9 @@
 
 **Created:** 2026-03-02  
 **Author:** Copilot + Prince  
-**Scope:** Gemini-first extraction, inline suggestions UI, production hardening
+**Last updated:** 2026-04-04  
+**Scope:** Gemini-first extraction, inline suggestions UI, production hardening  
+**Deployment revision:** System will be deployed **on-premise on a hospital IT-managed server**, not on Google Cloud Platform. Phase 4 (Cloud Run, Firestore, Cloud Storage, Google Identity Platform, Secret Manager) is **superseded** by FLAWS_AND_IMPLEMENTATION_PLAN.md Section 9 (On-Premise Deployment). All other phases remain valid.
 
 ---
 
@@ -583,14 +585,24 @@ def cross_check(extracted_data: dict) -> list[Warning]:
 
 ---
 
-## Phase 4 — Production Stack & Deployment (Week 3-4)
+## Phase 4 — Production Stack & Deployment ~~(Week 3-4)~~
 
-This phase transitions the application from a local prototype to a scalable, secure, and production-ready cloud service on the Google Cloud Platform (GCP).
+> **⚠ SUPERSEDED:** This phase was originally designed for Google Cloud Platform. The system will be deployed **on-premise on the hospital's own server**. See **FLAWS_AND_IMPLEMENTATION_PLAN.md Section 9** for the actual on-premise deployment plan (Nginx + Gunicorn + systemd + local TLS). The subsections below are kept for reference only.
 
-### 4.1 Application Containerization
-- **Action:** Create a `Dockerfile` to package the FastAPI application, its dependencies, and the Gunicorn/Uvicorn web server into a standard container image.
-- **Hosting:** Deploy the container image to **Google Cloud Run**.
-- **Why Cloud Run:** It's a serverless platform that automatically scales with usage (even to zero, saving costs) and simplifies deployment, removing the need to manage servers.
+### 4.1 Application Containerization *(replaced by Section 9 D-001/D-003)*
+- ~~Deploy to Google Cloud Run~~ → Run with Gunicorn + Uvicorn, managed by systemd on the hospital server.
+- A `Dockerfile` may still be useful if IT prefers Docker-based deployment on-premise. In that case, use `docker compose` with a local volume mount for `sessions/`, `uploads/`, `output/`.
+
+```dockerfile
+FROM python:3.11-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+EXPOSE 8000
+CMD ["gunicorn", "app:app", "--worker-class", "uvicorn.workers.UvicornWorker", \
+     "--workers", "4", "--bind", "0.0.0.0:8000", "--timeout", "120"]
+```
 
 ---
 
@@ -610,17 +622,14 @@ This phase focuses on securing and optimizing the mobile upload workflow.
 - **Action:** Enhance the in-memory `_upload_sessions` store with more robust lifecycle management.
 - **Details:** Implement stricter expiry and cleanup for mobile sessions to prevent memory leaks.
 
-### 4.2 Data & File Storage Migration
-- **Action:** Replace all filesystem operations (`sessions/`, `uploads/`, `output/`) with cloud-native services.
-- **Database (Structured Data): Google Firestore**
-    - **Migration:** Convert the `sessions/` directory logic to use Firestore. Each case will be a "document" in a `sessions` collection. This provides a scalable, queryable, and real-time database for all case metadata.
-- **File Storage (PDFs & Uploads): Google Cloud Storage**
-    - **Migration:** Modify the upload and generation logic to save all binary files (uploaded docs, generated PDFs) to a Cloud Storage bucket. The Firestore documents will only store a secure link to these files, which is far more efficient.
+### 4.2 Data & File Storage *(on-premise replacement)*
+- ~~Firestore~~ → Session files in `sessions/` encrypted with Fernet (F-003/M-024). No database needed at current scale.
+- ~~Cloud Storage~~ → Local filesystem (`uploads/`, `output/`) on hospital server. Backed up to hospital NAS via rsync (Section 9 D-007).
 
-### 4.3 Security & Secrets Management
-- **Authentication:** Integrate **Google Identity Platform** to enable "Sign in with Google" for your staff. This is highly secure and easy to manage. Protect all API endpoints to require a valid user login.
-- **Secrets:** Store the Google Cloud service account key and any other secrets in **Google Secret Manager**. Modify the application to fetch these credentials securely at startup instead of from a file.
-- **Audit Logging:** Create an `audit_log` collection in Firestore to track key events (e.g., `case_created`, `field_edited`, `form_generated`) and associate them with the logged-in user.
+### 4.3 Security & Secrets Management *(on-premise replacement)*
+- ~~Google Identity Platform~~ → JWT-based staff login with bcrypt-hashed credentials in `.env` file (F-001/M-022).
+- ~~Secret Manager~~ → `.env` file with mode 600, owned by the `preauth` service user (Section 9 D-006).
+- ~~Firestore audit log~~ → `logs/corrections.jsonl` append-only file + structured JSON application logs (Section 9 D-009, Section 11 AF-002).
 
 ### 4.4 Deployment Architecture (GCP Serverless)
 ```
@@ -756,9 +765,13 @@ Replace `HISService` stub with actual hospital HIS API:
 | `config/hospital_defaults.json` | Hospital info, common diagnoses, room rates |
 | `config/tpa_rules.json` | Per-TPA validation rules and auto-fill logic |
 | `config/medical_abbreviations.json` | Externalized abbreviation glossary (updateable without code change) |
-| `Dockerfile` | **Container definition for Cloud Run deployment** |
+| `Dockerfile` | Optional — for Docker-based on-premise deployment |
 | `manifest.json` | **PWA "Add to Home Screen" configuration** |
 | `service-worker.js` | **PWA offline caching script** |
+| `config/hospital_defaults.json` | Hospital info (replaces hardcoded hospital data in app.py) |
+| `config/tpa_templates.json` | TPA → schema/template map (replaces hardcoded TPA_TEMPLATE_MAP) |
+| `config/medical_abbreviations.json` | Externalized abbreviation glossary |
+| `config/tpa_rules.json` | Per-TPA mandatory fields and validation rules |
 
 ---
 

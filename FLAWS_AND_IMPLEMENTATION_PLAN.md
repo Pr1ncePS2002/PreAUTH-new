@@ -1,8 +1,27 @@
 # FLAWS AND IMPLEMENTATION PLAN — TPA Pre-Authorization System
 
-**Generated:** 2026-03-12 | **Last updated:** 2026-04-02  
-**Scope:** Production flaws audit, edge-case analysis, mobile phone-scan implementation plan, quick wins, timeline  
-**Codebase Snapshot:** app.py (~1410 lines), frontend/index.html (~1470 lines), frontend/mobile-upload.html (crop + rotate), 6 service modules, 3 analyzed schemas
+**Generated:** 2026-03-12 | **Last updated:** 2026-04-04  
+**Scope:** Production flaws audit, edge-case analysis, mobile phone-scan implementation plan, schema-first prompts, AI suggestions, validation layer, on-premise deployment, architecture refactoring, advanced features  
+**Codebase Snapshot:** app.py (~1410 lines), frontend/index.html (~1470 lines), frontend/mobile-upload.html (crop + rotate), 6 service modules, 3 analyzed schemas  
+**Deployment target:** On-premise server (hospital IT team) — no cloud services (GCP/Cloud Run/Firestore/Cloud Storage are NOT used)
+
+## SECTION INDEX
+
+| Section | Topic | Priority |
+|---------|-------|----------|
+| Section 1 | Critical Production Flaws (Security, Data, Reliability, PDF, UX) | CRITICAL — fix before go-live |
+| Section 2 | Edge Cases to Handle | HIGH |
+| Section 3 | Mobile Phone Scan Implementation Plan | HIGH |
+| Section 4 | Quick Win Fixes (< 2 hours each) | HIGH |
+| Section 5 | Revised Implementation Timeline | Reference |
+| Section 6 | Schema-First Prompt Engine | HIGH — +40% extraction accuracy |
+| Section 7 | AI Suggestion Engine | HIGH — core UX differentiator |
+| Section 8 | Validation & Cross-Check Layer | HIGH — catch errors before submission |
+| Section 9 | On-Premise Production Deployment | CRITICAL — replaces all cloud deployment plans |
+| Section 10 | Architecture Refactoring Debt | MEDIUM — maintainability |
+| Section 11 | Advanced Features (post-stabilisation) | LOW |
+
+---
 
 **Recently implemented (as of 2026-04-02):**
 - Mobile crop screen with 4-handle perspective corner selection + magnifier loupe (complete)
@@ -1692,10 +1711,995 @@ except ValueError as e:
 
 ## SECTION 5 — REVISED IMPLEMENTATION TIMELINE
 
+> **Deployment target: On-premise server provided by hospital IT team.**  
+> All cloud references in earlier planning docs (Cloud Run, Firestore, Cloud Storage, Google Identity Platform, Secret Manager) are **not applicable**. Replace with on-premise equivalents listed in Section 9.
+
 | Week | Phase | Steps Covered | Deliverable | Risk if Skipped |
 |------|-------|---------------|-------------|-----------------|
 | **1** | Security + Quick Wins | F-001, F-002, F-003, F-004, F-005, F-006, QW-001 through QW-008 | Credentials in env vars, JWT validation, encrypted sessions, MRD sanitisation, retry logic, rate limiting, date/cost normalisation, GIPSA fix, field validation endpoint, JSON parse error surfacing | PHI breach (DPDP Act violation), credential leak, Gemini quota exhaustion, garbled data on TPA forms — any of these blocks production deployment |
 | **2** | Phone Camera Input + Image Pre-Processing | M-001 through M-010 (Sections 3.1 + 3.2) | Camera-first upload on mobile, EXIF fix, HEIC conversion, client-side compression, server-side size guard, Pillow orientation safety net | Mobile users cannot capture documents → feature is unusable. Without compression, uploads stall on hospital WiFi |
 | **3** | Confidence Scoring + Source Tracking + Master Form Upgrade | M-011 through M-016 (Sections 3.3 + 3.4) | Per-document confidence badges, retake prompts, confidence-weighted merge replacing first-win, source provenance tracking with tooltips, retake-and-replace endpoint | Staff cannot tell which scans are poor (wasted time editing empty fields). No audit trail for PHI values. Inferior data quality from first-win merge |
 | **4** | PWA + Responsive UI | M-017 through M-021 (Section 3.5) | manifest.json, service-worker.js, mobile CSS, "Add to Home Screen" nudge, full-screen standalone mode | App feels like a website, not a tool. Slow loads on hospital WiFi. Poor mobile UX discourages adoption by ward staff |
-| **5** | Production Cloud Deployment + Hardening | M-022 through M-025 (Section 3.6), HTTPS (F-005), PDF fixes (F-019, F-020, F-021) | bcrypt auth, rate limiting in production, Fernet session encryption, MRD sanitisation at all entry points, TLS via reverse proxy, text wrapping, Unicode font support, correct page heights | Security audit fails. Hindi patient names blank on PDFs. Text overflows on TPA forms. Production is not deployable without TLS |
+| **5** | On-Premise Production Hardening | M-022 through M-025 (Section 3.6), HTTPS (F-005), PDF fixes (F-019, F-020, F-021), Section 9 | bcrypt auth, rate limiting, Fernet session encryption, MRD sanitisation, Nginx TLS, text wrapping, Unicode font support, correct page heights, systemd service, log rotation | Security audit fails. Hindi patient names blank on PDFs. Text overflows on TPA forms. Production is not deployable without TLS |
+| **6** | Schema-First Prompts + Confidence Scoring | Section 6 (P-001 through P-004) | Per-doc-type Gemini prompts, dynamic schema injection, real Gemini confidence, ExtractedField update | Extraction accuracy stays at ~45%. Fuzzy mapping drift continues. Staff manually correct most fields |
+| **7** | AI Suggestion Engine | Section 7 (S-001 through S-004) | `/ai/suggest-batch` endpoint, ghost-text UI, confidence colour indicators, hospital defaults config | Staff spend 8–10 min per form. Empty fields after OCR failure require full manual entry |
+| **8** | Validation + Cross-Check Layer | Section 8 (V-001 through V-003) | `services/validators.py`, cross-doc consistency checks, `/workflow/{id}/warnings`, warning banner in UI | Invalid dates/policies submitted to TPA. Name mismatches not caught before PDF generation |
+| **9** | Architecture Refactoring | Section 10 (AR-001 through AR-007) | Extract inline business logic from `app.py`, deduplicate mapping code, structured logging, externalize TPA template map | Codebase becomes unmaintainable. New TPA forms require changes in 4 places. Debugging without trace IDs is blind |
+| **10+** | Advanced Features | Section 11 (AF-001 through AF-004) | Per-TPA validation rules, learning from corrections, multi-page context, HIS integration | Accuracy plateau at ~70%. No continuous improvement loop |
+
+---
+
+## SECTION 6 — SCHEMA-FIRST PROMPT ENGINE
+
+> **Gap identified:** This entire area is missing from earlier sections. It is the highest-ROI improvement — estimated +40% extraction accuracy. Corresponds to PRODUCTION_PLAN Phase 1.
+
+### P-001 — Rewrite Gemini Prompts Per Document Type
+| | |
+|---|---|
+| **Priority** | HIGH |
+| **File** | `services/extractors/gemini_extractor.py` — `_build_gemini_prompt()` |
+| **What is broken** | The current prompt is generic. Gemini extracts arbitrary key names ("Pt Name", "H/o Present Illness") that the MappingEngine must fuzzy-match. This indirect pipeline loses accuracy at every hop. |
+| **Fix** | Replace single generic prompt with 4 specialised prompts by document type, each with a fixed output schema using real `field_id` keys. |
+
+**Document types to handle:**
+
+| Document Type | Key Prompt Additions |
+|---|---|
+| `clinical_notes` | Full Indian medical abbreviation glossary (C/o, H/o, K/c/o, T2DM, HTN, etc.). Output keys match clinical field_ids. |
+| `estimate` | Cost breakdown extraction, all amounts as plain integers (no ₹/commas). `_line_items` array. |
+| `aadhaar` / `id_card` | Aadhaar/PAN/Voter ID format specifics. UID must be 12 digits. Ignore Hindi unless English missing. |
+| `policy_card` | TPA/insurer name disambiguation. Sum insured as plain number. Both TPA and insurance company captured. |
+
+**New function signature:**
+```python
+def _build_gemini_prompt(document_type: str, target_field_ids: list[str] = None) -> str:
+    """
+    Build a document-type-specific extraction prompt.
+    If target_field_ids provided, instructs Gemini to use those exact keys.
+    """
+```
+
+**Rules common to all prompts:**
+1. Expand all abbreviations.
+2. Omit keys with no data (never return null/None).
+3. Dates → DD/MM/YYYY format.
+4. Return ONLY valid JSON — no markdown fences, no prose.
+
+---
+
+### P-002 — Dynamic Schema Injection Into Prompt
+| | |
+|---|---|
+| **Priority** | HIGH |
+| **File** | `app.py` — `workflow_start()`, `services/extractors/gemini_extractor.py` |
+| **What is broken** | Prompt output keys are hardcoded. When a new TPA schema has different `field_id`s, the prompt must be manually updated. |
+| **Fix** | Pass the selected schema's `field_id` list into the extractor. Append to prompt: |
+
+```python
+# In workflow_start, after TPA detection, before OCR:
+schema_field_ids = [f["field_id"] for f in selected_schema.get("fields", [])]
+
+# Pass into extractor:
+result = ocr_service.extract(path, doc_type, target_field_ids=schema_field_ids)
+```
+
+```
+# Appended to prompt when target_field_ids provided:
+IMPORTANT: Map your output keys to these EXACT field IDs where applicable:
+["patient_name", "date_of_birth", "policy_number", ...]
+Use these as your output keys instead of free-form names.
+```
+
+**Impact:** New TPA forms auto-adapt without any prompt code change — just re-analyse the PDF and the schema JSON drives the extraction.
+
+---
+
+### P-003 — Gemini Per-Field Confidence Scoring
+| | |
+|---|---|
+| **Priority** | HIGH |
+| **File** | `services/extractors/gemini_extractor.py` |
+| **What is broken** | All fields get a hardcoded `confidence=0.85`. The UI cannot distinguish a clearly printed Aadhaar number (should be 0.97) from illegible handwritten diagnosis (should be 0.40). |
+| **Fix** | Ask Gemini to return a `_confidence` object alongside the data: |
+
+```
+Additionally, return a "_confidence" object where keys are field_ids and
+values are your confidence (0.0 to 1.0) that the extraction is correct.
+Mark < 0.5 for handwritten/illegible text, 0.5-0.8 for partially visible,
+0.8-1.0 for clearly printed text.
+```
+
+**Response shape Gemini should return:**
+```json
+{
+  "patient_name": "Rajesh Kumar",
+  "provisional_diagnosis": "T2DM with HTN",
+  "_confidence": {
+    "patient_name": 0.95,
+    "provisional_diagnosis": 0.62
+  }
+}
+```
+
+---
+
+### P-004 — Update ExtractedField to Parse Gemini Confidence
+| | |
+|---|---|
+| **Priority** | HIGH |
+| **File** | `services/extractors/gemini_extractor.py` — field construction loop |
+| **What is broken** | `confidence=0.85` is hardcoded for every field. |
+| **Fix** | |
+
+```python
+# After parsing Gemini JSON response:
+confidence_map = raw_dict.pop("_confidence", {})
+for key, value in raw_dict.items():
+    if key.startswith("_"):  # skip meta fields like _raw_vitals, _line_items
+        continue
+    conf = float(confidence_map.get(key, 0.75))
+    fields.append(ExtractedField(
+        key=key,
+        value=str(value) if not isinstance(value, bool) else value,
+        confidence=conf,
+        confidence_level=ExtractionConfidence.from_score(conf),
+        source_document=Path(file_path).name,
+        document_type=document_type,
+        extraction_method="gemini",
+    ))
+```
+
+**Note:** Add `from_score()` classmethod to `ExtractionConfidence`:
+```python
+@classmethod
+def from_score(cls, score: float) -> "ExtractionConfidence":
+    if score >= 0.90: return cls.HIGH
+    if score >= 0.70: return cls.MEDIUM
+    if score >= 0.50: return cls.LOW
+    return cls.UNCERTAIN
+```
+
+---
+
+## SECTION 7 — AI SUGGESTION ENGINE
+
+> **Gap identified:** Entirely absent from earlier sections. Corresponds to PRODUCTION_PLAN Phase 2. Fills fields that OCR couldn't extract by using clinical context inference.
+
+### S-001 — New Endpoint: `POST /ai/suggest-batch`
+| | |
+|---|---|
+| **Priority** | HIGH |
+| **File** | `app.py` — new endpoint |
+| **Purpose** | Called once after OCR mapping completes. Sends all filled fields to Gemini and asks it to infer values for empty fields. Returns suggestions as ghost text, not auto-accepted values. |
+
+```python
+@app.post("/ai/suggest-batch")
+async def ai_suggest_batch(
+    session_id: str = Form(...),
+    token: str = Depends(require_auth),
+):
+    session = _load_session(session_id)
+    if not session:
+        err(f"Session {session_id} not found", 404)
+
+    filled = {k: v for k, v in session.get("mapped_data", {}).items() if v}
+    empty_fields = [
+        f["field_id"] for f in session.get("schema_fields", [])
+        if not session.get("mapped_data", {}).get(f["field_id"])
+    ]
+
+    if not empty_fields:
+        return ok({"suggestions": {}})
+
+    prompt = f"""
+Given this patient context extracted from documents:
+{json.dumps(filled, indent=2)}
+
+Suggest the most likely values for these empty form fields: {empty_fields}
+
+Use clinical knowledge for Indian hospital pre-authorization contexts.
+Examples of inference:
+- If surgical_name_of_surgery is filled → treatment_type = "Surgical"
+- If diagnosis is "Dengue Fever" → expected_days_in_hospital = "5", icd_code = "A90"
+- If room_type is missing → default "Semi-Private" for corporate policies
+
+Return JSON: {{"field_id": {{"value": "suggested_value", "confidence": 0.0-1.0, "reason": "brief reason"}}}}
+Return ONLY valid JSON. Omit fields you cannot confidently suggest.
+"""
+    # Call Gemini with prompt only (no image)
+    suggestions = _call_gemini_text(prompt)
+    return ok({"suggestions": suggestions})
+```
+
+---
+
+### S-002 — New Endpoint: `POST /ai/suggest` (Single Field)
+| | |
+|---|---|
+| **Priority** | MEDIUM |
+| **File** | `app.py` — new endpoint |
+| **Purpose** | Called when staff clicks an empty field. Returns a focused suggestion using surrounding context. |
+
+```python
+@app.post("/ai/suggest")
+async def ai_suggest_field(
+    session_id: str = Form(...),
+    field_id: str = Form(...),
+    context_fields: str = Form("{}"),
+    token: str = Depends(require_auth),
+):
+    """AI suggestion for a single field using filled context."""
+    context = json.loads(context_fields)
+    prompt = f"""
+Context: {json.dumps(context)}
+Suggest value for field: "{field_id}"
+Return JSON: {{"value": "...", "confidence": 0.0-1.0}}
+"""
+    suggestion = _call_gemini_text(prompt)
+    return ok(suggestion)
+```
+
+---
+
+### S-003 — Frontend: Ghost-Text Suggestion UI
+| | |
+|---|---|
+| **Priority** | HIGH |
+| **File** | `frontend/index.html` |
+| **What to add** | After batch suggest response, show suggestions as dismissible ghost text alongside empty input fields. Staff can click to accept. |
+
+**CSS — confidence indicators + ghost text:**
+```css
+.field-group input.confidence-high   { border-left: 3px solid #2e7d32; } /* green */
+.field-group input.confidence-medium { border-left: 3px solid #f57f17; } /* amber */
+.field-group input.confidence-low    { border-left: 3px solid #c62828; } /* red */
+.field-group input.ai-suggested      { border-left: 3px solid #7c4dff; } /* purple */
+
+.ai-suggestion {
+    font-size: 12px; color: #7c4dff; cursor: pointer;
+    margin-left: 6px; font-style: italic;
+}
+.ai-suggestion:hover { text-decoration: underline; }
+```
+
+**JS — accept/reject flow:**
+```javascript
+async function suggestAllEmpty() {
+    showLoading('AI is analysing context...');
+    const fd = new FormData();
+    fd.append('session_id', currentSessionId);
+    const res = await fetch(API + '/ai/suggest-batch', { method: 'POST', body: fd, headers: authHeader() });
+    const json = await res.json();
+    hideLoading();
+    for (const [fieldId, suggestion] of Object.entries(json.data.suggestions)) {
+        const input = document.getElementById('f_' + fieldId);
+        if (!input || input.value.trim()) continue;
+        const span = document.createElement('span');
+        span.className = 'ai-suggestion';
+        span.textContent = suggestion.value + ' ✨';
+        span.title = `AI (${Math.round(suggestion.confidence * 100)}%): ${suggestion.reason}`;
+        span.onclick = () => acceptSuggestion(fieldId, suggestion.value, span);
+        input.parentElement.appendChild(span);
+    }
+}
+
+function acceptSuggestion(fieldId, value, span) {
+    const input = document.getElementById('f_' + fieldId);
+    input.value = value;
+    input.classList.add('ai-suggested');
+    updateFieldValue(fieldId, value);
+    span.remove();
+}
+```
+
+**Button in Generate tab (or top of Phase 2):**
+```html
+<button class="btn btn-accent" onclick="suggestAllEmpty()">
+    ✨ AI Auto-fill Empty Fields
+</button>
+```
+
+---
+
+### S-004 — Hospital Defaults Config
+| | |
+|---|---|
+| **Priority** | MEDIUM |
+| **File** | `config/hospital_defaults.json` (new file) |
+| **Purpose** | Provides Gemini with realistic Indian hospital context for suggestion inference. Also used to inject hospital fields without hardcoding in `app.py`. |
+
+```json
+{
+  "hospital_name": "Amrita Hospital",
+  "hospital_address": "Sector 88, Faridabad, Haryana",
+  "hospital_registration_number": "HR/FAR/2023/001234",
+  "hospital_phone": "0129-XXXXXXX",
+  "hospital_email": "preauth@amritahospital.org",
+  "common_diagnoses": {
+    "Appendicitis":   { "icd": "K35.80", "typical_los": 3, "treatment": "Surgical" },
+    "Cholecystitis":  { "icd": "K81.0",  "typical_los": 3, "treatment": "Surgical" },
+    "Dengue Fever":   { "icd": "A90",    "typical_los": 5, "treatment": "Medical"  },
+    "Pneumonia":      { "icd": "J18.9",  "typical_los": 5, "treatment": "Medical"  },
+    "AMI":            { "icd": "I21.9",  "typical_los": 7, "treatment": "Surgical" },
+    "TKR":            { "icd": "M17.11", "typical_los": 7, "treatment": "Surgical" },
+    "LSCS":           { "icd": "O82",    "typical_los": 5, "treatment": "Surgical" },
+    "Cataract":       { "icd": "H25.9",  "typical_los": 1, "treatment": "Daycare"  }
+  },
+  "room_rates": {
+    "General": 2500, "Semi-Private": 4500,
+    "Private": 8000, "Deluxe": 12000, "ICU": 15000
+  }
+}
+```
+
+**Migration note:** Replace the hardcoded hospital data block in `app.py` (currently around lines 120–135) with a loader that reads this file. This also fixes architecture issue AR-005 (hardcoded for a single hospital).
+
+---
+
+## SECTION 8 — VALIDATION & CROSS-CHECK LAYER
+
+> **Gap identified:** QW-007 only checks 4 required fields. This section implements a full validator and cross-document consistency checks. Corresponds to PRODUCTION_PLAN Phase 3.
+
+### V-001 — Field-Level Validation Rules
+| | |
+|---|---|
+| **Priority** | HIGH |
+| **File** | `services/validators.py` (new file) |
+
+```python
+import re
+from datetime import datetime
+from dateutil import parser as dateparser
+
+VALIDATION_RULES = {
+    "patient_name": {
+        "min_length": 2, "max_length": 100,
+        "pattern": r"^[A-Za-z\s\.]+$",
+        "error": "Name should contain only letters",
+    },
+    "date_of_admission": {
+        "format": "DD/MM/YYYY",
+        "must_be_past_or_today": True,
+        "must_be_after_field": "date_of_birth",
+    },
+    "policy_end_date": {
+        "format": "DD/MM/YYYY",
+        "must_be_future_or_today": True,
+        "error": "Policy appears expired",
+    },
+    "sum_total_expected_cost_of_hospitalization": {
+        "type": "number", "min": 1000, "max": 50_000_000,
+    },
+    "expected_days_in_hospital": {
+        "type": "integer", "min": 1, "max": 365,
+    },
+    "policy_number": { "min_length": 5 },
+    "id_number": {
+        "patterns": {
+            "aadhaar": r"^\d{12}$",
+            "pan":     r"^[A-Z]{5}\d{4}[A-Z]$",
+        }
+    },
+}
+
+def validate_field(field_id: str, value: str, all_data: dict) -> list[str]:
+    """Returns list of error strings for a field. Empty list = valid."""
+    errors = []
+    rules = VALIDATION_RULES.get(field_id)
+    if not rules or not value:
+        return errors
+    # ... apply each rule type ...
+    return errors
+```
+
+---
+
+### V-002 — Cross-Document Consistency Checks
+| | |
+|---|---|
+| **Priority** | HIGH |
+| **File** | `services/validators.py` — `cross_check()` function |
+
+```python
+COST_FIELDS = [
+    "per_day_room_rent_nursing_service_charges_patient_diet",
+    "icu_charges", "ot_charges", "professional_fees_surgeon",
+    "professional_fees_anesthetist", "medicines_consumables_cost",
+    "cost_of_implant", "investigation_diagnostic_cost",
+]
+
+def cross_check(data: dict) -> list[dict]:
+    """Returns list of {type, message, fields} warning dicts."""
+    warnings = []
+
+    # Patient name consistency
+    names = [data.get(f) for f in ["patient_name", "insured_name"] if data.get(f)]
+    if len(set(n.lower().strip() for n in names)) > 1:
+        warnings.append({"type": "mismatch", "message": "Patient name differs across documents", "fields": ["patient_name", "insured_name"]})
+
+    # DOB consistency
+    dobs = [data.get(f) for f in ["date_of_birth", "patient_dob"] if data.get(f)]
+    if len(set(dobs)) > 1:
+        warnings.append({"type": "mismatch", "message": "Date of birth differs across documents", "fields": ["date_of_birth"]})
+
+    # Policy expiry vs admission date
+    policy_end = _parse_date(data.get("policy_end_date"))
+    admission = _parse_date(data.get("date_of_admission"))
+    if policy_end and admission and admission > policy_end:
+        warnings.append({"type": "critical", "message": "Admission date is AFTER policy expiry — TPA will reject", "fields": ["policy_end_date", "date_of_admission"]})
+
+    # Cost total sanity
+    total = _parse_number(data.get("sum_total_expected_cost_of_hospitalization", "0"))
+    components = sum(_parse_number(data.get(f, "0")) for f in COST_FIELDS)
+    if total > 0 and components > 0 and abs(total - components) > total * 0.15:
+        warnings.append({"type": "warning", "message": f"Cost total ({total:,}) doesn't match sum of components ({components:,})", "fields": ["sum_total_expected_cost_of_hospitalization"]})
+
+    # Masked Aadhaar
+    aadhaar = data.get("id_number", "")
+    if "X" in aadhaar.upper() or (aadhaar and len(re.sub(r'\D', '', aadhaar)) < 12):
+        warnings.append({"type": "warning", "message": "Aadhaar appears masked — TPA may require full number", "fields": ["id_number"]})
+
+    return warnings
+```
+
+---
+
+### V-003 — Expose Warnings in API + UI
+| | |
+|---|---|
+| **Priority** | HIGH |
+| **File** | `app.py` — new endpoint; `frontend/index.html` — warning banner |
+
+**New endpoint:**
+```python
+@app.get("/workflow/{session_id}/warnings")
+def workflow_warnings(session_id: str, token: str = Depends(require_auth)):
+    session = _load_session(session_id)
+    if not session:
+        err(f"Session {session_id} not found", 404)
+    from services.validators import cross_check, validate_field
+    data = session.get("mapped_data", {})
+    warnings = cross_check(data)
+    # Also run per-field validation
+    for field_id, value in data.items():
+        field_errors = validate_field(field_id, value, data)
+        for e in field_errors:
+            warnings.append({"type": "field_error", "message": e, "fields": [field_id]})
+    return ok({"warnings": warnings, "critical_count": sum(1 for w in warnings if w["type"] == "critical")})
+```
+
+**Frontend — warning banner (top of Phase 2 form):**
+```javascript
+async function loadWarnings() {
+    const res = await fetch(`${API}/workflow/${currentSessionId}/warnings`, { headers: authHeader() });
+    const json = await res.json();
+    const banner = document.getElementById('warningBanner');
+    if (!json.data.warnings.length) { banner.classList.add('hidden'); return; }
+    const criticals = json.data.warnings.filter(w => w.type === 'critical');
+    banner.innerHTML = criticals.length
+        ? `<b>⚠ ${criticals.length} critical issue(s) found — TPA will likely reject this claim</b>`
+        : `<b>⚠ ${json.data.warnings.length} warning(s) — please review before generating</b>`;
+    banner.className = criticals.length ? 'alert alert-danger' : 'alert alert-warning';
+    // List each warning with a dismiss button
+    json.data.warnings.forEach(w => {
+        const item = document.createElement('div');
+        item.textContent = w.message;
+        item.style.marginTop = '4px';
+        banner.appendChild(item);
+    });
+}
+// Call after extraction + after each save
+```
+
+---
+
+## SECTION 9 — ON-PREMISE PRODUCTION DEPLOYMENT
+
+> **Deployment context:** The system runs on a **dedicated server provided by the hospital IT team**, on the hospital's internal network. No cloud services. Internet access may be limited or proxied. All data stays on-site (DPDP Act compliance through physical data custody).
+
+### D-001 — Application Server Setup (Uvicorn + Gunicorn)
+| | |
+|---|---|
+| **Priority** | CRITICAL |
+| **What** | Run the FastAPI app with Gunicorn managing Uvicorn workers for production reliability. |
+
+```bash
+# Install
+pip install gunicorn uvicorn[standard]
+
+# Start command (add to systemd service)
+gunicorn app:app \
+  --worker-class uvicorn.workers.UvicornWorker \
+  --workers 4 \
+  --bind 127.0.0.1:8000 \
+  --timeout 120 \
+  --keep-alive 5 \
+  --log-level info \
+  --access-logfile /var/log/preauth/access.log \
+  --error-logfile /var/log/preauth/error.log
+```
+
+**Workers = 4** is safe for a 4-core server. Adjust to `(2 × cores) + 1`.
+
+---
+
+### D-002 — Nginx Reverse Proxy + TLS
+| | |
+|---|---|
+| **Priority** | CRITICAL |
+| **File** | `/etc/nginx/sites-available/preauth` (new file, configured by IT) |
+| **Why** | Uvicorn should not be exposed directly. Nginx handles TLS termination, request buffering, static file serving, and protects against slow-client attacks. HTTPS is required to protect PHI (DPDP Act, F-005). |
+
+```nginx
+server {
+    listen 443 ssl;
+    server_name preauth.hospital.local;  # IT team sets up local DNS
+
+    ssl_certificate     /etc/ssl/preauth/cert.pem;   # IT team generates internal CA cert
+    ssl_certificate_key /etc/ssl/preauth/key.pem;
+    ssl_protocols       TLSv1.2 TLSv1.3;
+    ssl_ciphers         HIGH:!aNULL:!MD5;
+
+    client_max_body_size 20M;  # Allow up to 20 MB uploads
+    proxy_read_timeout 180s;   # Gemini OCR can take up to 2 min for 5 docs
+
+    location / {
+        proxy_pass         http://127.0.0.1:8000;
+        proxy_set_header   Host $host;
+        proxy_set_header   X-Real-IP $remote_addr;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+    }
+
+    location /ws/ {
+        proxy_pass         http://127.0.0.1:8000;
+        proxy_http_version 1.1;
+        proxy_set_header   Upgrade $http_upgrade;
+        proxy_set_header   Connection "upgrade";
+        proxy_read_timeout 3600s;  # WebSocket: keep alive for 1 hour
+    }
+}
+
+server {
+    listen 80;
+    server_name preauth.hospital.local;
+    return 301 https://$host$request_uri;
+}
+```
+
+**Action for IT team:**
+1. Generate a self-signed cert or issue from internal CA: `openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout key.pem -out cert.pem`
+2. Install Nginx, enable the site, install the cert
+3. Add `preauth.hospital.local` to hospital DNS or `/etc/hosts` on staff computers
+
+---
+
+### D-003 — Systemd Service for Auto-Start
+| | |
+|---|---|
+| **Priority** | CRITICAL |
+| **File** | `/etc/systemd/system/preauth.service` (new file) |
+| **Why** | App must restart automatically after server reboot or crash — cannot require manual start. |
+
+```ini
+[Unit]
+Description=TPA Pre-Authorization System
+After=network.target
+Wants=network.target
+
+[Service]
+Type=exec
+User=preauth
+Group=preauth
+WorkingDirectory=/opt/preauth
+EnvironmentFile=/opt/preauth/.env
+ExecStart=/opt/preauth/venv/bin/gunicorn app:app \
+    --worker-class uvicorn.workers.UvicornWorker \
+    --workers 4 \
+    --bind 127.0.0.1:8000 \
+    --timeout 120 \
+    --access-logfile /var/log/preauth/access.log \
+    --error-logfile /var/log/preauth/error.log
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=preauth
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+# Enable and start
+sudo systemctl daemon-reload
+sudo systemctl enable preauth
+sudo systemctl start preauth
+sudo systemctl status preauth
+```
+
+---
+
+### D-004 — Directory Structure + Permissions
+| | |
+|---|---|
+| **Priority** | CRITICAL |
+| **Why** | PHI files (sessions, uploads, outputs) must be owned by a dedicated service user and not readable by other OS users. |
+
+```bash
+# Create dedicated service user (no login shell)
+sudo useradd -r -s /sbin/nologin -d /opt/preauth preauth
+
+# Application directory layout
+/opt/preauth/
+├── app.py
+├── services/
+├── frontend/
+├── config/
+├── templates/
+├── analyzed/
+├── .env                    # Secrets — mode 600, owned by preauth
+├── venv/                   # Python virtual environment
+├── uploads/                # Uploaded documents — mode 700
+├── sessions/               # Encrypted session files — mode 700
+├── output/                 # Generated PDFs — mode 700
+└── fonts/                  # NotoSans fonts for Unicode support
+
+/var/log/preauth/            # Log directory — mode 750
+
+# Set ownership
+sudo chown -R preauth:preauth /opt/preauth
+sudo chmod 600 /opt/preauth/.env
+sudo chmod 700 /opt/preauth/uploads /opt/preauth/sessions /opt/preauth/output
+sudo mkdir -p /var/log/preauth && sudo chown preauth:preauth /var/log/preauth
+```
+
+---
+
+### D-005 — Log Rotation
+| | |
+|---|---|
+| **Priority** | HIGH |
+| **File** | `/etc/logrotate.d/preauth` (new file, configured by IT) |
+| **Why** | Unrotated logs exhaust disk on a server with no cloud storage. |
+
+```
+/var/log/preauth/*.log {
+    daily
+    rotate 30
+    compress
+    delaycompress
+    missingok
+    notifempty
+    postrotate
+        systemctl reload preauth
+    endscript
+}
+```
+
+---
+
+### D-006 — .env File Template for On-Premise
+| | |
+|---|---|
+| **Priority** | CRITICAL |
+| **File** | `.env.example` in repo root — IT fills in actual values |
+
+```bash
+# === SECURITY (MANDATORY — must change before first run) ===
+JWT_SECRET=<generate: python -c "import secrets; print(secrets.token_hex(32))">
+SESSION_ENCRYPTION_KEY=<generate: python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())">
+
+# === STAFF CREDENTIALS (bcrypt hashes — never plaintext) ===
+# Generate: python -c "import bcrypt; print(bcrypt.hashpw(b'yourpassword', bcrypt.gensalt()).decode())"
+STAFF_ADMIN_HASH=$2b$12$...
+STAFF_RECEPTION_HASH=$2b$12$...
+STAFF_DOCTOR_HASH=$2b$12$...
+
+# === GEMINI API ===
+GEMINI_API_KEY=your-api-key-here
+GEMINI_MODEL=gemini-2.5-flash
+EXTRACTION_MODE=gemini
+
+# === RUNTIME ===
+JWT_EXPIRY_HOURS=8
+SESSION_EXPIRY_MINUTES=480
+DATA_RETENTION_HOURS=24
+MAX_UPLOAD_SIZE_MB=8
+
+# === NETWORK (on-premise) ===
+APP_BASE_URL=https://preauth.hospital.local
+ALLOWED_ORIGINS=https://preauth.hospital.local
+ENFORCE_HTTPS=true
+
+# === PATHS (defaults work if app runs from /opt/preauth) ===
+# SESSIONS_DIR=sessions
+# UPLOADS_DIR=uploads
+# OUTPUT_DIR=output
+```
+
+---
+
+### D-007 — On-Premise Backup Strategy
+| | |
+|---|---|
+| **Priority** | HIGH |
+| **What** | `sessions/`, `uploads/`, `output/` directories contain PHI. Must be backed up to hospital NAS/backup server. |
+| **Implementation note (for IT team)** | |
+
+```bash
+# Example: daily rsync to NAS (add to cron as root)
+# crontab -e
+0 2 * * * rsync -az --delete /opt/preauth/sessions/ /mnt/nas/preauth-backup/sessions/
+0 2 * * * rsync -az --delete /opt/preauth/output/ /mnt/nas/preauth-backup/output/
+```
+
+**Note:** Session files are Fernet-encrypted (F-003/M-024) so backup files are safe even if NAS is compromised.  
+**Note:** `uploads/` can be skipped from backup if PHI retention policy allows — original documents are not needed after PDF generation.
+
+---
+
+### D-008 — Internet Access Requirement (Gemini API)
+| | |
+|---|---|
+| **Priority** | CRITICAL — flag to IT team |
+| **What** | Gemini Vision is a cloud API. The on-premise server must have outbound internet access to `generativelanguage.googleapis.com:443`. |
+| **Action** | Coordinate with hospital IT to whitelist this endpoint in the firewall/proxy. |
+
+```bash
+# Test connectivity from the server:
+curl -s -o /dev/null -w "%{http_code}" \
+  "https://generativelanguage.googleapis.com" \
+  -H "x-goog-api-key: ${GEMINI_API_KEY}"
+# Expected: 200 or 404 (not a connection error)
+```
+
+**Fallback if internet is completely blocked:** Switch `EXTRACTION_MODE=documentai` and configure a Document AI on-premise processor (requires Google Distributed Cloud), OR switch to a locally-hosted OCR model (Tesseract + layout parser — significant accuracy reduction).
+
+---
+
+### D-009 — Structured Application Logging
+| | |
+|---|---|
+| **Priority** | MEDIUM |
+| **File** | `app.py` — logging configuration |
+| **Why** | `print()` statements and basic `logging` without structure make it impossible to trace a specific patient's request chain through logs. On-premise, logs are the only observability tool. |
+
+```python
+import logging
+import json as _json
+
+class JSONFormatter(logging.Formatter):
+    def format(self, record):
+        log = {
+            "ts": self.formatTime(record),
+            "level": record.levelname,
+            "logger": record.name,
+            "msg": record.getMessage(),
+        }
+        if hasattr(record, "session_id"):
+            log["session_id"] = record.session_id
+        if hasattr(record, "mrd"):
+            log["mrd"] = record.mrd
+        if record.exc_info:
+            log["exc"] = self.formatException(record.exc_info)
+        return _json.dumps(log)
+
+# Apply at startup
+handler = logging.StreamHandler()
+handler.setFormatter(JSONFormatter())
+logging.basicConfig(level=logging.INFO, handlers=[handler])
+```
+
+**Usage throughout code:**
+```python
+logger.info("OCR complete", extra={"session_id": session_id, "mrd": mrd_number, "fields_extracted": len(result)})
+```
+
+---
+
+## SECTION 10 — ARCHITECTURE REFACTORING DEBT
+
+> **Gap identified:** These issues exist in ARCHITECTURE_ANALYSIS.md but have no fix plan in earlier sections. They don't block the first deployment but will make the codebase unmaintainable as new TPAs are added.
+
+### AR-001 — Extract Inline Business Logic From `app.py`
+| | |
+|---|---|
+| **Severity** | MEDIUM |
+| **Location** | `app.py` lines ~780–850 (schema-label matching, hospital injection, age calculation — all inline inside `workflow_start` endpoint handler) |
+| **Fix** | Move to `services/workflow_service.py` |
+
+```python
+# New: services/workflow_service.py
+class WorkflowService:
+    def run_mapping_pipeline(self, raw_ocr: dict, schema_fields: list, schema_name: str) -> dict:
+        """Single entry point for the full mapping pipeline."""
+        mapped = self.mapping_engine.map_ocr_to_schema(raw_ocr, schema_fields)
+        mapped = self.mapping_engine.handle_gender(mapped)
+        mapped = self._pass2_label_match(raw_ocr, mapped, schema_fields)
+        mapped = self._inject_hospital_data(mapped, schema_fields)
+        mapped = self._calculate_age(mapped)
+        return mapped
+```
+
+---
+
+### AR-002 — Deduplicate Mapping Code in `workflow_start` and `workflow_remap`
+| | |
+|---|---|
+| **Severity** | MEDIUM |
+| **Location** | Both endpoints run identical 2-pass mapping logic (~80 lines each) |
+| **Fix** | Both call `WorkflowService.run_mapping_pipeline()` from AR-001. Zero duplication. |
+
+---
+
+### AR-003 — Externalize `TPA_TEMPLATE_MAP` to Config File
+| | |
+|---|---|
+| **Severity** | MEDIUM |
+| **Location** | `app.py` lines ~190–240 |
+| **Fix** | Move to `config/tpa_templates.json`. Load at startup. Adding a new TPA requires only a JSON edit, not a code change + redeploy. |
+
+```json
+{
+  "medi assist":    { "schema": "Ericson.json",  "template": "Ericson_TPA.pdf"  },
+  "ericson":        { "schema": "Ericson.json",  "template": "Ericson_TPA.pdf"  },
+  "heritage":       { "schema": "Heritage.json", "template": "Heritage_TPA.pdf" },
+  "bajaj allianz":  { "schema": "Bajaj.json",    "template": "Bajaj_TPA.pdf"    }
+}
+```
+
+---
+
+### AR-004 — Fix Duplicated Gender Normalisation
+| | |
+|---|---|
+| **Severity** | MEDIUM |
+| **Location** | `services/mapping_engine.py` `handle_gender()` + `services/form_engine.py` `_handle_gender()` |
+| **Fix** | Remove `FormEngine._handle_gender()`. `MappingEngine.handle_gender()` is the single source of truth. Ensure it runs once before `form_engine.populate()`. (Already documented as F-012 — adding here as an architecture tracker.) |
+
+---
+
+### AR-005 — Replace Hardcoded Hospital Data With Config Loader
+| | |
+|---|---|
+| **Severity** | MEDIUM |
+| **Location** | `app.py` lines ~120–135 (hospital name, address, registration number hardcoded for "Amrita Hospital") |
+| **Fix** | Load from `config/hospital_defaults.json` (created in S-004). This also enables the system to be reused at another hospital without code changes. |
+
+```python
+# At startup
+with open("config/hospital_defaults.json") as f:
+    HOSPITAL_CONFIG = json.load(f)
+
+HOSPITAL_FIELDS = {
+    "hospital_name":                HOSPITAL_CONFIG["hospital_name"],
+    "hospital_address":             HOSPITAL_CONFIG["hospital_address"],
+    "hospital_registration_number": HOSPITAL_CONFIG["hospital_registration_number"],
+}
+```
+
+---
+
+### AR-006 — Fix Gemini Fallback Mapping Never Being Called
+| | |
+|---|---|
+| **Severity** | LOW |
+| **Location** | `services/mapping_engine.py` — `map_with_gemini_fallback()` exists but is never invoked |
+| **Fix** | In `WorkflowService.run_mapping_pipeline()`, after pass-2 label matching, check if there are still unmapped OCR keys with meaningful values. If > 5 unmatched keys remain, call `map_with_gemini_fallback()` for those keys only. |
+
+---
+
+### AR-007 — Deduplicate Pass-2 Fuzzy Threshold (65 vs 70)
+| | |
+|---|---|
+| **Severity** | LOW |
+| **Location** | `app.py` pass-2 label match uses threshold 65. `services/mapping_engine.py` uses threshold 70 (FUZZY_THRESHOLD). |
+| **Fix** | Pass-2 in `app.py` should import and use `FUZZY_THRESHOLD` from `mapping_engine.py`. Single constant, no drift. |
+
+---
+
+## SECTION 11 — ADVANCED FEATURES (POST-STABILISATION)
+
+> Implement only after Sections 6–10 are complete. These provide continuous improvement, not baseline functionality.
+
+### AF-001 — Per-TPA Validation Rules
+| | |
+|---|---|
+| **Priority** | MEDIUM |
+| **File** | `config/tpa_rules.json` (new file) |
+| **Purpose** | Different TPAs have different mandatory fields and formats. Catches TPA-specific rejections before submission. |
+
+```json
+{
+  "bajaj_allianz": {
+    "required_fields": ["icd_code", "patient_name", "policy_number", "date_of_admission"],
+    "notes": "ICD-10 code is mandatory for Bajaj Allianz"
+  },
+  "ericson_medi_assist": {
+    "required_fields": ["patient_name", "policy_number", "plan_type"],
+    "notes": "Type of Policy field must be filled"
+  },
+  "heritage": {
+    "required_fields": ["patient_name", "policy_number"],
+    "pediatric_requires_attendant": true,
+    "notes": "Attendant details required for patients under 12"
+  }
+}
+```
+
+---
+
+### AF-002 — Learning From Staff Corrections
+| | |
+|---|---|
+| **Priority** | LOW |
+| **File** | `app.py` — `PUT /workflow/{session_id}/data` handler + `services/audit_log.py` (new) |
+| **Purpose** | Track when staff override OCR values. After 100+ corrections, use data to tune prompts. |
+
+```python
+# When staff save verified data, compare with OCR values:
+def log_corrections(session_id: str, ocr_data: dict, staff_data: dict):
+    corrections = []
+    for field_id, staff_val in staff_data.items():
+        ocr_val = ocr_data.get(field_id, "")
+        if ocr_val and staff_val != ocr_val:
+            corrections.append({
+                "field_id": field_id,
+                "ocr_value": ocr_val,
+                "staff_value": staff_val,
+                "timestamp": datetime.utcnow().isoformat(),
+            })
+    # Append to corrections log file
+    with open("logs/corrections.jsonl", "a") as f:
+        for c in corrections:
+            f.write(json.dumps(c) + "\n")
+```
+
+**Usage:** After accumulating corrections, run analysis to find fields with high correction rates → those fields need prompt improvement.
+
+---
+
+### AF-003 — Multi-Page Document Context Extraction
+| | |
+|---|---|
+| **Priority** | LOW |
+| **File** | `services/extractors/gemini_extractor.py` |
+| **Purpose** | Multi-page clinical notes currently lose cross-page context. Send all pages in one Gemini call. |
+
+```python
+# For documents > 1 page, send all pages together:
+def extract_multipage(self, file_paths: list[str], document_type: str) -> ExtractedDocument:
+    """Send multiple pages (same document) in one Gemini call."""
+    parts = []
+    for path in file_paths:
+        file_bytes = Path(path).read_bytes()
+        mime = mimetypes.guess_type(path)[0] or "image/jpeg"
+        parts.append(types.Part.from_bytes(data=file_bytes, mime_type=mime))
+    parts.append(types.Part.from_text(text=self._build_gemini_prompt(document_type)))
+    # Single API call with all pages
+    response = self._call_gemini_multipart(parts)
+    return self._parse_response(response, source_file=file_paths[0], document_type=document_type)
+```
+
+---
+
+### AF-004 — Medical Abbreviations Config (Externalized)
+| | |
+|---|---|
+| **Priority** | LOW |
+| **File** | `config/medical_abbreviations.json` (new file) |
+| **Purpose** | The abbreviation glossary in prompts is currently hardcoded in Python strings. Externalizing it allows hospital staff (with guidance) to add hospital-specific abbreviations without a code change. |
+
+```json
+{
+  "C/o":   "Complaint of",
+  "H/o":   "History of",
+  "K/c/o": "Known case of",
+  "T2DM":  "Type 2 Diabetes Mellitus",
+  "HTN":   "Hypertension",
+  "LSCS":  "Lower Segment Caesarean Section"
+}
+```
+
+The prompt builder reads this file and injects the glossary dynamically.
