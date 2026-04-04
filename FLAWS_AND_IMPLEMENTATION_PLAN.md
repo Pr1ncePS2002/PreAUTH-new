@@ -36,6 +36,8 @@
 ### 1.1 Security Flaws
 
 #### F-001 — Hardcoded Staff Credentials
+> **STATUS: BLOCKED** — No login system exists yet. Revisit when authentication is implemented.
+
 | | |
 |---|---|
 | **Severity** | CRITICAL |
@@ -67,6 +69,8 @@ def _verify_password(username: str, password: str) -> bool:
 ---
 
 #### F-002 — JWT Secret is a Hardcoded Default
+> **STATUS: BLOCKED** — No login system exists yet. Revisit alongside F-001 when authentication is implemented.
+
 | | |
 |---|---|
 | **Severity** | CRITICAL |
