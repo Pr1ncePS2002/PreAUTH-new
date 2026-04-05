@@ -199,6 +199,22 @@ SESSION_EXPIRY_MINUTES = int(os.getenv("SESSION_EXPIRY_MINUTES", "30"))
 MAX_UPLOAD_SIZE = int(os.getenv("MAX_UPLOAD_SIZE_MB", "5")) * 1024 * 1024  # 5MB default
 ALLOWED_UPLOAD_EXTENSIONS = {".jpg", ".jpeg", ".png", ".pdf"}
 
+# When OCR runs on an attendant ID card (Aadhaar/PAN/Voter ID), Gemini returns generic
+# keys like "Name", "Contact Number" — identical to patient-document keys.  The "first
+# wins" merge would silently drop the attendant's values because patient docs are merged
+# first.  Map those keys to attendant-prefixed equivalents so they don't collide and
+# are picked up by the aliases already in field_mapping.json
+# (e.g. "Attendant Name" → patient_attendant_name).
+_ATTENDANT_KEY_REMAP = {
+    "Name":           "Attendant Name",
+    "Full Name":      "Attendant Name",
+    "Contact Number": "Attendant Contact",
+    "Phone Number":   "Attendant Contact",
+    "Mobile Number":  "Attendant Contact",
+    "Mobile":         "Attendant Contact",
+    "Phone":          "Attendant Contact",
+}
+
 
 def _save_session(session_id: str):
     """Persist session to disk (Fernet-encrypted) so it survives server reloads."""
@@ -854,8 +870,17 @@ async def workflow_start(
                 "type": fi["document_type"],
                 "fields": result,
             })
+            # For attendant ID cards, remap generic keys (e.g. "Name" → "Attendant Name")
+            # before merging so they don't collide with patient-document keys.
+            merge_result = result
+            if fi["document_type"] == "attendant_id":
+                merge_result = {
+                    _ATTENDANT_KEY_REMAP.get(k, k): v
+                    for k, v in result.items()
+                }
+
             # Merge into master dict (first document wins for conflicting keys)
-            for k, v in result.items():
+            for k, v in merge_result.items():
                 if k not in all_extracted:
                     all_extracted[k] = v
 
