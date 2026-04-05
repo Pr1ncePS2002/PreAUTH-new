@@ -16,7 +16,9 @@ Use this as the first read before modifying code, then jump to the exact source 
   - `hybrid`
 - State storage:
   - In-memory dicts in `app.py` for active process state.
-  - Session persistence to disk (`sessions/*.json`) via `_save_session` and `_load_session`.
+  - Session persistence to disk (`sessions/*.enc`) — Fernet-encrypted PHI at rest.
+    `_save_session` / `_load_session` use `_fernet` (key from `SESSION_ENCRYPTION_KEY` env var).
+    Startup raises `RuntimeError` if key is missing.
 - Available tracked artifacts:
   - schemas in `analyzed/*.json`
   - mapping config in `config/field_mapping.json` (`"aliases"` appears 100 times)
@@ -53,13 +55,22 @@ Important current drift:
 - Phone validates token via `GET /mobile/session/{session_token}`.
 - Desktop subscribes to `/ws/upload/{upload_token}`; mobile uploads trigger `_ws_broadcast`.
 - Mobile uploads via `POST /mobile/upload` (supports multiple files, per-file type, extension/size checks).
+- Mobile files can be deleted individually via `DELETE /mobile/uploads/{session_token}/{file_id}`;
+  deletes from disk and broadcasts updated list to desktop via WebSocket.
 
 ### B. OCR + merge + mapping
 
 - Desktop "Extract Data" -> `POST /workflow/start`.
 - Backend combines desktop files + token-linked mobile files.
+- MRD input sanitized via `sanitize_mrd()` at every entry point (`/documents/upload`,
+  `/workflow/start`, `/workflow/{id}/mrd`, `/mobile/create-session`) — strips to
+  alphanumeric + hyphen, max 20 chars (path-traversal fix F-004).
 - OCR runs in parallel (`asyncio.gather`) using `ocr_service.extract(path, doc_type)`.
-- Raw merge is first-win (`if key not in all_extracted`).
+- Before merging, `attendant_id` documents have generic OCR keys remapped via
+  `_ATTENDANT_KEY_REMAP` (e.g. `"Name"` → `"Attendant Name"`, `"Contact Number"` →
+  `"Attendant Contact"`) so they don't collide with patient-document keys during merge.
+- Raw merge is first-win (`if key not in all_extracted`). Desktop files enter first;
+  mobile files are appended after — attendant key remapping prevents their data being dropped.
 - TPA detection:
   - by substring/fuzzy against `TPA_TEMPLATE_MAP`.
   - fuzzy threshold for TPA detection is 60 in `detect_tpa_template`.
@@ -69,6 +80,8 @@ Important current drift:
   3. pass-2 label-based matching against selected schema labels in `app.py`
   4. inject hardcoded hospital fields
   5. calculate age from DOB variants
+  6. `sanitize_mapped_fields` — clears phone/contact/date fields whose value contains
+     no digits (catches names mis-mapped into contact-number or date fields by fuzzy match)
 - MRD validation compares entered MRD against OCR candidate keys and stores `mrd_validation`.
 - session persisted with:
   - `raw_extractions`
@@ -113,7 +126,13 @@ Important current drift:
 - Mobile sync:
   - QR created on MRD entry/debounce
   - live status dot for WebSocket
-  - mobile uploads shown as badges by document type
+  - WebSocket ping sent every 25 s (`wsPingTimer`) to keep connection alive through NAT/hotspot timeouts
+  - mobile uploads shown as badges by document type with per-file name list and discard (×) button
+  - `removeMobileFile(fileId, docType)` calls `DELETE /mobile/uploads/{token}/{fileId}`,
+    updates local state, re-renders grid and previews
+- Preview card ("Documents — Live Preview") now shows **both** phone and desktop files
+  (clinical_notes excluded); each thumb labelled "Phone" or "Desktop"; mobile thumbs
+  have an overlay discard button
 - MRD card in phase 2:
   - inline validation banner with states: verified/mismatch/not found.
 
@@ -283,6 +302,7 @@ Important current drift:
 - `POST /mobile/upload` (PDFs + non-crop images, multipart FormData)
 - `POST /mobile/scan-upload` (images from crop screen — base64 + 4 corner coords; applies server-side perspective warp before saving)
 - `GET /mobile/uploads/{session_token}`
+- `DELETE /mobile/uploads/{session_token}/{file_id}` (remove individual mobile file; broadcasts updated list to desktop)
 - `WS /ws/upload/{upload_token}`
 - `GET /mobile-upload` (serves mobile page)
 
@@ -305,6 +325,8 @@ Important current drift:
 
 - auth/session/runtime:
   - `JWT_SECRET`
+  - `SESSION_ENCRYPTION_KEY` — **required**; Fernet key for PHI session files at rest.
+    Missing at startup → `RuntimeError` (hard fail, not warning).
   - `SESSION_EXPIRY_MINUTES`
   - `MAX_UPLOAD_SIZE_MB`
   - `DATA_RETENTION_HOURS`
@@ -312,7 +334,7 @@ Important current drift:
 
 - production notes:
   - CORS currently `allow_origins=["*"]` in code.
-  - session files currently JSON plaintext in `sessions/`.
+  - session files now Fernet-encrypted (`sessions/*.enc`); old `.json` files are unreadable by new server.
 
 ---
 
@@ -386,12 +408,16 @@ Use these exact headings for fast lookup.
 
 ## 11) Known risk areas (current)
 
-- hardcoded fallback JWT secret in code path.
-- hardcoded staff credentials in `app.py`.
-- plaintext PHI session persistence.
-- first-win merge without provenance weighting.
-- fuzzy mapping threshold/alias collisions can mis-map costs/IDs.
-- broad CORS in backend.
+- hardcoded fallback JWT secret in code path (F-001, open).
+- hardcoded staff credentials in `app.py` (F-002, open).
+- PHI session persistence now Fernet-encrypted at rest (F-003 — **fixed**).
+- MRD input sanitized at all entry points to prevent path traversal (F-004 — **fixed**).
+- first-win merge without provenance weighting (partially mitigated: `attendant_id`
+  keys are remapped before merge so they no longer collide with patient fields).
+- fuzzy mapping threshold/alias collisions can mis-map costs/IDs; post-mapping
+  `sanitize_mapped_fields` catches the most common class (name in a phone/date field).
+- broad CORS in backend (open).
+- `cryptography` package now a hard dependency (`requirements.txt`); needed for Fernet.
 
 Use `FLAWS_AND_IMPLEMENTATION_PLAN.md` Section 1 for mitigation plans.
 
