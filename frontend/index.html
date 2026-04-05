@@ -319,7 +319,20 @@ select.form-control { cursor: pointer; }
   position: absolute; top: 6px; left: 6px; background: var(--accent); color: white;
   padding: 1px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; z-index: 2;
 }
-.upload-card.has-mobile { border-color: var(--accent); background: rgba(2,136,209,0.04); }
+.upload-card.has-mobile { border-color: var(--accent); border-style: solid; background: rgba(2,136,209,0.04); }
+.mob-files-list { margin-top: 6px; text-align: left; }
+.mob-file-item {
+  display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--accent);
+  font-weight: 500; padding: 2px 0; border-top: 1px solid rgba(2,136,209,0.15);
+}
+.mob-file-item:first-child { border-top: none; }
+.mob-file-item .mob-file-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mob-file-discard {
+  flex-shrink: 0; width: 16px; height: 16px; border-radius: 50%; background: var(--danger);
+  color: white; border: none; cursor: pointer; font-size: 11px; line-height: 1;
+  display: flex; align-items: center; justify-content: center; padding: 0; opacity: 0.85;
+}
+.mob-file-discard:hover { opacity: 1; }
 .mobile-uploads-grid {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px;
 }
@@ -375,6 +388,15 @@ select.form-control { cursor: pointer; }
 .preview-thumb-meta { padding: 0 8px 6px; font-size: 10px; color: var(--text-secondary); }
 .preview-pdf { cursor: default; }
 .preview-pdf:hover { transform: none !important; box-shadow: none !important; border-color: var(--border) !important; }
+.preview-thumb-remove {
+  position: absolute; top: 4px; right: 4px; width: 20px; height: 20px;
+  background: rgba(0,0,0,0.55); color: #fff; border: none; border-radius: 50%;
+  font-size: 13px; line-height: 1; cursor: pointer; display: flex;
+  align-items: center; justify-content: center; z-index: 3; padding: 0;
+  opacity: 0; transition: opacity 0.15s;
+}
+.preview-thumb:hover .preview-thumb-remove { opacity: 1; }
+.preview-thumb-remove:hover { background: #e53935; }
 /* ── Lightbox ──────────────────────────────────── */
 .lightbox {
   position: fixed; top: 0; left: 0; right: 0; bottom: 0;
@@ -516,10 +538,10 @@ select.form-control { cursor: pointer; }
     </div>
   </div>
 
-  <!-- Mobile Document Previews (live from phone) -->
+  <!-- Document Live Previews (phone + desktop, clinical excluded) -->
   <div class="card hidden" id="mobilePreviewCard">
     <div class="card-header">
-      <h3>&#128241; Documents from Phone &mdash; Live Preview</h3>
+      <h3>&#128196; Documents &mdash; Live Preview</h3>
       <span id="mobilePreviewCount" class="badge badge-blue">0 files</span>
     </div>
     <div class="card-body" id="mobilePreviewBody"></div>
@@ -892,8 +914,18 @@ function switchTab(tabId) {
 function renderUploadGrid() {
   const grid = document.getElementById('uploadGrid');
   grid.innerHTML = DOC_TYPES.map(dt => {
-    const mobCount = mobileFilesByType[dt.key] ? mobileFilesByType[dt.key].length : 0;
+    const mobFiles = mobileFilesByType[dt.key] || [];
+    const mobCount = mobFiles.length;
     const mobBadge = mobCount > 0 ? `<div class="mob-badge" title="${mobCount} file(s) from phone">&#128241; ${mobCount}</div>` : '';
+    const mobList = mobCount > 0
+      ? `<div class="mob-files-list">${mobFiles.map(f => {
+          const name = escHtml(f.original_name || f.filename);
+          return `<div class="mob-file-item">
+            <span class="mob-file-name" title="${name}">&#128241; ${name}</span>
+            <button class="mob-file-discard" onclick="event.stopPropagation(); removeMobileFile('${escHtml(f.file_id)}','${escHtml(dt.key)}')" title="Discard">&times;</button>
+          </div>`;
+        }).join('')}</div>`
+      : '';
     return `
     <div class="upload-card ${mobCount > 0 ? 'has-mobile' : ''}" id="upload-${dt.key}" onclick="triggerUpload('${dt.key}')">
       <button class="remove-btn" onclick="event.stopPropagation(); removeFile('${dt.key}')">&times;</button>
@@ -902,6 +934,7 @@ function renderUploadGrid() {
       <div class="title">${dt.label}</div>
       <div class="subtitle">Click to upload (multiple files OK)</div>
       <div class="file-info" id="fileinfo-${dt.key}"></div>
+      ${mobList}
       <input type="file" id="input-${dt.key}" accept="${dt.accept}" multiple onchange="handleFileSelect('${dt.key}', this)">
     </div>`;
   }).join('');
@@ -928,6 +961,7 @@ function handleFileSelect(key, input) {
   const names = uploadedFiles[key].map(f => f.name).join(', ');
   document.getElementById('fileinfo-' + key).textContent = count === 1 ? names : `${count} files: ${names}`;
   updateUploadCount();
+  renderMobilePreviews();
 }
 
 function removeFile(key) {
@@ -936,6 +970,7 @@ function removeFile(key) {
   document.getElementById('fileinfo-' + key).textContent = '';
   document.getElementById('input-' + key).value = '';
   updateUploadCount();
+  renderMobilePreviews();
 }
 
 function updateUploadCount() {
@@ -1904,9 +1939,11 @@ function renderMobilePreviews() {
   const body       = document.getElementById('mobilePreviewBody');
   const countBadge = document.getElementById('mobilePreviewCount');
 
-  // Only count files belonging to the 4 preview columns
+  // Count files from both sources across the 4 preview columns (clinical_notes excluded)
   const colKeys = PREVIEW_COLUMNS.map(c => c.key);
-  const total   = colKeys.reduce((s, k) => s + (mobileFilesByType[k] || []).length, 0);
+  const totalMob  = colKeys.reduce((s, k) => s + (mobileFilesByType[k] || []).length, 0);
+  const totalDesk = colKeys.reduce((s, k) => s + (uploadedFiles[k] ? uploadedFiles[k].length : 0), 0);
+  const total = totalMob + totalDesk;
   if (total === 0) { card.classList.add('hidden'); return; }
 
   card.classList.remove('hidden');
@@ -1915,20 +1952,54 @@ function renderMobilePreviews() {
   let html = '<div class="preview-strip">';
 
   PREVIEW_COLUMNS.forEach(col => {
-    const files = mobileFilesByType[col.key] || [];
+    const mobileFiles  = mobileFilesByType[col.key] || [];
+    const desktopFiles = uploadedFiles[col.key] || [];
+    const allEmpty = mobileFiles.length === 0 && desktopFiles.length === 0;
+
     html += `<div class="preview-col">
       <div class="preview-col-title">${col.icon} ${escHtml(col.label)}</div>
       <div class="preview-col-imgs">`;
 
-    if (files.length === 0) {
+    if (allEmpty) {
       html += `<div class="preview-empty">No files yet</div>`;
     } else {
-      files.forEach(f => {
+      // Mobile files first
+      mobileFiles.forEach(f => {
         const name    = f.original_name || f.filename;
         const ext     = name.split('.').pop().toLowerCase();
         const isImage = IMAGE_EXTS.has(ext);
         const kb      = Math.round((f.size_bytes || 0) / 1024);
         const imgUrl  = `/uploads/${encodeURIComponent(f.filename)}`;
+
+        const safeFileId = escHtml(f.file_id);
+        const safeDocType = escHtml(col.key);
+        const removeBtn = `<button class="preview-thumb-remove" onclick="event.stopPropagation(); removeMobileFile('${safeFileId}','${safeDocType}')" title="Discard">&times;</button>`;
+        if (isImage) {
+          html += `<div class="preview-thumb" style="position:relative;" onclick="openLightbox('${imgUrl}','${escHtml(name).replace(/'/g,'\\u0027')}')">
+            ${removeBtn}
+            <img src="${imgUrl}" alt="${escHtml(name)}" loading="lazy"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <div class="preview-thumb-fallback" style="display:none;">&#128247;</div>
+            <div class="preview-thumb-label" title="${escHtml(name)}">${escHtml(name)}</div>
+            <div class="preview-thumb-meta">${kb} KB &nbsp;<span class="mob-source mobile">&#128241; Phone</span></div>
+          </div>`;
+        } else {
+          html += `<div class="preview-thumb preview-pdf" style="position:relative;">
+            ${removeBtn}
+            <div class="preview-thumb-fallback">&#128196;</div>
+            <div class="preview-thumb-label" title="${escHtml(name)}">${escHtml(name)}</div>
+            <div class="preview-thumb-meta">${kb} KB &nbsp;·&nbsp; PDF &nbsp;<span class="mob-source mobile">&#128241; Phone</span></div>
+          </div>`;
+        }
+      });
+
+      // Desktop files
+      desktopFiles.forEach(f => {
+        const name    = f.name;
+        const ext     = name.split('.').pop().toLowerCase();
+        const isImage = IMAGE_EXTS.has(ext);
+        const kb      = Math.round((f.size || 0) / 1024);
+        const imgUrl  = isImage ? URL.createObjectURL(f.file) : '';
 
         if (isImage) {
           html += `<div class="preview-thumb" onclick="openLightbox('${imgUrl}','${escHtml(name).replace(/'/g,'\\u0027')}')">
@@ -1936,13 +2007,13 @@ function renderMobilePreviews() {
                  onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
             <div class="preview-thumb-fallback" style="display:none;">&#128247;</div>
             <div class="preview-thumb-label" title="${escHtml(name)}">${escHtml(name)}</div>
-            <div class="preview-thumb-meta">${kb} KB</div>
+            <div class="preview-thumb-meta">${kb} KB &nbsp;<span class="mob-source desktop">&#128187; Desktop</span></div>
           </div>`;
         } else {
           html += `<div class="preview-thumb preview-pdf">
             <div class="preview-thumb-fallback">&#128196;</div>
             <div class="preview-thumb-label" title="${escHtml(name)}">${escHtml(name)}</div>
-            <div class="preview-thumb-meta">${kb} KB &nbsp;·&nbsp; PDF</div>
+            <div class="preview-thumb-meta">${kb} KB &nbsp;·&nbsp; PDF &nbsp;<span class="mob-source desktop">&#128187; Desktop</span></div>
           </div>`;
         }
       });
@@ -1954,6 +2025,21 @@ function renderMobilePreviews() {
   html += '</div>';
 
   body.innerHTML = html;
+}
+
+async function removeMobileFile(fileId, docType) {
+  if (!uploadSessionToken) return;
+  try {
+    const res = await fetch(`${API}/mobile/uploads/${encodeURIComponent(uploadSessionToken)}/${encodeURIComponent(fileId)}`, { method: 'DELETE' });
+    if (!res.ok) { console.error('Failed to remove mobile file', fileId); return; }
+    // Remove from local state immediately (WebSocket will also sync)
+    if (mobileFilesByType[docType]) {
+      mobileFilesByType[docType] = mobileFilesByType[docType].filter(f => f.file_id !== fileId);
+    }
+    renderUploadGrid();
+    updateUploadCount();
+    renderMobilePreviews();
+  } catch (e) { console.error('removeMobileFile error', e); }
 }
 
 function openLightbox(url, title) {

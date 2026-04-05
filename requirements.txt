@@ -41,3 +41,6 @@ qrcode[pil]>=7.4
 # Document AI integration (for production extraction)
 google-cloud-documentai>=2.20.0
 # boto3==1.29.7  # for AWS Textract
+
+# PHI session encryption at rest (F-003 fix)
+cryptography>=42.0.0

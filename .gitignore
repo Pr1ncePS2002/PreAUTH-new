@@ -20,3 +20,5 @@ analyzed/*_gemini_raw.json
 /*.pdf
 
 *.pyc
+/.claude
+42.0.0

@@ -90,6 +90,8 @@ if not JWT_SECRET or JWT_SECRET == "dev-secret-change-in-production":
 ---
 
 #### F-003 — Session Files Contain PHI Stored as Plain-Text JSON
+> **STATUS: FIXED** — Fernet encryption applied in `_save_session` / `_load_session`. Key stored in `.env` as `SESSION_ENCRYPTION_KEY`. `cryptography` added to `requirements.txt`.
+
 | | |
 |---|---|
 | **Severity** | CRITICAL |
@@ -125,6 +127,8 @@ def _load_session(session_id: str) -> dict | None:
 ---
 
 #### F-004 — MRD Number Used Unsanitised in File Paths
+> **STATUS: FIXED** — `sanitize_mrd()` added to `app.py`. Applied at all 4 input boundaries: `upload_document`, `workflow_start`, `workflow_update_mrd`, `mobile_qr_create`.
+
 | | |
 |---|---|
 | **Severity** | HIGH |

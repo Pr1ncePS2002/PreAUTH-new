@@ -39,8 +39,10 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional, List
 
+import re
 import jwt
 import qrcode
+from cryptography.fernet import Fernet
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, UploadFile, File, Depends, Query, Form, Body, Request, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
@@ -75,6 +77,21 @@ JWT_EXPIRY_HOURS = 8
 
 # PHI data retention — DPDP Act 2023 compliance
 DATA_RETENTION_HOURS = int(os.getenv("DATA_RETENTION_HOURS", "24"))
+
+# Session encryption at rest — F-003 fix
+_SESSION_ENCRYPTION_KEY = os.getenv("SESSION_ENCRYPTION_KEY", "")
+if not _SESSION_ENCRYPTION_KEY:
+    raise RuntimeError(
+        "FATAL: SESSION_ENCRYPTION_KEY must be set in .env. "
+        "Generate one with: python -c \"from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())\""
+    )
+_fernet = Fernet(_SESSION_ENCRYPTION_KEY.encode())
+
+
+def sanitize_mrd(mrd: str) -> str:
+    """Strip MRD to alphanumeric + hyphen only, max 20 chars. Prevents path traversal (F-004)."""
+    cleaned = re.sub(r'[^a-zA-Z0-9\-]', '', mrd.strip())
+    return cleaned[:20]
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 logger = logging.getLogger(__name__)
@@ -184,21 +201,20 @@ ALLOWED_UPLOAD_EXTENSIONS = {".jpg", ".jpeg", ".png", ".pdf"}
 
 
 def _save_session(session_id: str):
-    """Persist session to disk so it survives server reloads."""
+    """Persist session to disk (Fernet-encrypted) so it survives server reloads."""
     if session_id in _sessions:
-        path = SESSIONS_DIR / f"{session_id}.json"
-        with open(path, "w") as f:
-            json.dump(_sessions[session_id], f)
+        path = SESSIONS_DIR / f"{session_id}.enc"
+        payload = json.dumps(_sessions[session_id]).encode()
+        path.write_bytes(_fernet.encrypt(payload))
 
 
 def _load_session(session_id: str) -> dict | None:
-    """Load session from disk if not in memory."""
+    """Load and decrypt session from disk if not in memory."""
     if session_id in _sessions:
         return _sessions[session_id]
-    path = SESSIONS_DIR / f"{session_id}.json"
+    path = SESSIONS_DIR / f"{session_id}.enc"
     if path.exists():
-        with open(path) as f:
-            data = json.load(f)
+        data = json.loads(_fernet.decrypt(path.read_bytes()))
         _sessions[session_id] = data
         return data
     return None
@@ -465,6 +481,7 @@ async def upload_document(
     mrd_number: str = Form(""),
 ):
     """Upload a pre-auth document (Aadhaar, PAN, policy card, etc.)."""
+    mrd_number = sanitize_mrd(mrd_number)
     # Save file
     file_id = str(uuid.uuid4())[:8]
     safe_name = f"{file_id}_{file.filename}"
@@ -761,6 +778,7 @@ async def workflow_start(
     Also includes any files previously uploaded via mobile (upload_token).
     Returns a session with all extracted data merged into a master form dict.
     """
+    mrd_number = sanitize_mrd(mrd_number)
     session_id = str(uuid.uuid4())[:12]
     type_list = [t.strip() for t in document_types.split(",") if t.strip()] if document_types else []
 
@@ -920,7 +938,6 @@ async def workflow_start(
     # ── MRD validation against OCR-extracted data ──
     mrd_validation = None
     if mrd_number:
-        mrd_number = mrd_number.strip()
         # Search for MRD in OCR results (clinical notes, estimates, etc.)
         ocr_mrd_candidates = []
         for key in ("MRD No", "MRD Number", "Medical Record Number", "MR No",
@@ -1105,7 +1122,7 @@ def workflow_update_mrd(session_id: str, body: dict):
     session = _load_session(session_id)
     if not session:
         err(f"Session {session_id} not found", 404)
-    mrd = (body.get("mrd_number") or "").strip()
+    mrd = sanitize_mrd(body.get("mrd_number") or "")
     if mrd:
         session["mrd_number"] = mrd
         session.setdefault("mapped_data", {})["mrd_number"] = mrd
@@ -1562,7 +1579,7 @@ def create_upload_session(
     Called as soon as MRD is entered — before Extract Data.
     Returns a session_token and QR code (base64 PNG).
     """
-    mrd_number = request_body.get("mrd_number", "")
+    mrd_number = sanitize_mrd(request_body.get("mrd_number", ""))
     if not mrd_number:
         err("mrd_number is required", 400)
 
@@ -1831,6 +1848,49 @@ def list_mobile_uploads(session_token: str):
     if not us:
         err("Invalid session token", 404)
     return ok(us.get("files", []))
+
+
+@app.delete("/mobile/uploads/{session_token}/{file_id}")
+async def delete_mobile_upload(session_token: str, file_id: str):
+    """Remove a single mobile-uploaded file from the session and disk."""
+    us = _upload_sessions.get(session_token)
+    if not us:
+        raise HTTPException(status_code=404, detail="Session not found")
+
+    files = us.get("files", [])
+    target = next((f for f in files if f["file_id"] == file_id), None)
+    if not target:
+        raise HTTPException(status_code=404, detail="File not found")
+
+    # Remove from session
+    us["files"] = [f for f in files if f["file_id"] != file_id]
+
+    # Delete from disk
+    try:
+        path = UPLOADS_DIR / target["saved_as"]
+        if path.exists():
+            path.unlink()
+    except Exception as exc:
+        logger.warning("Could not delete mobile file %s: %s", target.get("saved_as"), exc)
+
+    # Broadcast updated list to desktop
+    await _ws_broadcast(session_token, {
+        "type": "documents_uploaded",
+        "files": [
+            {
+                "file_id": u["file_id"],
+                "filename": u["saved_as"],
+                "original_name": u["filename"],
+                "size_bytes": u["size"],
+                "document_type": u["document_type"],
+                "uploaded_from": u["uploaded_from"],
+                "uploaded_at": u["uploaded_at"],
+            }
+            for u in us["files"]
+        ],
+    })
+
+    return ok({"removed": file_id, "remaining": len(us["files"])})
 
 
 @app.websocket("/ws/upload/{upload_token}")
