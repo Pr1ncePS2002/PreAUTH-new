@@ -305,6 +305,58 @@ def calculate_age_from_dob(mapped_data: dict) -> dict:
     return mapped_data
 
 
+# Field-ID fragments that indicate the value must be a phone/contact number.
+# Values that contain NO digits at all (pure alphabetic) are cleared.
+_PHONE_FIELD_FRAGMENTS = (
+    "contact_no", "contact_number", "phone", "mobile", "fax",
+    "toll_free", "helpline",
+)
+
+# Field-ID fragments that indicate the value must be a date (DD/MM/YYYY or similar).
+# Values that look like a plain name (all letters, no digits or slashes) are cleared.
+_DATE_FIELD_FRAGMENTS = (
+    "date_of_birth", "_dob", "admission_date", "date_of_admission",
+    "discharge_date", "date_of_discharge", "date_of_surgery",
+    "date_of_consultation", "date_of_accident",
+)
+
+def _has_digit(s: str) -> bool:
+    return bool(re.search(r"\d", s))
+
+def sanitize_mapped_fields(mapped_data: dict) -> dict:
+    """
+    Remove values that are obviously wrong type for their field:
+      - Phone/contact fields: clear if value contains no digits at all
+        (means a name or label got mapped here by mistake).
+      - Date fields: clear if value contains no digits
+        (a name like 'ASHA RANI' cannot be a date).
+    Fields left empty are better than fields filled with garbage — the user
+    can manually fill them in the review step.
+    """
+    cleaned = {}
+    for field_id, value in mapped_data.items():
+        if not isinstance(value, str) or not value.strip():
+            cleaned[field_id] = value
+            continue
+
+        fid_lower = field_id.lower()
+        val = value.strip()
+
+        is_phone_field = any(frag in fid_lower for frag in _PHONE_FIELD_FRAGMENTS)
+        is_date_field  = any(frag in fid_lower for frag in _DATE_FIELD_FRAGMENTS)
+
+        if (is_phone_field or is_date_field) and not _has_digit(val):
+            logger.warning(
+                "Cleared '%s' = '%s' — value has no digits but field expects %s",
+                field_id, val, "phone" if is_phone_field else "date",
+            )
+            # Omit from output → field stays empty in the UI
+            continue
+
+        cleaned[field_id] = value
+    return cleaned
+
+
 TPA_TEMPLATE_MAP = {
     "ericson": "Ericson TPA Preauth.pdf",
     "bajaj allianz": "BAJAJ ALLIANZ TPA PREAUTH FORM.pdf",
@@ -959,6 +1011,7 @@ async def workflow_start(
 
         mapped_data = inject_hospital_data(mapped_data, schema_fields)
         mapped_data = calculate_age_from_dob(mapped_data)
+        mapped_data = sanitize_mapped_fields(mapped_data)
 
     # ── MRD validation against OCR-extracted data ──
     mrd_validation = None
